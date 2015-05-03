@@ -3488,4 +3488,7 @@ ul.amounts li {
 .feedback .control-group  {
     margin-bottom: 15px;
 }
+#search-table-outter { height:215px; }
+
+.table table-striped table-bordered th, td { min-width: 200px; !important; }
 
