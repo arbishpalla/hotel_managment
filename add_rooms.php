@@ -99,6 +99,24 @@ include 'headers/menu-top-navigation.php';
                                  <input placeholder="Enter Bed No" type="text" class="span6 " />
                               </div>
                            </div>
+						     <div class="control-group">
+                              <label class="control-label">Specification</label>
+                              <div class="controls">
+                                 <label class="checkbox">
+                                 <input type="checkbox" value="Ac" /> Ac
+                                 </label>
+								 <label class="checkbox">
+                                 <input type="checkbox" value="Tv" /> Tv
+                                 </label>
+								 <label class="checkbox">
+                                 <input type="checkbox" value="Owen" /> Owen
+                                 </label>
+                                 <label class="checkbox">
+                                 <input type="checkbox" value="Refrigerator" /> Refrigerator
+                                 </label><br /><br />
+                                 <input placeholder="Select Specification" id="attribute" disabled type="text" class="span6 " />
+								 </div>
+                           </div>
 						   <div class="form-actions clearfix">
 						<button type="submit" class="btn btn-primary blue button-next">Submit</button>
 						</div>
@@ -151,6 +169,13 @@ include 'headers/menu-top-navigation.php';
    <script type="text/javascript" src="assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
    <script src="assets/fancybox/source/jquery.fancybox.pack.js"></script>
    <script src="js/scripts.js"></script>
+   <script>
+$("input[type=checkbox]").change(function () {
+    var newArr = $("input:checked").map(function () { return this.value; });
+    $("#attribute").val(newArr.get().join(" , "));
+});
+
+   </script>
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins

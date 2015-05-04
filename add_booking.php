@@ -53,7 +53,6 @@
 		var x = document.getElementById("sample_1").rows[0].cells.length;
 	   if(x > 4){
 		   document.getElementById("search-table-outter").style.overflowX = "scroll";
-	alert(x);
 	}
 	});
 	</script>

@@ -95,10 +95,11 @@ echo"
 
          <!-- BEGIN SIDEBAR MENU -->
           <ul class='sidebar-menu'>
+		  			  <li><a class='' href='specification.php'><span class='icon-box'><i class='icon-user'></i></span>Rooms Specification</a></li>
 					  <li><a class='' href='hotel_status.php'><span class='icon-box'><i class='icon-user'></i></span>Hotel status view</a></li>
 					  <li><a class='' href='booking_view.php'><span class='icon-box'><i class='icon-user'></i></span>Booking view</a></li>
     				  <li><a class='' href='add_booking.php'><span class='icon-box'><i class='icon-user'></i></span>Add Booking</a></li>	
-					 <li><a href='view_rooms.php'><span class='icon-box'><i class='icon-user'></i></span>View Rooms</a></li>
+					  <li><a href='view_rooms.php'><span class='icon-box'><i class='icon-user'></i></span>View Rooms</a></li>
                       <li><a class='' href='log.php'><span class='icon-box'><i class='icon-user'></i></span>Log</a></li>
 
 	</ul>
