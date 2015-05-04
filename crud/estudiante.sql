@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.4
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 11-09-2014 a las 01:04:14
--- Versión del servidor: 5.6.15-log
--- Versión de PHP: 5.5.8
+-- Host: 127.0.0.1
+-- Generation Time: May 04, 2015 at 06:15 PM
+-- Server version: 5.5.27
+-- PHP Version: 5.4.7
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -17,33 +17,32 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `estudiante`
+-- Database: `estudiante`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `datospersonales`
+-- Table structure for table `datospersonales`
 --
 
 CREATE TABLE IF NOT EXISTS `datospersonales` (
-  `CEDULA` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
-  `NOMBRES` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
-  `APELLIDOS` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
-  `FECHA_NAC` date NOT NULL,
-  `TEL` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
-  `DIR` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  PRIMARY KEY (`CEDULA`)
+  `Attribute` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`Attribute`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `datospersonales`
+-- Dumping data for table `datospersonales`
 --
 
-INSERT INTO `datospersonales` (`CEDULA`, `NOMBRES`, `APELLIDOS`, `FECHA_NAC`, `TEL`, `DIR`) VALUES
-('213213213', 'Jordan Mol', 'A', '1984-09-07', '321321', 'Calle 7'),
-('2251251325', 'JUAN CA', 'GALINDO', '2014-09-11', '8888-8888', 'ARJ AP 125'),
-('2273744', 'PERCI JUN', 'ALVARES', '1972-05-05', '2222-2222', '55 RIOS');
+INSERT INTO `datospersonales` (`Attribute`) VALUES
+('2273744'),
+('arbish'),
+('as'),
+('asa'),
+('asdad'),
+('internet'),
+('palla rocking');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

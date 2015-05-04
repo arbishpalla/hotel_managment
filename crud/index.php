@@ -32,7 +32,7 @@
 					num = num + 1;
 					if (num % 2 == 0){
 						$('#Registerform').show();
-						$('#btnnew').val("Cancelar");
+						$('#btnnew').val("Cancel");
 					}
 					else
 					{
@@ -79,10 +79,10 @@
 
 			});
 
-			function eliminar(cedula){
+			function eliminar(Attribute){
 				if (confirm("Really remove ...")) {
-					//Cedula es igual
-					var ced ="cedula="+cedula;
+					//Attribute es igual
+					var ced ="Attribute="+Attribute;
 					$.ajax({ 
 						type: "POST",
 						url:"eliminar.php",
@@ -97,9 +97,9 @@
 				}	
 			}
 
-			function editar(cedula){
+			function editar(Attribute){
 				procedure = "editar";
-				var ced ="cedula="+cedula;
+				var ced ="Attribute="+Attribute;
 
 					$.ajax({ 
 						url:"buscarestudiante.php",
@@ -112,7 +112,7 @@
 								$('#Registerform').show();
 								$('#btnnew').val("Cancelar");
 
-								$('#txtCedula').val(respuesta.ced);
+								$('#specification').val(respuesta.ced);
 								$('#txtNombres').val(respuesta.nom);
 								$('#txtApellidos').val(respuesta.apel);
 								$('#txtFechaNac').val(respuesta.fn);
@@ -132,7 +132,7 @@
 
 
 <?php 
-			$sql = "SELECT CEDULA, NOMBRES, APELLIDOS, FECHA_NAC, TEL, DIR FROM datospersonales";
+			$sql = "SELECT Attribute FROM datospersonales";
 			$q = mysqli_query( $con, $sql) or die("Problems running the query");
 
 			
@@ -148,12 +148,7 @@
 			<table id="example" class="display dataTable" cellspacing="0" width="100%" role="grid" aria-describedby="example_info" style="width: 100%;">
 				<thead>
 					<tr role="row">
-						<th rowspan="1" colspan="1">Cedula</th>
-						<th rowspan="1" colspan="1">Nombres</th>
-						<th rowspan="1" colspan="1">Apellidos</th>
-						<th rowspan="1" colspan="1">Fecha De Nacimiento</th>
-						<th rowspan="1" colspan="1">Telefono</th>
-						<th rowspan="1" colspan="1">Direccion</th>
+						<th rowspan="1" colspan="1">Attribute</th>
 						<th rowspan="1" colspan="1"></th>
 					</tr>
 				</thead>
@@ -167,15 +162,10 @@
 			?>
 
 					<tr role="row" class="odd">
-						<td class="sorting_1"> <?php echo $datos['CEDULA']; ?> </td>
-						<td><?php echo $datos['NOMBRES']; ?></td>
-						<td><?php echo $datos['APELLIDOS']; ?></td>
-						<td><?php echo $datos['FECHA_NAC']; ?></td>
-						<td><?php echo $datos['TEL']; ?></td>
-						<td><?php echo $datos['DIR']; ?></td>
+						<td class="sorting_1"> <?php echo $datos['Attribute']; ?> </td>
 						<td>
-							<img src="images/reload.png" alt="" style="cursor: pointer;" onclick="editar('<?php echo $datos['CEDULA']?>')">
-							<img src="images/delete-item.png" alt="" style="cursor: pointer;"  onclick="eliminar('<?php echo $datos['CEDULA']?>')">
+							<img src="images/reload.png" alt="" style="cursor: pointer;" onclick="editar('<?php echo $datos['Attribute']?>')">
+							<img src="images/delete-item.png" alt="" style="cursor: pointer;"  onclick="eliminar('<?php echo $datos['Attribute']?>')">
 
 						</td>
 					</tr>
@@ -188,12 +178,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<th rowspan="1" colspan="1">Cedula</th>
-						<th rowspan="1" colspan="1">Nombres</th>
-						<th rowspan="1" colspan="1">Apellidos</th>
-						<th rowspan="1" colspan="1">Fecha De Nacimiento</th>
-						<th rowspan="1" colspan="1">Telefono</th>
-						<th rowspan="1" colspan="1">Direccion</th>
+						<th rowspan="1" colspan="1">Attribute</th>
 						<th rowspan="1" colspan="1"></th>
 					</tr>
 				</tfoot>
@@ -210,52 +195,21 @@
 				<div id="procedure">
 				</div>
 				<fieldset style="display: inline;">
-					<legend>Registrar new Estudiante</legend>
+					<legend>Register new Student</legend>
 				
 					<form name="frmRegistrar" id="frmRegistrar" action="">
 						<table>
 							<tr>
-								<td>Cedula : </td>
+								<td>Attribute : </td>
 								<td>
-									<input type="text" id="txtCedula" name="txtCedula">
+									<input type="text" id="specification" name="specification">
 								</td>
 							</tr>
-							<tr>
-								<td>Nombres : </td>
 								<td>
-									<input type="text" id="txtNombres" name="txtNombres">
-								</td>
-							</tr>
-							<tr>
-								<td>Apellidos : </td>
-								<td>
-									<input type="text" id="txtApellidos" name="txtApellidos">
-								</td>
-							</tr>
-							<tr>
-								<td>Fecha de Nacimiento : </td>
-								<td>
-									<input type="text" id="txtFechaNac" name="txtFechaNac">
-								</td>
-							</tr>
-							<tr>
-								<td>Telefono : </td>
-								<td>
-									<input type="text" id="txtTel" name="txtTel">
-								</td>
-							</tr>
-							<tr>
-								<td>Direccion : </td>
-								<td>
-									<input type="text" id="txtDir" name="txtDir">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="button" id="btnProcesar" name="btnProcesar" value="Procesar Estudiante">
+									<input type="button" id="btnProcesar" name="btnProcesar" value="Student process">
 								</td>
 								<td>
-									<input type="reset" name="btnBorrar" id="btnBorrar" value="Borrar Formulario">
+									<input type="reset" name="btnBorrar" id="btnBorrar" value="Clear Form">
 								</td>
 							</tr>
 							
