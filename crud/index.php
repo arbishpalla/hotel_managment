@@ -113,13 +113,6 @@
 								$('#btnnew').val("Cancelar");
 
 								$('#specification').val(respuesta.ced);
-								$('#txtNombres').val(respuesta.nom);
-								$('#txtApellidos').val(respuesta.apel);
-								$('#txtFechaNac').val(respuesta.fn);
-								$('#txtTel').val(respuesta.tel);
-								$('#txtDir').val(respuesta.dir);
-							
-							
 							}
 					});				
 			}

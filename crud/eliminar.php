@@ -1,9 +1,9 @@
 <?php 
-	$ced = $_POST['cedula'];
+	$first_name = $_POST['specification'];
 
 	require_once ('funciones/conexiones.php');
-	$sql = "DELETE FROM datospersonales WHERE CEDULA = '$ced'";
+	$sql = "DELETE FROM datospersonales WHERE Attribute = '$first_name'";
 
 	$q = mysqli_query( $con, $sql);
-	echo "Eliminado satisfactoriamente...";
+	echo "Successfully removed ...";
  ?>
