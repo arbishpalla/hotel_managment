@@ -129,8 +129,8 @@
 											</div>
 								</form>
 											</div><br><br>
-								<div id="search-table-outter">
-								<table class="table table-striped table-bordered" id="sample_1">
+								<div class="search-table">
+								<table class="table table-striped table-bordered"  id="sample_1">
 								<thead>
 									<tr>
 										<th class="hidden-phone">Select</th>
