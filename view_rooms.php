@@ -1,6 +1,9 @@
 <?php
-//include 'headers/connect_to_mysql.php';
-
+	include 'headers/connect_to_mysql.php';
+	
+	$query = "SELECT  * FROM `rooms`"
+	or die('error while fetching rooms detail');
+	$result_rooms = mysqli_query($con,$query);
 ?>
 
 
@@ -98,32 +101,46 @@ include 'headers/menu-top-navigation.php';
                                 <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
                                     <thead>
                                     <tr>
-								 <th style="6% !important;">Room Id</th>
-                                    <th>Room Type</th>
+								 <th style="6% !important;">Id</th>
                                     <th>Room #</th>
                                     <th>Bed #</th> 
+                                    <th>Room Type</th>
+									<th>Specification</th> 
 									 <th>Action</th>
                                         <div class="widths">
                                         <th style="display:none">Edit</th>
                                         <th style="display:none">Delete</th>
                                     </div>
                                     </tr>
-                     
                                            </thead>
                                     <tbody>
-
+							<?php
+							$count = 0;
+							while($row = mysqli_fetch_array($result_rooms))
+								{
+								$count++;
+								$room_id = $row['room_id'];	
+								$room_no = $row['room_no'];
+								$bed_no = $row['bed_no'];
+								$room_type = $row['room_type'];
+								$specification = $row['specification'];
+					echo"
 					<tr class=''> 
-								  <td style='width:1% !important'><a href='#'>1</a></td>
-								<td style='width:4% !important'><a href='#'>Single</a></td>
-								<td style='width:4% !important'><a href='#'>2</a></td>
-								<td style='width:4% !important'><a href='#'>3</a></td>
+								<td style='width:1% !important'><a href='#'>{$count}</a></td>
+								<td style='width:3% !important'><a href='#'>{$room_no}</a></td>
+								<td style='width:3% !important'><a href='#'>{$bed_no}</a></td>
+								<td style='width:3% !important'><a href='#'>{$room_type}</a></td>
+								<td style='width:3% !important'><a href='#'>{$specification}</a></td>
 								  <td style='width:1%;text-align:center;'>
-								 <button style='width:79% !important; margin-bottom: 2px;' type='button' class='btn btn-success'> Update <i class='icon-edit'></i></button> </a>																					 							 	 
-								 <button style='width:79% !important;' type='button'  class='btn btn-danger'>
+								<a href='add_rooms.php?room_id=$room_id'><button style='width:79% !important; margin-bottom: 2px;' type='button' class='btn btn-success'> Update <i class='icon-edit'></i></button> </a>																					 							 	 
+								 <a href='delete.php?room_id=$room_id'><button style='width:79% !important;' type='button'  class='btn btn-danger'>
 								  Delete <i class='icon-trash'></i></button> </a>
 									  <td style='display:none'><a class='' href='javascript:;'>Edit</a></td>
 								 <td style='display:none'><a class='' href='javascript:;'>Delete</a></td>
 								  </tr>
+						";					
+				}
+								  ?>
 					               </tbody>
                                 </table>
                             </div>

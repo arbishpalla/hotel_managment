@@ -3,7 +3,7 @@
 $db_host = "localhost"; 
 $db_username = "root";  
 $db_pass = "";
-$db_name = "hotelmanagment"; 
+$db_name = "hotel_managment"; 
 
 // Run the connection here  
 

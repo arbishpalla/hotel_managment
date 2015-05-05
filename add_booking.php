@@ -34,7 +34,12 @@
 	   <link rel="stylesheet" href="assets/bootstrap-toggle-buttons/static/stylesheets/bootstrap-toggle-buttons.css" />
 	   <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
 	   <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
-	   
+	   <style>
+	   .search-table { overflow-x: scroll;   overflow-y: hidden; }
+		.search-table th, td { min-width: 120px; }
+
+
+	   </style>
 	<script type="text/javascript">
 		function deleteConfirm(id)
 		{
@@ -136,22 +141,58 @@
 										<th class="hidden-phone">Select</th>
 										<th class="hidden-phone">Room #</th>
 										<th class="hidden-phone">Bed #</th>
-										<th class="hidden-phone">Specification</th>
+										<th style="max-width:4%" class="hidden-phone">Specification</th>										
+										<th class="hidden-phone">5/5/2015</th>
+										<th class="hidden-phone">5/6/2015</th>
+										<th class="hidden-phone">5/7/2015</th>
+										<th class="hidden-phone">5/8/2015</th>
+										<th class="hidden-phone">5/9/2015</th>
+										<th class="hidden-phone">5/10/2015</th>
+										<th class="hidden-phone">5/11/2015</th>
+										<th class="hidden-phone">5/12/2015</th>
+										<th class="hidden-phone">5/13/2015</th>
+										<th class="hidden-phone">5/14/2015</th>
+										<th class="hidden-phone">5/15/2015</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr class="odd gradeX">
-										<td style="width:1% !important"><input type="checkbox" class="checkboxes" name="cb" value="1"></td>
+										<td style="width:1% !importa"><input type="checkbox" class="checkboxes" name="cb" value="1"></td>
 										<td class="hidden-phone">Room 101</a></td>
 										<td class="sum">2</td>
 										<td class="center hidden-phone">Ac,tv</td>
-									</tr>
+                                <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
+								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
+								<td><button type="button" class="btn btn-primary" value="" />Available</button></td>
+								<td><button type="button" class="btn btn-primary" value="Available" />Available</button></td>
+								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
+								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
+								<td class="center hidden-phone"><button type="button" class="btn btn-warning">Double Rese</button></td>
+								<td class="center hidden-phone"><button type="button" class="btn btn-warning">Double Rese</button></td>
+								<td><button type="button" class="btn btn-primary" value="Available" />Available</button></td>
+								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
+								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>																																		  
+								
+								</tr>
 									<tr class="odd gradeX">
 										<td><input type="checkbox" class="checkboxes" name="cb" value="1"></td>
 									 <td class="hidden-phone">Room 105</a></td>
 										<td class="sum">1</td>
 										<td class="center hidden-phone">tv,oven</td>
-									</tr>
+                                  <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>	
+                                 <td class="btn-btn-success"><button type="button" class="btn btn-warning">Double Rese</button></td>
+								<td class="center hidden-phone"><button type="button" class="btn btn-warning">Double Rese</button></td>
+								  <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
+                                  <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
+                                  <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
+                               <td> <button type="button" class="btn btn-primary" value="Available" />Available</button></td>
+								<td><button type="button" class="btn btn-primary" value="Available" />Available</button></td>
+								<td><button type="button" class="btn btn-primary" value="Available" />Available</button></td>
+								<td><button type="button" class="btn btn-primary" value="Available" />Available</button></td>
+								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
+
+								</tr>
+								
 									</tbody>
 									   </tr>
 								<tfoot>
