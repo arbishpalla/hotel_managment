@@ -1,49 +1,38 @@
 <?php 
+	include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';
-	$room_no = "";
-	$room_type = "";
-	$specification = "";
-	$formAction = "";
-	
-	if(isset($_GET['room_id']))
+	$feature = "";
+	$formAction = "";	
+	if(isset($_GET['m_id']))
 {
-		$room_id = $_GET['room_id'];
-		$formAction = "?room_id=$room_id";
-		$query = "SELECT * FROM rooms where room_id = $room_id ";
+		$m_id = $_GET['m_id'];
+		$formAction = "?m_id=$m_id";
+		$query = "SELECT * FROM specification where m_id = '$m_id' ";
 		$result = mysqli_query($con,$query);	
 		$row = mysqli_fetch_array($result)
 		or die ('error1');
-		$room_no = $row['room_no'];
-		$bed_no = $row['bed_no'];
-		$room_type = $row['room_type'];
-		$specification = $row['specification'];
+		$feature = $row['feature'];
 		
 		
 	if($_POST)
 	{
-		$room_id=  $_GET['room_id'];
-		$room_no = $_POST['room_no'];
-		$bed_no = $_POST['bed_no'];
-		$room_type = $_POST['room_type'];
-		$specification = $_POST['specification'];
-		$query = "UPDATE `rooms` SET `room_no`='$room_no',`bed_no`='$bed_no',`room_type`='$room_type',`specification`='$specification' WHERE `room_id` = '$room_id'";
+		$m_id=  $_GET['m_id'];
+		$feature = $_POST['feature'];
+		$query = "UPDATE specification SET `feature`='$feature' WHERE `m_id` = '$m_id'";
 		$result = mysqli_query($con,$query);
-		header("Location: view_rooms.php?update=true");
+		header("Location: specification.php?update=true");
 	}
 }	
 else 
 {
 	if($_POST)
 	{
-		$room_no = $_POST['room_no'];
-		$bed_no = $_POST['bed_no'];
-		$room_type = $_POST['room_type'];
-		$specification = $_POST['specification'];
-		$query_inserting = "INSERT INTO `rooms`(`room_no`, `bed_no`, `room_type`, `specification`) 
-							VALUES ('$room_no','$bed_no','$room_type','$specification')";
+		$feature = $_POST['feature'];
+		$query_inserting = "INSERT INTO `specification`(`feature`) 
+							VALUES ('$feature')";
 		mysqli_query($con,$query_inserting)
-		or die('error while inserting Rooms');
-		header("Location: view_rooms.php?insert=true");	
+		or die('error while inserting Rooms feature');
+		header("Location: specification.php?insert=true");	
 	}	
 }
 
@@ -56,7 +45,7 @@ else
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Add Room</title>
+   <title>Add Specification</title>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -99,16 +88,16 @@ include 'headers/menu-top-navigation.php';
                    <!-- END THEME CUSTOMIZER-->
                   <!-- BEGIN PAGE TITLE & BREADCRUMB-->     
                   <h3 class="page-title">
-                     Add Rooms
-                     <small>Add your rooms specification </small>
+                     Rooms Features
+                     <small>Add your rooms Features </small>
                   </h3>
                    <ul class="breadcrumb">
                         <li>
                            <a href="index.php"><i class="icon-home"></i></a> <span class="divider">&nbsp;</span>
                        </li>
-                       <li><a href="view_rooms.php">View Rooms</a><span class="divider-last">&nbsp;</span>
+                       <li><a href="specification.php">Rooms Features</a><span class="divider-last">&nbsp;</span>
 					   </li>
-					   <li><a href="#">Add Rooms</a><span class="divider-last">&nbsp;</span>
+					   <li><a href="#">Add Features</a><span class="divider-last">&nbsp;</span>
                        </li>
                        
                        </ul>
@@ -123,7 +112,7 @@ include 'headers/menu-top-navigation.php';
                   <!-- BEGIN SAMPLE FORM widget-->   
                   <div class="widget">
                      <div class="widget-title">
-                        <h4><i class="icon-reorder"></i>Add Rooms</h4>
+                        <h4><i class="icon-reorder"></i>Add Features</h4>
                         <span class="tools">
                            <a href="javascript:;" class="icon-chevron-down"></a>
                            <a href="javascript:;" class="icon-remove"></a>
@@ -131,37 +120,16 @@ include 'headers/menu-top-navigation.php';
                      </div>
                      <div class="widget-body form">
                         <!-- BEGIN FORM-->
-                        <form action="add_rooms.php<?php echo $formAction; ?>" method="post" class="form-horizontal">
+                        <form action="add_specification.php<?php echo $formAction; ?>" method="post" class="form-horizontal">
                            <div class="control-group">
-                              <label class="control-label">Room #</label>
-                              <div class="controls">
-                                 <input placeholder="Enter Room No" name="room_no" value="<?php echo $room_no; ?>" type="text" class="span6 " />
-                              </div>
-                           </div>
-						   <div class="control-group">
-                              <label class="control-label">Room Type</label>
-                              <div class="controls">
-                                 <input placeholder="Enter Room Type" name="room_type" value="<?php echo $room_type; ?>" type="text" class="span6 " />
-                              </div>
-                           </div>
-						   <div class="control-group">
-                              <label class="control-label">Bed #</label>
-                              <div class="controls">
-                                 <input placeholder="Enter Bed No" name="bed_no" value="<?php echo $bed_no; ?>" type="number" class="span6 " />
-                              </div>
-                           </div>
-						     <div class="control-group">
                               <label class="control-label">Features</label>
                               <div class="controls">
-                                 <?php
-								 include 'headers/features_detail.php';
-								?>
-								 <br /><br />
-                                 <input placeholder="Select Specification" name="specification" id="attribute" readonly="readonly" value="<?php echo $specification ?>" type="text" class="span6 " />
-								 </div>
+                                 <input placeholder="Enter feature" name="feature" value="<?php echo $feature; ?>" type="text" class="span6 " />
+                              </div>
+                           </div>
                            </div>
 						   <div class="form-actions clearfix">
-						<button type="submit" class="btn btn-primary blue button-next">Submit</button>
+						<button style="margin-left: 13.5%;" type="submit" class="btn btn-primary blue button-next">Submit</button>
 						</div>
 					  </form>
                             <!-- END FORM-->

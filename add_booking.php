@@ -1,6 +1,80 @@
 	<?php
-	//include 'headers/connect_to_mysql.php';
+	include 'headers/session.php';
+	include 'headers/connect_to_mysql.php';	
+	$room_no = "";
+	$bed_no = "";
+	$start_date = "";
+	$end_date = "";
+	$customer_name = "";
+	$phone_no = "";
+	$email = "";
+	$comment = "";
+	$total_discount = "";
+	$total_price = "";
 	
+	
+	$formAction = "";
+	
+	if(isset($_GET['booking_id']))
+{
+		$booking_id = $_GET['booking_id'];
+		$formAction = "?booking_id=$booking_id";
+		$query = "SELECT * FROM `booking` WHERE `booking_id` = `$booking_id`";
+		$result = mysqli_query($con,$query);	
+		$row = mysqli_fetch_array($result)
+		or die ('error1');
+		$emp_id = $row['emp_id'];
+		$room_no = $row['room_no'];
+		$bed_no = $row['bed_no'];
+		$start_date = $row['start_date'];
+		$end_date = $row['end_date'];
+		$customer_name = $row['customer_name'];
+		$phone_no = $row['phone_no'];
+		$email = $row['email'];
+		$comment = $row['comment'];
+		$total_discount = $row['total_discount'];
+		$total_price = $row['total_price'];
+		
+	if($_POST)
+	{
+
+		$booking_id=  $_GET['booking_id'];
+		$room_no = $_POST['room_no'];
+		$end_date = $_POST['end_date'];
+		$customer_name = $_POST['customer_name'];
+		$phone_no = $_POST['phone_no'];
+		$email = $_POST['email'];
+		$comment = $_POST['comment'];
+		$total_discount = $_POST['total_discount'];
+		$total_price = $_POST['total_price'];
+		$query = "UPDATE `booking` SET `emp_id`=[`$emp_id`],`room_no`=[`$room_no`],`bed_no`=[`$bed_no`],
+				`start_date`=[`$start_date`],`end_date`=[`$end_date`],`customer_name`=[`$customer_name`],
+				`phone_no`=[`$phone_no`],`email`=[`$email`],`comment`=[`$comment`],`total_discount`=[`$total_discount`]
+				,`total_price`=[`$total_price`] WHERE `booking_id`= `$booking_id`";
+		$result = mysqli_query($con,$query);
+		header("Location: view_booking.php?update=true");
+	}
+}	
+else 
+{
+	if($_POST)
+	{
+		$room_no = $_POST['room_no'];
+		$bed_no = $_POST['bed_no'];
+		$customer_name = $_POST['customer_name'];
+		$phone_no = $_POST['phone_no'];
+		$email = $_POST['email'];
+		$comment = $_POST['comment'];
+		$total_discount = $_POST['total_discount'];
+		$total_price = $_POST['total_price'];		
+		$query_inserting = "INSERT INTO `booking`(`emp_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`) VALUES 	('$emp_id','$room_no','$bed_no','$start_date','$end_date','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price')";
+		mysqli_query($con,$query_inserting)
+		or die('error while inserting booking');
+		//header("Location: booking_view.php?insert=true");	
+		echo "start_date-->".$start_date."<br>end_date-->".$end_date;
+		}	
+}
+
 	?>
 	
 	
@@ -36,9 +110,6 @@
 	   <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
 	   <style>
 	   .search-table { overflow-x: scroll;   overflow-y: hidden; }
-		.search-table th, td { min-width: 120px; }
-
-
 	   </style>
 	<script type="text/javascript">
 		function deleteConfirm(id)
@@ -109,6 +180,7 @@
 									<a href="javascript:;" class="icon-remove"></a>
 								</span>
 							</div>
+							<form action="add_booking.php" method="post">
 							<div class="widget-body">
 									  <a href="#myModal3" role="button" class="btn btn-success" data-toggle="modal">Select Date Range</a>
 									   <div id="myModal3" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
@@ -117,7 +189,7 @@
 												<h3 id="myModalLabel3">Date Range</h3>
 											</div>
 											<div class="modal-body">
-							   <form action="#" class="form-horizontal">
+							   <div class="form-horizontal">
 							<div class="control-group">
 										<label class="control-label">Date Ranges</label>
 										<div class="controls">
@@ -130,9 +202,9 @@
 											</div>
 											<div class="modal-footer">
 												<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-												<button type="submit" class="btn btn-primary">Confirm</button>
+												<button data-dismiss="modal" type="button" class="btn btn-primary">Confirm</button>
 											</div>
-								</form>
+								</div>
 											</div><br><br>
 								<div class="search-table">
 								<table class="table table-striped table-bordered"  id="sample_1">
@@ -151,50 +223,39 @@
 										<th class="hidden-phone">5/11/2015</th>
 										<th class="hidden-phone">5/12/2015</th>
 										<th class="hidden-phone">5/13/2015</th>
-										<th class="hidden-phone">5/14/2015</th>
-										<th class="hidden-phone">5/15/2015</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr class="odd gradeX">
-										<td style="width:1% !importa"><input type="checkbox" class="checkboxes" name="cb" value="1"></td>
-										<td class="hidden-phone">Room 101</a></td>
-										<td class="sum">2</td>
-										<td class="center hidden-phone">Ac,tv</td>
-                                <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
-								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
-								<td><button type="button" class="btn btn-primary" value="" />Available</button></td>
-								<td><button type="button" class="btn btn-primary" value="Available" />Available</button></td>
-								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
-								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
-								<td class="center hidden-phone"><button type="button" class="btn btn-warning">Double Rese</button></td>
-								<td class="center hidden-phone"><button type="button" class="btn btn-warning">Double Rese</button></td>
-								<td><button type="button" class="btn btn-primary" value="Available" />Available</button></td>
-								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
-								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>																																		  
-								
+								<td style =" min-width: 120px;" style="width:1% !importa"><input type="checkbox" class="checkboxes" name="cb" value="1"></td>
+								<td style =" min-width: 120px;"  class="hidden-phone">Room 101</a></td>
+								<td style =" min-width: 120px;" class="sum">2</td>
+								<td class="center hidden-phone">Ac,tv</td>
+                                <td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Booked">X</a></td>
+								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+								<td style =" width: 1%;"><button type="button" class="btn btn-primary" value="" />&#10004;</button></td>
+								<td style =" width: 1%;"><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+								<td style =" width: 1%;"><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>																																		  
+								</tr>								
+								<tr class="odd gradeX">
+								<td style =" min-width: 120px;" style="width:1% !importa"><input type="checkbox" class="checkboxes" name="cb" value="1"></td><td class="hidden-phone">Room 105</a></td>
+								<td class="sum">1</td>
+								<td class="center hidden-phone">Ac,tv</td>
+							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>	
+							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+ 							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+							    <td> <button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
 								</tr>
-									<tr class="odd gradeX">
-										<td><input type="checkbox" class="checkboxes" name="cb" value="1"></td>
-									 <td class="hidden-phone">Room 105</a></td>
-										<td class="sum">1</td>
-										<td class="center hidden-phone">tv,oven</td>
-                                  <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>	
-                                 <td class="btn-btn-success"><button type="button" class="btn btn-warning">Double Rese</button></td>
-								<td class="center hidden-phone"><button type="button" class="btn btn-warning">Double Rese</button></td>
-								  <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
-                                  <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
-                                  <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
-                               <td> <button type="button" class="btn btn-primary" value="Available" />Available</button></td>
-								<td><button type="button" class="btn btn-primary" value="Available" />Available</button></td>
-								<td><button type="button" class="btn btn-primary" value="Available" />Available</button></td>
-								<td><button type="button" class="btn btn-primary" value="Available" />Available</button></td>
-								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Not Available">Not Available</a></td>
-
-								</tr>
-								
 									</tbody>
-									   </tr>
 								<tfoot>
 									<tr style="display:none" class="totalColumn">
 										<td class="totalCol">0</td>
@@ -205,20 +266,20 @@
 								</tfoot>
 							</table>
 						</div>
-					 <form style="margin-top:10px;" action="#" class="form-horizontal">
+					 <div style="margin-top:10px;" action="#" class="form-horizontal">
 							   <div class="control-group">
 								  <label class="control-label">Total Rooms</label>
 								  <div class="controls">
-									 <input disabled placeholder="Total Rooms" id="room" type="text" class="span2 "  />
+									 <input name="room_no" readonly="readonly" placeholder="Total Rooms" id="room" type="text" class="span2 "  />
 								  </div>
 							   </div>
 							   <div class="control-group">
 								  <label class="control-label">Total Bed</label>
 								  <div class="controls">
-									 <input disabled placeholder="Total Bed" type="text" id="txt1" class="span2 " />
+									 <input name="bed_no" readonly="readonly" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
 								  </div>
 							   </div>
-							   </form>
+							   </div>
 						
 							</div>
 						</div>
@@ -238,40 +299,41 @@
 								</span>
 							</div>
 							<div class="widget-body">
-					 <form action="#" class="form-horizontal">
+					 <div action="#" class="form-horizontal">
 							<div class="control-group">
 								  <label class="control-label">Customer Name</label>
 								  <div class="controls">
-									 <input placeholder="Add Customer Name " type="text" class="span6 "  />
+									 <input name="customer_name" placeholder="Add Customer Name " type="text" class="span6 "  />
 								  </div>
 							   </div>
 							   <div class="control-group">
 								  <label class="control-label">Contact</label>
 								  <div class="controls">
-									 <input placeholder="Add Phone #" type="text" class="span6 " />
+									 <input name="phone_no" placeholder="Add Phone #" type="text" class="span6 " />
 								  </div>
 							   </div><div class="control-group">
 								  <label class="control-label">Email</label>
 								  <div class="controls">
-									 <input placeholder="Add Email" type="text" class="span6 "  />
+									 <input name="email" placeholder="Add Email" type="text" class="span6 "  />
 								  </div>
 							   </div>
 							   <div class="control-group">
-								  <label class="control-label">Employee Name</label>
+								  <label class="control-label">Employee Id</label>
 								  <div class="controls">
-									 <input placeholder="Employee Name" type="text" class="span6 " />
+									 <input placeholder="Employee Id"  value="<?php echo $emp_id; ?>" readonly="readonly" type="text" class="span6 " />
 								  </div>
 							   </div>
 						   <div class="control-group">
 							<label class="control-label">Coment</label>
 							<div class="controls">
-								<textarea placeholder="Add Your Coment" class="span6" rows="3"></textarea>
+								<textarea name="comment" placeholder="Add Your Coment" class="span6" rows="3"></textarea>
 							</div>
 						</div>
-				</form>
+				</div>
 				<div class="form-actions clearfix">
 					<div style="margin-left:162px;">
 						  <a href="#myModal4" role="button" class="btn btn-success" data-toggle="modal">Voucher</a>
+						  <button type="submit" class="btn-primary" >Submit</button>
 						  </div>
 							<div id="myModal4" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
 							<div class="modal-header">
@@ -279,29 +341,30 @@
 								<h3 id="myModalLabel4">List Of Rooms</h3>
 							</div>
 							<div class="modal-body">
-							   <form action="#" class="form-horizontal">
+							   <div  class="form-horizontal">
 							 <div class="control-group">
 								  <label class="control-label">No Of Bed</label>
 								  <div class="controls">
 									<span id="first_number"></span> *
 									 <input placeholder="" type="text" id="txt3" onkeyup="sum();" class="span3 " /><br><br>
-								  <input placeholder="Sub total" id="txt4" type="text" class="span3 " />
+								  <input name="total_price" placeholder="Sub total" id="txt4" type="text" class="span3 " />
 								  </div>
 							   </div>
 							   <div class="control-group">
 								  <label class="control-label">Discount</label>
 								  <div class="controls">
 									 = <input placeholder="" type="text" id="txt5" onkeyup="minus();" class="span3 " /><br><br>
-									 <input placeholder="Grand total" id="txt6" type="text" class="span3 " />
+									 <input name="total_discount" placeholder="Grand total" id="txt6" type="text" class="span3 " />
 								  </div>
 							   </div>
-                                   </form>
+                                   </div>
                                     </div>
 								<div class="modal-footer">
 									<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 									<button data-dismiss="modal" class="btn btn-success">Success</button>
 			<button onclick="javascript:window.print();" class="btn btn-success btn-large hidden-print">Print <i class="icon-print icon-big"></i></button>
 								</div>
+								</form>
 							</div>
 							</div>
 							</div>

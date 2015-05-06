@@ -81,11 +81,11 @@
                   '<div class="range_inputs">' +
                     '<div>' +
                       '<label for="daterangepicker_start">' + this.locale.fromLabel + '</label>' +
-                      '<input class="input-mini" type="text" name="date_from" value="" disabled="disabled" />' +
+                      '<input class="input-mini" type="text" name="start_date" value="" " />' +
                     '</div>' +
                     '<div>' +
                       '<label for="daterangepicker_end">' + this.locale.toLabel + '</label>' +
-                      '<input class="input-mini" type="text" name="date_to" value="" disabled="disabled" />' +
+                      '<input class="input-mini" type="text" name="end_date" value="" " />' +
                     '</div>' +
                     '<button type="submit" class="btn btn-small" disabled="disabled">' + this.locale.applyLabel + '</button>' +
                   '</div>' +
@@ -255,8 +255,8 @@
             this.leftCalendar.month.set({ month: this.startDate.getMonth(), year: this.startDate.getFullYear() });
             this.rightCalendar.month.set({ month: this.endDate.getMonth(), year: this.endDate.getFullYear() });
 
-            this.container.find('input[name=date_from]').val(this.startDate.toString(this.format));
-            this.container.find('input[name=date_to]').val(this.endDate.toString(this.format));
+            this.container.find('input[name=start_date]').val(this.startDate.toString(this.format));
+            this.container.find('input[name=end_date]').val(this.endDate.toString(this.format));
 
             if (this.startDate.equals(this.endDate) || this.startDate.isBefore(this.endDate)) {
                 this.container.find('button').removeAttr('disabled');
@@ -342,8 +342,8 @@
                 this.updateView();
             } else {
                 var dates = this.ranges[label];
-                this.container.find('input[name=date_from]').val(dates[0].toString(this.format));
-                this.container.find('input[name=date_to]').val(dates[1].toString(this.format));
+                this.container.find('input[name=start_date]').val(dates[0].toString(this.format));
+                this.container.find('input[name=end_date]').val(dates[1].toString(this.format));
             }
         },
 
@@ -396,9 +396,9 @@
             var cal = $(e.target).parents('.calendar');
 
             if (cal.hasClass('left')) {
-                this.container.find('input[name=date_from]').val(this.leftCalendar.calendar[row][col].toString(this.format));
+                this.container.find('input[name=start_date]').val(this.leftCalendar.calendar[row][col].toString(this.format));
             } else {
-                this.container.find('input[name=date_to]').val(this.rightCalendar.calendar[row][col].toString(this.format));
+                this.container.find('input[name=end_date]').val(this.rightCalendar.calendar[row][col].toString(this.format));
             }
 
         },

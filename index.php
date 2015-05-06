@@ -1,3 +1,9 @@
+
+<?php
+	include 'headers/session.php';
+	include 'headers/connect_to_mysql.php';
+
+ ?>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -28,6 +34,9 @@
    <link rel="stylesheet" href="assets/jslider/css/jslider.round.css" type="text/css">
    <link rel="stylesheet" href="assets/jslider/css/jslider.round.plastic.css" type="text/css">
    <link rel="stylesheet" type="text/css" href="assets/gritter/css/jquery.gritter.css" />
+   	   <style>
+	   .search-table { overflow-x: scroll;overflow-y: hidden; }
+	   </style>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -82,33 +91,56 @@ include 'headers/menu-top-navigation.php';
                                         </div>
                                     </div>
 							</form>
+															<div class="search-table">
 						<table class="table table-striped table-bordered" id="sample_1">
-                            <tbody>
-								<tr>
-                                  <th class="hidden-phone">Id</th>
-								  <td class="hidden-phone">1</td>
-								  <td class="hidden-phone">2</td>
-								  <td class="hidden-phone">3</td>
+<thead>
+						<tr>
+										<th class="hidden-phone">Room #</th>
+										<th class="hidden-phone">Bed #</th>
+										<th class="hidden-phone">5/5/2015</th>
+										<th class="hidden-phone">5/6/2015</th>
+										<th class="hidden-phone">5/7/2015</th>
+										<th class="hidden-phone">5/8/2015</th>
+										<th class="hidden-phone">5/11/2015</th>
+										<th class="hidden-phone">5/12/2015</th>
+										<th class="hidden-phone">5/13/2015</th>
+										<th class="hidden-phone">5/14/2015</th>
+										<th class="hidden-phone">5/15/2015</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="odd gradeX">
+										<td style =" width: 16%;;" class="hidden-phone">Room 101</a></td>
+										<td style =" width: 16%;;" class="sum">2</td>
+                                <td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Booked">X</a></td>
+								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+								<td style =" width: 1%;"><button type="button" class="btn btn-primary" value="" />&#10004;</button></td>
+								<td style =" width: 1%;"><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+								<td style =" width: 1%;"><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>																																		  
+								
 								</tr>
-								<tr>
-								  <th class="hidden-phone">Room Type</th>
-								  <td class="hidden-phone">single</td>
-								  <td class="hidden-phone">double</td>
-								  <td class="hidden-phone">Triple</td>
+									<tr class="odd gradeX">
+									 <td class="hidden-phone">Room 105</a></td>
+										<td class="sum">1</td>
+                                  <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>	
+								  <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+                                  <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+                                  <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+                               <td> <button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+
 								</tr>
-								<tr>
-								  <th class="hidden-phone">Room #</th>
-								  <td class="hidden-phone">120</td>
-								  <td class="hidden-phone">121</td>
-								  <td class="hidden-phone">122</td>
-								</tr>
-                                <tr class="odd gradeX">
-                                  <th class="hidden-phone">Date From (12/5/2015)</th>
-                                  <td class="hidden-phone"><a href="#" class="btn popovers" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Booked">Booked</a></td>
-								  <td class="hidden-phone"><a href="#" class="btn popovers" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Booked">Booked</a></td>
-								  <td class="hidden-phone"><a href="#" class="btn popovers" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Booked">Booked</a></td>								 
-							    </tr>                               </tbody>
+								
+								</tbody>
                         </table>
+						</div>
                         </div>
 						</div>
                     </div>

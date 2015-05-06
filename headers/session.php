@@ -1,8 +1,8 @@
 <?php
 	session_start();
-	if(isset($_SESSION['user_id']))
+	if(isset($_SESSION['emp_id']))
 	{
-		$user_id = $_SESSION['user_id'];
+		$emp_id = $_SESSION['emp_id'];
 	}
 	else
 	{

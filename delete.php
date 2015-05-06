@@ -9,4 +9,12 @@
 	$result = mysqli_query($con,$query_delete);
 	header ('Location: view_rooms.php?delete=true');		
 	}
+	if(isset($_GET['m_id']))
+	{
+	$m_id = $_GET['m_id'];
+	$query_delete = "DELETE FROM specification WHERE m_id = $m_id"
+	or die('error while deleting specification');
+	$result = mysqli_query($con,$query_delete);
+	header ('Location: specification.php?delete=true');		
+	}
 	?>
