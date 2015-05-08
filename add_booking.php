@@ -64,6 +64,8 @@ else
 		$customer_name = $_POST['customer_name'];
 		$phone_no = $_POST['phone_no'];
 		$email = $_POST['email'];
+		$start_date = $_POST['start_date'];
+		$end_date = $_POST['end_date'];
 		$comment = $_POST['comment'];
 		$total_discount = $_POST['total_discount'];
 		$total_price = $_POST['total_price'];		
@@ -71,7 +73,20 @@ else
 		mysqli_query($con,$query_inserting)
 		or die('error while inserting booking');
 		//header("Location: booking_view.php?insert=true");	
-		echo "start_date-->".$start_date."<br>end_date-->".$end_date;
+		
+		/*
+		SELECT query for room and master table
+		
+		SELECT id,room_id, 
+        group_concat( room_specification.m_id ) AS m_id,
+        group_concat( specification.feature ) AS feature
+		FROM room_specification LEFT JOIN specification ON (room_specification.m_id = specification.m_id)
+		GROUP BY room_id;
+
+
+		
+		*/
+		
 		}	
 }
 
@@ -276,7 +291,9 @@ else
 							   <div class="control-group">
 								  <label class="control-label">Total Bed</label>
 								  <div class="controls">
-									 <input name="bed_no" readonly="readonly" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
+									 <input name="bed_no" readonly="readonly" name="bed_no" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
+									 <input type="hidden" name="start_date" id="start" value="" />
+									 <input type="hidden" name="end_date" id="end" value="" />
 								  </div>
 							   </div>
 							   </div>
@@ -410,6 +427,33 @@ else
 	
 	
 	   <script src="js/table-editable.js"></script>
+		<script>
+function myFunction() {
+	var dateFrom = document.getElementById('from').value;
+	var dateto = document.getElementById('to').value;
+	document.getElementById('start').value = dateFrom;
+	document.getElementById('end').value = dateto;
+	
+ }
+</script>
+		<script>
+	// $( document ).ready(function() {				
+					// var dateFrom = document.getElementById('from').value;
+				// var endDate = document.getElementById('to').value;
+				// //assigning valur to hidden textbox
+				// if(dateFrom != null)
+				// {
+					// alert('working');
+				// }
+				// else
+				// {
+					// alert('not working');
+				// }
+				// document.getElementById('start').value = dateFrom;
+				// document.getElementById('end').value; = endDate
+	// });
+				
+		</script>
 		<script>
 	  function sum() {
 				var txtFirstNumberValue = document.getElementById('first_number').innerHTML;
