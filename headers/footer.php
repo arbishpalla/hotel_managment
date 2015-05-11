@@ -1,7 +1,8 @@
+
 <?php 
 echo"
    <div id='footer'>
-       2015 &copy; Powered By <a class='footer' href='http://www.linkedunion.com/'>LinkedUnion.</a>
+ <a href ='http://www.digitaleggheads.com/'><font color='white'>2014-15 &copy; Digital Eggheads.</a></font>
       <div class='span pull-right'>
          <span class='go-top'><i class='icon-arrow-up'></i></span>
       </div>

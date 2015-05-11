@@ -56,7 +56,6 @@ else
    <link href="css/style.css" rel="stylesheet" />
    <link href="css/style_responsive.css" rel="stylesheet" />
    <link href="css/style_default.css" rel="stylesheet" id="style_color" />
-
    <link href="assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
    <link rel="stylesheet" type="text/css" href="assets/gritter/css/jquery.gritter.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
@@ -125,7 +124,10 @@ include 'headers/menu-top-navigation.php';
                               <label class="control-label">Features</label>
                               <div class="controls">
                                  <input placeholder="Enter feature" name="feature" value="<?php echo $feature; ?>" type="text" class="span6 " />
-                              </div>
+                               <span class="glyphicons-heat"><br><span class="glyphicons glyphicons-tv"><br>
+							   <span class="glyphicons-tv"><br><span class="glyphicons glyphicons-tv"><br>
+							  <i class="icon-tv"></i>
+							  </div>
                            </div>
                            </div>
 						   <div class="form-actions clearfix">

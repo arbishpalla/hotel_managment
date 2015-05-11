@@ -364,7 +364,7 @@ else
 								  <div class="controls">
 									<span id="first_number"></span> *
 									 <input placeholder="" type="text" id="txt3" onkeyup="sum();" class="span3 " /><br><br>
-								  <input name="total_price" placeholder="Sub total" id="txt4" type="text" class="span3 " />
+							  <input  name="total_price" placeholder="Sub total" id="txt4" type="text" class="span3 " />
 								  </div>
 							   </div>
 							   <div class="control-group">

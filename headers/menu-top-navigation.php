@@ -7,7 +7,7 @@ echo"
            <div class='container-fluid'>
                <!-- BEGIN LOGO -->
                <a class='brand' href='index.php'>
-                   <img src='img/avialdo.png' alt='Admin Lab' />
+                   <img src='img/logo.png' alt='Admin Lab' />
                </a>
                <!-- END LOGO -->
                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
