@@ -12,15 +12,17 @@
 		$row = mysqli_fetch_array($result)
 		or die ('error1');
 		$feature = $row['feature'];
+
 		
 		
 	if($_POST)
 	{
 		$m_id=  $_GET['m_id'];
 		$feature = $_POST['feature'];
-		$query = "UPDATE specification SET `feature`='$feature' WHERE `m_id` = '$m_id'";
+		$query = "UPDATE specification SET `feature`='$feature' WHERE `m_id` = '$m_id'"
+		or die('error while updating rooms specification');
 		$result = mysqli_query($con,$query);
-		header("Location: specification.php?update=true");
+		header ("Location: specification.php?update=true");
 	}
 }	
 else 
@@ -32,7 +34,7 @@ else
 							VALUES ('$feature')";
 		mysqli_query($con,$query_inserting)
 		or die('error while inserting Rooms feature');
-		header("Location: specification.php?insert=true");	
+		header ("Location: specification.php?insert=true");	
 	}	
 }
 
@@ -54,6 +56,7 @@ else
    <link href="assets/bootstrap/css/bootstrap-fileupload.css" rel="stylesheet" />
    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
    <link href="css/style.css" rel="stylesheet" />
+	<link href="glyphicon/bootstrap.icon-large.css" />
    <link href="css/style_responsive.css" rel="stylesheet" />
    <link href="css/style_default.css" rel="stylesheet" id="style_color" />
    <link href="assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
@@ -120,15 +123,22 @@ include 'headers/menu-top-navigation.php';
                      <div class="widget-body form">
                         <!-- BEGIN FORM-->
                         <form action="add_specification.php<?php echo $formAction; ?>" method="post" class="form-horizontal">
-                           <div class="control-group">
+
+						<div class="control-group">
                               <label class="control-label">Features</label>
                               <div class="controls">
-                                 <input placeholder="Enter feature" name="feature" value="<?php echo $feature; ?>" type="text" class="span6 " />
-                               <span class="glyphicons-heat"><br><span class="glyphicons glyphicons-tv"><br>
-							   <span class="glyphicons-tv"><br><span class="glyphicons glyphicons-tv"><br>
-							  <i class="icon-tv"></i>
-							  </div>
+                                 <select name="feature" class="span6 chosen" data-placeholder="Select Room Features" tabindex="1">
+                                    <option value=""><?php echo $feature; ?></option>
+                                    <option value="A/C">A/C</option>
+                                    <option value="English Toilet">English Toilet</option>
+                                    <option value="TV">TV</option>
+                                    <option value="Kettle">Kettle</option>
+									<option value="Wifi">Wifi</option>
+									<option value="Heater">Heater</option>
+                                 </select>
+                              </div>
                            </div>
+						   <span class="myicon-tv"></span>
                            </div>
 						   <div class="form-actions clearfix">
 						<button style="margin-left: 13.5%;" type="submit" class="btn btn-primary blue button-next">Submit</button>

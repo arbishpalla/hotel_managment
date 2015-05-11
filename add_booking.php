@@ -34,7 +34,7 @@
 		$comment = $row['comment'];
 		$total_discount = $row['total_discount'];
 		$total_price = $row['total_price'];
-		
+		$feature = $row['feature'];
 	if($_POST)
 	{
 
@@ -75,7 +75,6 @@ else
 		//header("Location: booking_view.php?insert=true");	
 		
 		/*
-		SELECT query for room and master table
 		
 		SELECT id,room_id, 
         group_concat( room_specification.m_id ) AS m_id,
@@ -122,6 +121,10 @@ else
 	   <link rel="stylesheet" type="text/css" href="assets/bootstrap-colorpicker/css/colorpicker.css" />
 	   <link rel="stylesheet" href="assets/bootstrap-toggle-buttons/static/stylesheets/bootstrap-toggle-buttons.css" />
 	   <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
+	   <link rel="stylesheet" type="text/css" href="assets/clockface/css/clockface.css" />
+       <link rel="stylesheet" type="text/css" href="assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" />
+       <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker.css" />
+       <link rel="stylesheet" type="text/css" href="assets/bootstrap-timepicker/compiled/timepicker.css" />
 	   <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
 	   <style>
 	   .search-table { overflow-x: scroll;   overflow-y: hidden; }
@@ -245,7 +248,7 @@ else
 								<td style =" min-width: 120px;" style="width:1% !importa"><input type="checkbox" class="checkboxes" name="cb" value="1"></td>
 								<td style =" min-width: 120px;"  class="hidden-phone">Room 101</a></td>
 								<td style =" min-width: 120px;" class="sum">2</td>
-								<td class="center hidden-phone">Ac,tv</td>
+								<td class="center hidden-phone"><span class="myicon-shower"></span>  <span class="myicon-tv"></span></td>
                                 <td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Booked">X</a></td>
 								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
 								<td style =" width: 1%;"><button type="button" class="btn btn-primary" value="" />&#10004;</button></td>
@@ -259,12 +262,26 @@ else
 								<tr class="odd gradeX">
 								<td style =" min-width: 120px;" style="width:1% !importa"><input type="checkbox" class="checkboxes" name="cb" value="1"></td><td class="hidden-phone">Room 105</a></td>
 								<td class="sum">1</td>
-								<td class="center hidden-phone">Ac,tv</td>
+								<td class="center hidden-phone"><span class="myicon-snoflaek"></span><span class="myicon-heat"></span>  </td>
 							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>	
 							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
 							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
  							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
 							    <td> <button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+								</tr>
+								<tr class="odd gradeX">
+								<td style =" min-width: 120px;" style="width:1% !importa"><input type="checkbox" class="checkboxes" name="cb" value="1"></td><td class="hidden-phone">Room 105</a></td>
+								<td class="sum">1</td>
+								<td class="center hidden-phone"><span class="myicon-kettle"></span><span class="myicon-wifi"></span>  </td>
+							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+ 							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
+							    <td> <button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
+							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>	
+							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
 								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
 								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
 								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
@@ -282,6 +299,15 @@ else
 							</table>
 						</div>
 					 <div style="margin-top:10px;" action="#" class="form-horizontal">
+							   
+							    <div class="control-group">
+                                    <label class="control-label">Select Date</label>
+                                    <div class="controls">
+                                        <div class="input-append date date-picker" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
+                                            <input class=" m-ctrl-medium date-picker" size="16" type="text" value="Select your Date" /><span class="add-on"><i class="icon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
 							   <div class="control-group">
 								  <label class="control-label">Total Rooms</label>
 								  <div class="controls">
@@ -423,6 +449,13 @@ else
 	   <script type="text/javascript" src="assets/uniform/jquery.uniform.min.js"></script>
 	   <script type="text/javascript" src="assets/data-tables/jquery.dataTables.js"></script>
 	   <script type="text/javascript" src="assets/data-tables/DT_bootstrap.js"></script>
+	   <script type="text/javascript" src="assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>   
+   <script type="text/javascript" src="assets/bootstrap-daterangepicker/date.js"></script>
+   <script type="text/javascript" src="assets/bootstrap-daterangepicker/daterangepicker.js"></script> 
+   <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
+   <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+   <script type="text/javascript" src="assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+   <script src="assets/fancybox/source/jquery.fancybox.pack.js"></script>
 	   <script src="js/scripts.js"></script>
 	
 	
