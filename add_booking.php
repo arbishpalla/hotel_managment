@@ -14,18 +14,14 @@
 	$formAction = "";
 	
 	
-<<<<<<< HEAD
+
 	if($_POST['Daterange'])
 	{
 		$query_date = "";
 		
 		
 	}
-=======
-	
->>>>>>> origin/master
-	
-	
+
 	
 	if(isset($_GET['booking_id']))
 {
