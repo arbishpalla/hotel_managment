@@ -6,6 +6,11 @@ Website: http://thevectorlab.net/
 */
 
 /* body styles */
+   @page 
+        {
+            size: auto;   /* auto is the current printer page size */
+            margin: 0mm;  /* this affects the margin in the printer settings */
+        }
 body {
     color: #000;
     font-family: 'Arial';
@@ -3489,6 +3494,7 @@ ul.amounts li {
     margin-bottom: 15px;
 }
 
+/*icon clss start here */
 .myicon-tv{ 
   background-image: url('../img/tv.png');
   background-repeat: no-repeat;
@@ -3521,11 +3527,129 @@ ul.amounts li {
   background-position: 0px 4px;
   padding: 7px 14px;
 }
-.myicon-shower{ 
+.myicon-shower { 
   background-image: url('../img/shower.png');
   background-repeat: no-repeat;
   background-position: 0px -2px;
   padding: 7px 14px;
 }
+
+/* icon class end here*/
+
+/*check box class start here*/
+	.Colorbox input 
+	{
+	height: 25px;
+    width: 100%;
+    font-size:200%;
+   }
+    .Colorbox 
+	{ 
+    position:relative; 
+    top:0;          
+    font: Verdana,Arial,sans-serif;    
+    border:1px solid #ececec;
+    height: 25px;
+    width: 1.9em; /* */
+    z-index:1;
+    cursor:pointer;
+    opacity: 1;
+    filter: alpha(opacity = 100);
+    }
+
+    .ColorboxSelected 
+	{ 
+    opacity: 0.5;
+    filter: alpha(opacity = 50);
+    }    
+
+.Check {
+        position:relative; 
+		left: 35.5px;
+		color: blue;
+		font-family: Arial Narrow;
+		font-size: 1.5em;
+		display: block;
+		visibility: hidden;
+		top: 3px;
+		height: 0px;
+
+    }     
+
+.cbx {
+    visibility:hidden;
+    display:none;
+
+/*check box class end here*/
+
+.checked label {
+  display: block;
+  position: relative;
+  padding: 0.5rem 1rem;
+  line-height: 28px;
+  font-weight: normal;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  width:0px;
+}
+
+label:last-of-type { margin-right: 1rem; }
+
+label i {
+
+  display: inline-block;
+  height: 25px;
+  position: relative;
+  top: 6px;
+  font-style: normal;
+  color: #ccc;
+}
+
+label span {
+  display: inline-block;
+  margin-left: 5px;
+  line-height: 25px;
+  color: gray;
+}
+
+input[type="radio"],
+input[type="checkbox"] { display: none; }
+
+input[type="radio"] + i:before,
+input[type="checkbox"] + i:before {
+  font-family: 'FontAwesome';
+  font-size: 28px;
+  height: 25px;
+  width: 25px;
+  display: inline-block;
+}
+
+input[type="radio"]:checked + i,
+input[type="checkbox"]:checked + i {
+  position: relative;
+  -webkit-animation: icon-beat 0.1s ease;
+  animation: icon-beat 0.1s ease;
+}
+
+input[type="radio"]:checked + i + span,
+input[type="checkbox"]:checked + i + span {
+  -webkit-transition: all 0.1s ease;
+  transition: all 0.1s ease;
+}
+
+input[type="radio"] + i:before { content: "\f10c"; }
+
+input[type="radio"]:checked + i:before { content: "\f111"; }
+
+input[type="radio"]:checked + i + span,
+input[type="radio"]:checked + i:before { color: rgba(0, 128, 128, 0.5); }
+
+input[type="checkbox"] + i:before { content: "\f096"; }
+
+input[type="checkbox"]:checked + i:before { content: "\f046"; }
+
+input[type="checkbox"]:checked + i + span,
+input[type="checkbox"]:checked + i:before { color: rgba(0, 128, 0, 0.5); }
+
 
 
