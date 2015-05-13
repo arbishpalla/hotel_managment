@@ -17,4 +17,12 @@
 	$result = mysqli_query($con,$query_delete);
 	header ('Location: specification.php?delete=true');		
 	}
+	if(isset($_GET['id']))
+	{
+	$id = $_GET['id'];
+	$query_delete = "DELETE FROM room_specification WHERE id = $id"
+	or die('error while deleting room specification');
+	$result = mysqli_query($con,$query_delete);
+	header ('Location: room_spec.php?delete=true');		
+	}
 	?>

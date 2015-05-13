@@ -1,7 +1,6 @@
 <?php
 	 include 'headers/session.php';
-	include 'headers/connect_to_mysql.php';
-	
+	include 'headers/connect_to_mysql.php';	
 	$query = "SELECT  * FROM `rooms`"
 	or die('error while fetching rooms detail');
 	$result_rooms = mysqli_query($con,$query);

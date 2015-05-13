@@ -69,7 +69,6 @@ include 'headers/menu-top-navigation.php';
                             <h4><i class="icon-reorder"></i>Booking View</h4>
                             <span class="tools">
                                 <a href="javascript:;" class="icon-chevron-down"></a>
-                                <a href="javascript:;" class="icon-remove"></a>
                             </span>
                         </div>
                         <div class="widget-body">

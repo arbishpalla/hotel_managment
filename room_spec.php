@@ -1,7 +1,9 @@
 <?php
-	include 'headers/session.php';
+	 include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';
-	$query = "SELECT  * FROM `specification`"
+	$m_id = "";
+	$room_no = "";
+	$query = "SELECT  * FROM `room_specification`"
 	or die('error while fetching rooms Features');
 	$result_rooms = mysqli_query($con,$query);
 ?>
@@ -16,7 +18,7 @@
 <!-- Mirrored from thevectorlab.net/adminlab/editable_table.html by HTTrack Website Copier/3.x [XR&CO'2013], Tue, 04 Nov 2014 07:58:54 GMT -->
 <head>
    <meta charset="utf-8" />
-   <title>View Specification</title>
+   <title>View Room Features</title>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -61,14 +63,14 @@ include 'headers/menu-top-navigation.php';
                    <!-- END THEME CUSTOMIZER-->
                   <!-- BEGIN PAGE TITLE & BREADCRUMB-->     
                   <h3 class="page-title">
-                     Views Featuure
+                     View Rooms Featuure
                      <small>view All </small>
                   </h3>
                    <ul class="breadcrumb">
                         <li>
                            <a href="index.php"><i class="icon-home"></i></a> <span class="divider">&nbsp;</span>
                        </li>
-                       <li><a href="#">View Features</a><span class="divider-last">&nbsp;</span>
+                       <li><a href="#">View Rooms Features</a><span class="divider-last">&nbsp;</span>
                        </li>
                        
                        </ul>
@@ -85,14 +87,14 @@ include 'headers/menu-top-navigation.php';
                     <div class="widget">
                         <div class="widget-title">
 
-                            <h4><i class="icon-tags"></i>View Features</h4>
+                            <h4><i class="icon-tags"></i>View Room Features</h4>
                             <span class="tools">
                                 <a href="javascript:;" class="icon-chevron-down"></a>
                             </span>
                         </div>
 <div class="widget-body">
 			<div class="btn-group">
-               <a href="add_specification.php"><button type="button" class="btn btn-primary"> Add New <i class="icon-plus"></i> </button></a>
+               <a href="add_room_spec.php"><button type="button" class="btn btn-primary"> Add New <i class="icon-plus"></i> </button></a>
                               </div>
 
                             <div class="portlet-body">
@@ -102,8 +104,9 @@ include 'headers/menu-top-navigation.php';
                                     <thead>
                                     <tr>
 								 <th style="6% !important;">Id</th>
-									<th>Specification</th> 
-									 <th>Action</th>
+								 <th>Rooms No</th>
+								 <th>Features</th> 
+								 <th>Action</th>
                                         <div class="widths">
                                         <th style="display:none">Edit</th>
                                         <th style="display:none">Delete</th>
@@ -116,21 +119,23 @@ include 'headers/menu-top-navigation.php';
 							while($row = mysqli_fetch_array($result_rooms))
 								{
 								$count++;
-								$m_id = $row['m_id'];	
-								$feature = $row['feature'];
-								echo"
+								$id = $row['id'];
+								$room_no = $row['room_no'];
+								$m_id = $row['m_id'];
+					echo"
 								<tr class=''> 
 								<td style='width:1% !important'><a href='#'>{$count}</a></td>
-								<td style='width:42% !important'><a href='#'>{$feature}</a></td>
+								<td style='width:22% !important'><a href='#'>{$room_no}</a></td>
+								<td style='width:22% !important'><a href='#'>{$m_id}</a></td>
 								  <td style='width:6% !important;text-align:center;'>
-								<a href='add_specification.php?m_id=$m_id'><button style='width:79% !important; margin-bottom: 2px;' type='button' class='btn btn-success'> Update <i class='icon-edit'></i></button> </a>																					 							 	 
-								 <a href='delete.php?m_id=$m_id'><button style='width:79% !important;' type='button'  class='btn btn-danger'>
+								<a href='add_room_spec.php?id=$id&m_id=$m_id'><button style='width:79% !important; margin-bottom: 2px;' type='button' class='btn btn-success'> Update <i class='icon-edit'></i></button> </a>																					 							 	 
+								 <a href='delete.php?id=$id'><button style='width:79% !important;' type='button'  class='btn btn-danger'>
 								  Delete <i class='icon-trash'></i></button> </a>
 									  <td style='display:none'><a class='' href='javascript:;'>Edit</a></td>
 								 <td style='display:none'><a class='' href='javascript:;'>Delete</a></td>
 								  </tr>
-									";					
-								}
+						";					
+				}
 								  ?>
 					               </tbody>
                                 </table>

@@ -37,6 +37,16 @@
    	   <style>
 	   .search-table { overflow-x: scroll;overflow-y: hidden; }
 	   </style>
+       
+       <script>
+	   	
+		function myFunction()
+		{
+			$('#dateRange').submit();
+		}
+		
+	   </script>
+       
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -78,11 +88,10 @@ include 'headers/menu-top-navigation.php';
                             <h4><i class="icon-reorder"></i>Hotel Status View</h4>
                             <span class="tools">
                                 <a href="javascript:;" class="icon-chevron-down"></a>
-                                <a href="javascript:;" class="icon-remove"></a>
                             </span>
                         </div>
                         <div class="widget-body">
-						<form action="#" class="">
+						<form action="index.php" name="dateRange" id="dateRange" method="post" >
 						<div class="control-group">
                                     <label class="control-label">Date Ranges</label>
                                     <div class="controls">

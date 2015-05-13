@@ -11,9 +11,17 @@
 	$comment = "";
 	$total_discount = "";
 	$total_price = "";
-	
-	
 	$formAction = "";
+	
+	
+	if($_POST['Daterange'])
+	{
+		$query_date = "";
+		
+		
+	}
+	
+	
 	
 	if(isset($_GET['booking_id']))
 {
@@ -76,11 +84,17 @@ else
 		
 		/*
 		
-		SELECT id,room_id, 
+SELECT room_specification.room_no,bed_no, 
         group_concat( room_specification.m_id ) AS m_id,
         group_concat( specification.feature ) AS feature
-		FROM room_specification LEFT JOIN specification ON (room_specification.m_id = specification.m_id)
-		GROUP BY room_id;
+		FROM (room_specification 
+                LEFT JOIN specification ON room_specification.m_id = specification.m_id)
+                     LEFT JOIN rooms ON  rooms.room_no = 'Room 101'
+		GROUP BY room_specification.room_no;
+                
+				SELECT *
+FROM `booking`
+WHERE (`start_date` BETWEEN '05/04/2015' and '05/04/2015') and (`end_date` BETWEEN '05/19/2015' and '05/19/2015');
 
 
 		
@@ -113,7 +127,6 @@ else
 	   <link href="css/style_responsive.css" rel="stylesheet" />
 	   <link href="css/style_default.css" rel="stylesheet" id="style_color" />
 	   <link href="assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
-	   <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 	   <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
 	   <link rel="stylesheet" type="text/css" href="assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" />
 	   <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker.css" />
@@ -126,6 +139,81 @@ else
        <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker.css" />
        <link rel="stylesheet" type="text/css" href="assets/bootstrap-timepicker/compiled/timepicker.css" />
 	   <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
+	   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<style class="cp-pen-styles">
+
+
+.checked label {
+  display: block;
+  position: relative;
+  padding: 0.5rem 1rem;
+  line-height: 28px;
+  font-weight: normal;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  width:0px;
+}
+
+label:last-of-type { margin-right: 1rem; }
+
+label i {
+
+  display: inline-block;
+  height: 25px;
+  position: relative;
+  top: 6px;
+  font-style: normal;
+  color: #ccc;
+}
+
+label span {
+  display: inline-block;
+  margin-left: 5px;
+  line-height: 25px;
+  color: gray;
+}
+
+input[type="radio"],
+input[type="checkbox"] { display: none; }
+
+input[type="radio"] + i:before,
+input[type="checkbox"] + i:before {
+  font-family: 'FontAwesome';
+  font-size: 28px;
+  height: 25px;
+  width: 25px;
+  display: inline-block;
+}
+
+input[type="radio"]:checked + i,
+input[type="checkbox"]:checked + i {
+  position: relative;
+  -webkit-animation: icon-beat 0.1s ease;
+  animation: icon-beat 0.1s ease;
+}
+
+input[type="radio"]:checked + i + span,
+input[type="checkbox"]:checked + i + span {
+  -webkit-transition: all 0.1s ease;
+  transition: all 0.1s ease;
+}
+
+input[type="radio"] + i:before { content: "\f10c"; }
+
+input[type="radio"]:checked + i:before { content: "\f111"; }
+
+input[type="radio"]:checked + i + span,
+input[type="radio"]:checked + i:before { color: rgba(0, 128, 128, 0.5); }
+
+input[type="checkbox"] + i:before { content: "\f096"; }
+
+input[type="checkbox"]:checked + i:before { content: "\f046"; }
+
+input[type="checkbox"]:checked + i + span,
+input[type="checkbox"]:checked + i:before { color: rgba(0, 128, 0, 0.5); }
+
+.form-horizontal,
+</style>
 	   <style>
 	   .search-table { overflow-x: scroll;   overflow-y: hidden; }
 	   </style>
@@ -142,6 +230,26 @@ else
 		}
 		</script>
 			<script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script language="javaScript">  
+function toggle_colorbox(td) {
+    div = td.getElementsByTagName('div')[0];
+    cb = td.getElementsByTagName('input')[0];
+
+    if (cb.checked == false) {
+        div.style.visibility = "visible";
+        div.style.height = "15px";
+		td.className = "Colorbox ColorboxSelected";
+        cb.checked = true;
+    }
+    else {
+        div.style.visibility = "hidden";
+		 div.style.height = "0px";
+        td.className = "Colorbox";
+        cb.checked = false;
+    }
+} 
+    
+    </script>
 	<script>
 	$( document ).ready(function() {
 		var x = document.getElementById("sample_1").rows[0].cells.length;
@@ -149,6 +257,14 @@ else
 		   document.getElementById("search-table-outter").style.overflowX = "scroll";
 	}
 	});
+	</script>
+	<script>
+	function myfunction()
+	{
+	$('#dateRang').submit();
+
+	}
+
 	</script>
 	</head>
 	<!-- END HEAD -->
@@ -195,10 +311,9 @@ else
 								<h4><i class="icon-reorder"></i>Add Booking (Step 1)</h4>
 								<span class="tools">
 									<a href="javascript:;" class="icon-chevron-down"></a>
-									<a href="javascript:;" class="icon-remove"></a>
 								</span>
 							</div>
-							<form action="add_booking.php" method="post">
+							<form action="add_booking.php" name="Daterange" id="dateRang" method="post">
 							<div class="widget-body">
 									  <a href="#myModal3" role="button" class="btn btn-success" data-toggle="modal">Select Date Range</a>
 									   <div id="myModal3" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
@@ -220,10 +335,12 @@ else
 											</div>
 											<div class="modal-footer">
 												<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-												<button data-dismiss="modal" type="button" class="btn btn-primary">Confirm</button>
+												<button  onClick="myfunction();" type="submit" data-dismiss="modal" type="button" class="btn btn-primary">Confirm</button>
 											</div>
 								</div>
+								</form>
 											</div><br><br>
+								<form action="add_booking.php" name="add_booking" method="post">
 								<div class="search-table">
 								<table class="table table-striped table-bordered"  id="sample_1">
 								<thead>
@@ -232,61 +349,39 @@ else
 										<th class="hidden-phone">Room #</th>
 										<th class="hidden-phone">Bed #</th>
 										<th style="max-width:4%" class="hidden-phone">Specification</th>										
-										<th class="hidden-phone">5/5/2015</th>
-										<th class="hidden-phone">5/6/2015</th>
-										<th class="hidden-phone">5/7/2015</th>
-										<th class="hidden-phone">5/8/2015</th>
-										<th class="hidden-phone">5/9/2015</th>
-										<th class="hidden-phone">5/10/2015</th>
-										<th class="hidden-phone">5/11/2015</th>
-										<th class="hidden-phone">5/12/2015</th>
-										<th class="hidden-phone">5/13/2015</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr class="odd gradeX">
-								<td style =" min-width: 120px;" style="width:1% !importa"><input type="checkbox" class="checkboxes" name="cb" value="1"></td>
-								<td style =" min-width: 120px;"  class="hidden-phone">Room 101</a></td>
-								<td style =" min-width: 120px;" class="sum">2</td>
-								<td class="center hidden-phone"><span class="myicon-shower"></span>  <span class="myicon-tv"></span></td>
-                                <td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Booked">X</a></td>
-								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
-								<td style =" width: 1%;"><button type="button" class="btn btn-primary" value="" />&#10004;</button></td>
-								<td style =" width: 1%;"><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
-								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
-								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
-								<td style =" width: 1%;"><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
-								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
-								<td style =" width: 1%;" class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>																																		  
+								
+								// <?php 
+								// $query_one = "SELECT id,room_id, 
+											// group_concat( room_specification.m_id ) AS m_id,
+											// group_concat( specification.feature ) AS feature
+											// FROM room_specification LEFT JOIN specification ON (room_specification.m_id = specification.m_id)
+											// GROUP BY room_id;
+											// $result_one = mysqli_query[$con,$query_one];
+											// while($row = mysqli_fetch_array($result_one))
+											// {
+												
+												
+												
+											// }
+// ";
+								
+								// ?>
+									<tr class='odd gradeX'>
+								<td style =' min-width: 120px;' style='width:1% !important'>
+								<div class='checked12'>
+								<label for='check1'>
+								<input name='cb' type='checkbox' id='check1' class='checkboxes' value='checkone'/>
+								<i></i></label>
+								</div>
+								</td>
+								<td style =' min-width: 120px;'  class='hidden-phone'>Room 101</a></td>
+								<td style =' min-width: 120px;' class='sum'>2</td>
+								<td class='center hidden-phone'><span class='myicon-shower'></span>  <span class='myicon-tv'></span>
+								</td>
 								</tr>								
-								<tr class="odd gradeX">
-								<td style =" min-width: 120px;" style="width:1% !importa"><input type="checkbox" class="checkboxes" name="cb" value="1"></td><td class="hidden-phone">Room 105</a></td>
-								<td class="sum">1</td>
-								<td class="center hidden-phone"><span class="myicon-snoflaek"></span><span class="myicon-heat"></span>  </td>
-							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>	
-							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
-							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
- 							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
-							    <td> <button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
-								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
-								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
-								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
-								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
-								</tr>
-								<tr class="odd gradeX">
-								<td style =" min-width: 120px;" style="width:1% !importa"><input type="checkbox" class="checkboxes" name="cb" value="1"></td><td class="hidden-phone">Room 105</a></td>
-								<td class="sum">1</td>
-								<td class="center hidden-phone"><span class="myicon-kettle"></span><span class="myicon-wifi"></span>  </td>
-							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
- 							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
-							    <td> <button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
-							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>	
-							    <td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
-								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
-								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
-								<td><button type="button" class="btn btn-primary" value="&#10004;" />&#10004;</button></td>
-								<td class="hidden-phone"><a href="#" class="btn popovers btn-danger" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="X">X</a></td>
-								</tr>
 									</tbody>
 								<tfoot>
 									<tr style="display:none" class="totalColumn">
@@ -300,20 +395,13 @@ else
 						</div>
 					 <div style="margin-top:10px;" action="#" class="form-horizontal">
 							   
-							    <div class="control-group">
-                                    <label class="control-label">Select Date</label>
-                                    <div class="controls">
-                                        <div class="input-append date date-picker" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
-                                            <input class=" m-ctrl-medium date-picker" size="16" type="text" value="Select your Date" /><span class="add-on"><i class="icon-calendar"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
 							   <div class="control-group">
 								  <label class="control-label">Total Rooms</label>
 								  <div class="controls">
 									 <input name="room_no" readonly="readonly" placeholder="Total Rooms" id="room" type="text" class="span2 "  />
 								  </div>
 							   </div>
+							   
 							   <div class="control-group">
 								  <label class="control-label">Total Bed</label>
 								  <div class="controls">
@@ -338,7 +426,6 @@ else
 								<h4><i class="icon-reorder"></i>Add Booking (Step 2)</h4>
 								<span class="tools">
 									<a href="javascript:;" class="icon-chevron-down"></a>
-									<a href="javascript:;" class="icon-remove"></a>
 								</span>
 							</div>
 							<div class="widget-body">
@@ -446,16 +533,15 @@ else
 	   <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
 	   <script type="text/javascript" src="assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
 	   <script src="assets/fancybox/source/jquery.fancybox.pack.js"></script>
-	   <script type="text/javascript" src="assets/uniform/jquery.uniform.min.js"></script>
 	   <script type="text/javascript" src="assets/data-tables/jquery.dataTables.js"></script>
 	   <script type="text/javascript" src="assets/data-tables/DT_bootstrap.js"></script>
 	   <script type="text/javascript" src="assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>   
-   <script type="text/javascript" src="assets/bootstrap-daterangepicker/date.js"></script>
-   <script type="text/javascript" src="assets/bootstrap-daterangepicker/daterangepicker.js"></script> 
-   <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
-   <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-   <script type="text/javascript" src="assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
-   <script src="assets/fancybox/source/jquery.fancybox.pack.js"></script>
+	   <script type="text/javascript" src="assets/bootstrap-daterangepicker/date.js"></script>
+	   <script type="text/javascript" src="assets/bootstrap-daterangepicker/daterangepicker.js"></script> 
+       <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
+       <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+       <script type="text/javascript" src="assets/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+       <script src="assets/fancybox/source/jquery.fancybox.pack.js"></script>
 	   <script src="js/scripts.js"></script>
 	
 	
