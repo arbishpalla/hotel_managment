@@ -14,12 +14,16 @@
 	$formAction = "";
 	
 	
+<<<<<<< HEAD
 	if($_POST['Daterange'])
 	{
 		$query_date = "";
 		
 		
 	}
+=======
+	
+>>>>>>> origin/master
 	
 	
 	

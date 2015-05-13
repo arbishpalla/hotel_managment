@@ -87,7 +87,7 @@
                       '<label for="daterangepicker_end">' + this.locale.toLabel + '</label>' +
                       '<input class="input-mini" type="text" disabled name="end" id="to" />' +
                     '</div>' +
-                    '<button type="button" onclick="myFunction()" class="btn btn-small" disabled="disabled">' + this.locale.applyLabel + '</button>' +
+                    '<button type="submit" onclick="myFunction()" class="btn btn-small" disabled="disabled">' + this.locale.applyLabel + '</button>' +
                   '</div>' +
                 '</div>' +
               '</div>';
