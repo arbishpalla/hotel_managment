@@ -37,6 +37,16 @@
    	   <style>
 	   .search-table { overflow-x: scroll;overflow-y: hidden; }
 	   </style>
+       
+       <script>
+	   	
+		function myFunction()
+		{
+			$('#dateRange').submit();
+		}
+		
+	   </script>
+       
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -82,7 +92,7 @@ include 'headers/menu-top-navigation.php';
                             </span>
                         </div>
                         <div class="widget-body">
-						<form action="#" class="">
+						<form action="index.php" name="dateRange" id="dateRange" method="post" >
 						<div class="control-group">
                                     <label class="control-label">Date Ranges</label>
                                     <div class="controls">
