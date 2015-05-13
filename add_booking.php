@@ -1,4 +1,7 @@
 	<?php
+	
+	print_r($_POST);
+	
 	include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';	
 	$room_no = "";
@@ -14,6 +17,7 @@
 	$formAction = "";
 	
 	
+<<<<<<< HEAD
 
 	if($_POST['Daterange'])
 	{
@@ -22,85 +26,90 @@
 		
 	}
 
+=======
+	
+	
+	
+>>>>>>> origin/master
 	
 	if(isset($_GET['booking_id']))
-{
-		$booking_id = $_GET['booking_id'];
-		$formAction = "?booking_id=$booking_id";
-		$query = "SELECT * FROM `booking` WHERE `booking_id` = `$booking_id`";
-		$result = mysqli_query($con,$query);	
-		$row = mysqli_fetch_array($result)
-		or die ('error1');
-		$emp_id = $row['emp_id'];
-		$room_no = $row['room_no'];
-		$bed_no = $row['bed_no'];
-		$start_date = $row['start_date'];
-		$end_date = $row['end_date'];
-		$customer_name = $row['customer_name'];
-		$phone_no = $row['phone_no'];
-		$email = $row['email'];
-		$comment = $row['comment'];
-		$total_discount = $row['total_discount'];
-		$total_price = $row['total_price'];
-		$feature = $row['feature'];
-	if($_POST)
 	{
+			$booking_id = $_GET['booking_id'];
+			$formAction = "?booking_id=$booking_id";
+			$query = "SELECT * FROM `booking` WHERE `booking_id` = `$booking_id`";
+			$result = mysqli_query($con,$query);	
+			$row = mysqli_fetch_array($result)
+			or die ('error1');
+			$emp_id = $row['emp_id'];
+			$room_no = $row['room_no'];
+			$bed_no = $row['bed_no'];
+			$start_date = $row['start_date'];
+			$end_date = $row['end_date'];
+			$customer_name = $row['customer_name'];
+			$phone_no = $row['phone_no'];
+			$email = $row['email'];
+			$comment = $row['comment'];
+			$total_discount = $row['total_discount'];
+			$total_price = $row['total_price'];
+			$feature = $row['feature'];
+		if($_POST)
+		{
 
-		$booking_id=  $_GET['booking_id'];
-		$room_no = $_POST['room_no'];
-		$end_date = $_POST['end_date'];
-		$customer_name = $_POST['customer_name'];
-		$phone_no = $_POST['phone_no'];
-		$email = $_POST['email'];
-		$comment = $_POST['comment'];
-		$total_discount = $_POST['total_discount'];
-		$total_price = $_POST['total_price'];
-		$query = "UPDATE `booking` SET `emp_id`=[`$emp_id`],`room_no`=[`$room_no`],`bed_no`=[`$bed_no`],
-				`start_date`=[`$start_date`],`end_date`=[`$end_date`],`customer_name`=[`$customer_name`],
-				`phone_no`=[`$phone_no`],`email`=[`$email`],`comment`=[`$comment`],`total_discount`=[`$total_discount`]
-				,`total_price`=[`$total_price`] WHERE `booking_id`= `$booking_id`";
-		$result = mysqli_query($con,$query);
-		header("Location: view_booking.php?update=true");
-	}
-}	
+			$booking_id=  $_GET['booking_id'];
+			$room_no = $_POST['room_no'];
+			$end_date = $_POST['end_date'];
+			$customer_name = $_POST['customer_name'];
+			$phone_no = $_POST['phone_no'];
+			$email = $_POST['email'];
+			$comment = $_POST['comment'];
+			$total_discount = $_POST['total_discount'];
+			$total_price = $_POST['total_price'];
+			$query = "UPDATE `booking` SET `emp_id`=[`$emp_id`],`room_no`=[`$room_no`],`bed_no`=[`$bed_no`],
+					`start_date`=[`$start_date`],`end_date`=[`$end_date`],`customer_name`=[`$customer_name`],
+					`phone_no`=[`$phone_no`],`email`=[`$email`],`comment`=[`$comment`],`total_discount`=[`$total_discount`]
+					,`total_price`=[`$total_price`] WHERE `booking_id`= `$booking_id`";
+			$result = mysqli_query($con,$query);
+			header("Location: view_booking.php?update=true");
+		}
+	}	
 else 
 {
-	if($_POST)
+	if(isset($_POST))
 	{
-		$room_no = $_POST['room_no'];
-		$bed_no = $_POST['bed_no'];
-		$customer_name = $_POST['customer_name'];
-		$phone_no = $_POST['phone_no'];
-		$email = $_POST['email'];
-		$start_date = $_POST['start_date'];
-		$end_date = $_POST['end_date'];
-		$comment = $_POST['comment'];
-		$total_discount = $_POST['total_discount'];
-		$total_price = $_POST['total_price'];		
-		$query_inserting = "INSERT INTO `booking`(`emp_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`) VALUES 	('$emp_id','$room_no','$bed_no','$start_date','$end_date','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price')";
-		mysqli_query($con,$query_inserting)
-		or die('error while inserting booking');
-		//header("Location: booking_view.php?insert=true");	
+		$form_name = $_POST['form-name'];
+		echo "FormName: {$form_name}";
 		
-		/*
-		
-SELECT room_specification.room_no,bed_no, 
-        group_concat( room_specification.m_id ) AS m_id,
-        group_concat( specification.feature ) AS feature
-		FROM (room_specification 
-                LEFT JOIN specification ON room_specification.m_id = specification.m_id)
-                     LEFT JOIN rooms ON  rooms.room_no = 'Room 101'
-		GROUP BY room_specification.room_no;
-                
-				SELECT *
-FROM `booking`
-WHERE (`start_date` BETWEEN '05/04/2015' and '05/04/2015') and (`end_date` BETWEEN '05/19/2015' and '05/19/2015');
-
-
-		
-		*/
-		
-		}	
+		if($form_name == "add_booking")
+		{
+			$room_no = $_POST['room_no'];
+			$bed_no = $_POST['bed_no'];
+			$customer_name = $_POST['customer_name'];
+			$phone_no = $_POST['phone_no'];
+			$email = $_POST['email'];
+			$start_date = $_POST['start_date'];
+			$end_date = $_POST['end_date'];
+			$comment = $_POST['comment'];
+			$total_discount = $_POST['total_discount'];
+			$total_price = $_POST['total_price'];		
+			$query_inserting = "INSERT INTO `booking`(`emp_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`) VALUES ('$emp_id','$room_no','$bed_no','$start_date','$end_date','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price')";
+			mysqli_query($con,$query_inserting)
+			or die('error while inserting booking');
+			//header("Location: booking_view.php?insert=true");
+		}
+		elseif($form_name=="dateRange")
+		{
+			echo "Start Date:  " . $startDate = $_POST['start_date'];
+			echo "End Date: " . $endDate = $_POST['end_date'];
+		}
+		else
+		{
+			echo "form name null";
+		}
+	}
+	else
+	{
+		echo "else of post";
+	}
 }
 
 	?>
@@ -261,8 +270,7 @@ function toggle_colorbox(td) {
 	<script>
 	function myfunction()
 	{
-	$('#dateRang').submit();
-
+		$('#dateRange')[0].submit();
 	}
 
 	</script>
@@ -311,9 +319,10 @@ function toggle_colorbox(td) {
 								<h4><i class="icon-reorder"></i>Add Booking (Step 1)</h4>
 								<span class="tools">
 									<a href="javascript:;" class="icon-chevron-down"></a>
+									<a href="javascript:;" class="icon-remove"></a>
 								</span>
 							</div>
-							<form action="add_booking.php" name="Daterange" id="dateRang" method="post">
+							<form action="add_booking.php" name="dateRange" id="dateRange" method="post">
 							<div class="widget-body">
 									  <a href="#myModal3" role="button" class="btn btn-success" data-toggle="modal">Select Date Range</a>
 									   <div id="myModal3" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
@@ -335,9 +344,11 @@ function toggle_colorbox(td) {
 											</div>
 											<div class="modal-footer">
 												<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-												<button  onClick="myfunction();" type="submit" data-dismiss="modal" type="button" class="btn btn-primary">Confirm</button>
+												 <input type="hidden" value="dateRange" name="form-name" />
+												<button  type="submit" onclick="myfunction()" data-dismiss="modal" class="btn btn-primary" > Confirm </button>
 											</div>
 								</div>
+								
 								</form>
 											</div><br><br>
 								<form action="add_booking.php" name="add_booking" method="post">
@@ -353,7 +364,7 @@ function toggle_colorbox(td) {
 								</thead>
 								<tbody>
 								
-								// <?php 
+								<?php 
 								// $query_one = "SELECT id,room_id, 
 											// group_concat( room_specification.m_id ) AS m_id,
 											// group_concat( specification.feature ) AS feature
@@ -406,8 +417,8 @@ function toggle_colorbox(td) {
 								  <label class="control-label">Total Bed</label>
 								  <div class="controls">
 									 <input name="bed_no" readonly="readonly" name="bed_no" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
-									 <input type="hidden" name="start_date" id="start" value="" />
-									 <input type="hidden" name="end_date" id="end" value="" />
+									 <input type="text" name="start_date" id="start" value="" />
+									 <input type="text" name="end_date" id="end" value="" />
 								  </div>
 							   </div>
 							   </div>
@@ -426,6 +437,7 @@ function toggle_colorbox(td) {
 								<h4><i class="icon-reorder"></i>Add Booking (Step 2)</h4>
 								<span class="tools">
 									<a href="javascript:;" class="icon-chevron-down"></a>
+									<a href="javascript:;" class="icon-remove"></a>
 								</span>
 							</div>
 							<div class="widget-body">
@@ -454,7 +466,7 @@ function toggle_colorbox(td) {
 								  </div>
 							   </div>
 						   <div class="control-group">
-							<label class="control-label">Coment</label>
+							<label class="control-label">Comment</label>
 							<div class="controls">
 								<textarea name="comment" placeholder="Add Your Coment" class="span6" rows="3"></textarea>
 							</div>
@@ -463,7 +475,10 @@ function toggle_colorbox(td) {
 				<div class="form-actions clearfix">
 					<div style="margin-left:162px;">
 						  <a href="#myModal4" role="button" class="btn btn-success" data-toggle="modal">Voucher</a>
-						  <button type="submit" class="btn-primary" >Submit</button>
+						  
+						  <input type="hidden" value="add_booking" name="form-name" />
+						  
+						  <button type="submit" class="btn-primary" name="add_booking_submit">Submit</button>
 						  </div>
 							<div id="myModal4" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
 							<div class="modal-header">
@@ -548,6 +563,7 @@ function toggle_colorbox(td) {
 	   <script src="js/table-editable.js"></script>
 		<script>
 function myFunction() {
+
 	var dateFrom = document.getElementById('from').value;
 	var dateto = document.getElementById('to').value;
 	document.getElementById('start').value = dateFrom;
