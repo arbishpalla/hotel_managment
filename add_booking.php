@@ -15,9 +15,7 @@
 	$total_discount = "";
 	$total_price = "";
 	$formAction = "";
-	
-	
-<<<<<<< HEAD
+
 
 	if($_POST['Daterange'])
 	{
@@ -25,12 +23,6 @@
 		
 		
 	}
-
-=======
-	
-	
-	
->>>>>>> origin/master
 	
 	if(isset($_GET['booking_id']))
 	{

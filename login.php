@@ -60,7 +60,7 @@ Website: http://thevectorlab.net/
   <div class="login-header">
       <!-- BEGIN LOGO -->
       <div id="logo" class="center">
-	  <img src="img/logo.png" alt="logo" class="center" />
+	  <img src="img/logo.png" alt="logo" class="center" style="height:37px;" />
       </div>
       <!-- END LOGO -->
   </div>
