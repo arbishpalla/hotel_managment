@@ -18,7 +18,7 @@
 		$bookingsArray[] = $row;	
 	}
 	
-	echo json_encode($bookingsArray) . "<br/>";
+	//echo json_encode($bookingsArray) . "<br/>";
 	
 	/* Handling 0 Index Individually */	
 	
@@ -31,13 +31,13 @@
 	$datetime2 = date_create($start_date_zeroIndex);
 	
 	$interval = date_diff($datetime1, $datetime2);
-	echo "INTERVAL : " . $interval->format('%R%a days');
+	//echo "INTERVAL : " . $interval->format('%R%a days');
 	$interval_count = $interval->format('%R%a');
 	
-	for($k=0; $k<$interval_count-1; $k++)
+	for($k=0; $k<$interval_count; $k++)
 	{
-		$start_date_post = date('Y-m-d',strtotime("+1 day", strtotime($start_date_post)));
 		$freeDates[] = $start_date_post;
+		$start_date_post = date('Y-m-d',strtotime("+1 day", strtotime($start_date_post)));
 	}
 	
 	
@@ -52,18 +52,39 @@
 			do
 			{
 				$end_date_zeroIndex = date('Y-m-d',strtotime("+1 day", strtotime($end_date_zeroIndex)));
-				echo "" . $end_date_zeroIndex . " Index: " . $i . "<br/>";
+				//echo "" . $end_date_zeroIndex . " Index: " . $i . "<br/>";
 				$freeDates[] = $end_date_zeroIndex;
 			}
 			
 			while(strtotime(date('Y-m-d',strtotime("+1 day", strtotime($end_date_zeroIndex)))) != strtotime($start_date));
 			
-			
 			$end_date_zeroIndex = $end_date;
+			
+			
+			/* LAST ROW OF INDEX TILL POSTED END DATE */
+			
+			if($i==($totalCount-1))
+			{
+				
+				$datetime2 = date_create($end_date_post);
+				$datetime1 = date_create($end_date_zeroIndex);
+				
+				$interval = date_diff($datetime1, $datetime2);
+				//echo "INTERVAL end date: " . $interval->format('%R%a days');
+				$interval_count = $interval->format('%R%a');
+				
+				for($k=0; $k<$interval_count; $k++)
+				{	
+					$end_date_zeroIndex = date('Y-m-d',strtotime("+1 day", strtotime($end_date_zeroIndex)));
+					$freeDates[] = $end_date_zeroIndex;
+					
+				}
+				
+			}
 			
 	}
 	
-	print_r($freeDates);
+	echo json_encode($freeDates);
 			
 			
 	
