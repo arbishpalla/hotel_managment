@@ -15,6 +15,7 @@
 	$total_discount = "";
 	$total_price = "";
 	$formAction = "";
+<<<<<<< HEAD
 	$specification = "";
 	$Daterange = "";
 	$startDate = "";
@@ -23,14 +24,22 @@
 	$value = "";
 	
 	
+=======
+
+>>>>>>> origin/master
 
 	// if($_POST['Daterange'])
 	// {
 		// $query_date = "";
 		
 		
+<<<<<<< HEAD
 	// }
 
+=======
+	}
+	
+>>>>>>> origin/master
 	if(isset($_GET['booking_id']))
 	{
 			$booking_id = $_GET['booking_id'];
