@@ -1,6 +1,6 @@
 	<?php
 	
-	print_r($_POST);
+	// print_r($_POST);
 	
 	include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';	
@@ -15,23 +15,22 @@
 	$total_discount = "";
 	$total_price = "";
 	$formAction = "";
+	$specification = "";
+	$Daterange = "";
+	$startDate = "";
+	$endDate = "";
+	$form_name = "";
+	$value = "";
 	
 	
-<<<<<<< HEAD
 
-	if($_POST['Daterange'])
-	{
-		$query_date = "";
+	// if($_POST['Daterange'])
+	// {
+		// $query_date = "";
 		
 		
-	}
+	// }
 
-=======
-	
-	
-	
->>>>>>> origin/master
-	
 	if(isset($_GET['booking_id']))
 	{
 			$booking_id = $_GET['booking_id'];
@@ -76,8 +75,7 @@ else
 {
 	if(isset($_POST))
 	{
-		$form_name = $_POST['form-name'];
-		echo "FormName: {$form_name}";
+		if(isset($_POST['form-name'])){$form_name = $_POST['form-name'];}
 		
 		if($form_name == "add_booking")
 		{
@@ -91,26 +89,44 @@ else
 			$comment = $_POST['comment'];
 			$total_discount = $_POST['total_discount'];
 			$total_price = $_POST['total_price'];		
-			$query_inserting = "INSERT INTO `booking`(`emp_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`) VALUES ('$emp_id','$room_no','$bed_no','$start_date','$end_date','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price')";
+			$query_inserting = "INSERT INTO `booking`(`emp_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`) VALUES ('$emp_id','$room_no','$bed_no','$startDate','$endDate','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price')";
 			mysqli_query($con,$query_inserting)
 			or die('error while inserting booking');
 			//header("Location: booking_view.php?insert=true");
 		}
 		elseif($form_name=="dateRange")
 		{
-			echo "Start Date:  " . $startDate = $_POST['start_date'];
-			echo "End Date: " . $endDate = $_POST['end_date'];
+			$startDate = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['start_date'])));
+			$endDate = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['end_date'])));
+			 echo "Start Date:  " . $startDate ;
+			 echo "End Date: " . $endDate ;
+			$query_range = "SELECT *,group_concat( room_specification.m_id ) AS m_id,
+						group_concat( specification.feature ) AS specification
+						FROM (room_specification LEFT JOIN specification ON 
+						room_specification.m_id = specification.m_id)
+						LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
+                                                where rooms.room_no not in (SELECT room_no FROM `booking`
+                                                WHERE (`start_date` BETWEEN '$startDate' and '$endDate') and (`end_date` BETWEEN '$startDate' and '$endDate'))
+						GROUP BY room_specification.room_id "
+						or die('error');
+			$result_range = mysqli_query($con,$query_range);
+		
+}
+		// SELECT *,group_concat( room_specification.m_id ) AS m_id,
+						// group_concat( specification.feature ) AS specification
+						// FROM (room_specification LEFT JOIN specification ON 
+						// room_specification.m_id = specification.m_id)
+						// LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
+                                                // where rooms.room_no not in (SELECT room_no FROM `booking` WHERE `start_date` >= '$startDate' OR `end_date` <= '$endDate' )
+						// GROUP BY room_specification.room_id
+		
 		}
 		else
 		{
-			echo "form name null";
+			// echo "form name null";
 		}
 	}
-	else
-	{
-		echo "else of post";
-	}
-}
+
 
 	?>
 	
@@ -348,7 +364,8 @@ function toggle_colorbox(td) {
 												<button  type="submit" onclick="myfunction()" data-dismiss="modal" class="btn btn-primary" > Confirm </button>
 											</div>
 								</div>
-								
+									 <input type="hidden" name="start_date" id="start" value="" />
+									 <input type="hidden" name="end_date" id="end" value="" />
 								</form>
 											</div><br><br>
 								<form action="add_booking.php" name="add_booking" method="post">
@@ -365,34 +382,70 @@ function toggle_colorbox(td) {
 								<tbody>
 								
 								<?php 
-								// $query_one = "SELECT id,room_id, 
-											// group_concat( room_specification.m_id ) AS m_id,
-											// group_concat( specification.feature ) AS feature
-											// FROM room_specification LEFT JOIN specification ON (room_specification.m_id = specification.m_id)
-											// GROUP BY room_id;
-											// $result_one = mysqli_query[$con,$query_one];
-											// while($row = mysqli_fetch_array($result_one))
-											// {
+								$count = 0;
+									while($row_booking = mysqli_fetch_assoc($result_range))
+								{
+									$room_no = $row_booking['room_no'];
+									$bed_no = $row_booking['bed_no'];
+									$specification = $row_booking['specification'];
+									 $values = explode(',', $row_booking['specification']);
+									   $value1 ='';
+									   foreach ($values as $value) {
+										
+										if($value == "TV")									
+										{
+										 $value1 .= "<span class='myicon-tv'></span>";
+									
+										}
+									   	if($value == "A/C")
+									   {
+										 $value1 .= "<span class='myicon-snoflaek'></span>";
+											
+									   }
+									      	if($value == "Heater")
+									   {
+										 $value1 .= "<span class='myicon-heat'></span>";
 												
+									   }
+									      	if($value == "Kettle")
+									   {
+										 $value1 .= "<span class='myicon-kettle'></span>";
+										
+									   }
+									      	if($value == "Wifi")
+									   {
+										 $value1 .= "<span class='myicon-wifi'></span>";
+											
+									   }
+									      	if($value == "Shower")
+									   {
+										 $value1 .= "<span class='myicon-shower'></span>";
 												
-												
-											// }
-// ";
-								
-								// ?>
-									<tr class='odd gradeX'>
+									   }	
+									   }	   
+									   	$count++;				   
+								echo
+								"	<tr class='odd gradeX'>
 								<td style =' min-width: 120px;' style='width:1% !important'>
 								<div class='checked12'>
-								<label for='check1'>
-								<input name='cb' type='checkbox' id='check1' class='checkboxes' value='checkone'/>
+								<label for='check1-$count'>
+								<input name='cb' type='checkbox' id='check1-$count' class='checkboxes' value='checkone'/>
 								<i></i></label>
 								</div>
 								</td>
-								<td style =' min-width: 120px;'  class='hidden-phone'>Room 101</a></td>
-								<td style =' min-width: 120px;' class='sum'>2</td>
-								<td class='center hidden-phone'><span class='myicon-shower'></span>  <span class='myicon-tv'></span>
+								<td style =' min-width: 120px;'  class='hidden-phone'>$room_no</a></td>
+								<td style =' min-width: 120px;' class='sum'>$bed_no</td>
+								<td class='center hidden-phone'>$value1
 								</td>
-								</tr>								
+									   </tr>							
+									    									
+									";
+									   
+									   }
+								
+								
+								?>
+									
 									</tbody>
 								<tfoot>
 									<tr style="display:none" class="totalColumn">
@@ -417,8 +470,7 @@ function toggle_colorbox(td) {
 								  <label class="control-label">Total Bed</label>
 								  <div class="controls">
 									 <input name="bed_no" readonly="readonly" name="bed_no" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
-									 <input type="text" name="start_date" id="start" value="" />
-									 <input type="text" name="end_date" id="end" value="" />
+
 								  </div>
 							   </div>
 							   </div>
@@ -471,23 +523,9 @@ function toggle_colorbox(td) {
 								<textarea name="comment" placeholder="Add Your Coment" class="span6" rows="3"></textarea>
 							</div>
 						</div>
-				</div>
-				<div class="form-actions clearfix">
-					<div style="margin-left:162px;">
-						  <a href="#myModal4" role="button" class="btn btn-success" data-toggle="modal">Voucher</a>
-						  
-						  <input type="hidden" value="add_booking" name="form-name" />
-						  
-						  <button type="submit" class="btn-primary" name="add_booking_submit">Submit</button>
-						  </div>
-							<div id="myModal4" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-								<h3 id="myModalLabel4">List Of Rooms</h3>
-							</div>
-							<div class="modal-body">
-							   <div  class="form-horizontal">
-							 <div class="control-group">
+							<button onClick="voucher();" type="button" class="btn-primary">Voucher</button> 
+							<div id="voucher" style="display:none">
+							<div class="control-group">
 								  <label class="control-label">No Of Bed</label>
 								  <div class="controls">
 									<span id="first_number"></span> *
@@ -502,13 +540,10 @@ function toggle_colorbox(td) {
 									 <input name="total_discount" placeholder="Grand total" id="txt6" type="text" class="span3 " />
 								  </div>
 							   </div>
-                                   </div>
-                                    </div>
-								<div class="modal-footer">
-									<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-									<button data-dismiss="modal" class="btn btn-success">Success</button>
+							
 			<button onclick="javascript:window.print();" class="btn btn-success btn-large hidden-print">Print <i class="icon-print icon-big"></i></button>
-								</div>
+								</div>	
+							</div>
 								</form>
 							</div>
 							</div>
@@ -561,7 +596,21 @@ function toggle_colorbox(td) {
 	
 	
 	   <script src="js/table-editable.js"></script>
-		<script>
+<script>
+function voucher() 
+{
+	var ele = document.getElementById('voucher');
+	if(ele.style.display == "none")
+	{
+		ele.style.display = "block"; 
+	}
+	else
+	{
+		ele.style.display = "none";
+	}
+}
+</script>	
+	<script>
 function myFunction() {
 
 	var dateFrom = document.getElementById('from').value;
