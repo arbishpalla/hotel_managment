@@ -1,6 +1,6 @@
 	<?php
 	
-	// print_r($_POST);
+	print_r($_POST);
 	
 	include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';
@@ -86,7 +86,6 @@ else
 	if(isset($_POST))
 	{
 		
-		print_r($_POST);
 		if(isset($_POST['form-name'])){$form_name = $_POST['form-name'];}
 		
 		if($form_name=="add_bookings")
@@ -107,26 +106,19 @@ else
 			
 			for($j=0; $j<count($checkBoxPost); $j++)
 			{
-					print_r ("my array will go here". $myarray[0]['room_id']);
-
-			}
-			$query_inserting = "INSERT INTO `booking`(`emp_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`) VALUES ('$emp_id','$room_no','$bed_no','$startDate','$endDate','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price')";
-			mysqli_query($con,$query_inserting)
-			or die('error while inserting booking');
+				$checkbox_post_array = unserialize($checkBoxPost[$j]);
+				print_r($checkbox_post_array);
+				
+				$room_no = $checkbox_post_array['room_id'];
+				
+				$query_inserting = "INSERT INTO `booking`(`emp_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`) VALUES ('$emp_id','$room_no','$bed_no','$startDate','$endDate','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price')";
+				mysqli_query($con,$query_inserting)
+				or die('error while inserting booking');
 
 			//header("Location: booking_view.php?insert=true");
 			
-			echo "hello world.";
 			
-			print_r($rooms_selected);
-			
-			for($k=0; $k<count($rooms_selected); $k++)
-			{
-
 			}
-			
-								echo "my array will go here". $myarray[0]['room_id'];
-			$data = unserialize($dataString);
 			
 		}
 		elseif($form_name=="dateRange")
@@ -156,15 +148,16 @@ else
 		}
 		else
 		{
-if($isPosetd = 1)
-{
-	echo "working";
- $style = "display:block";
-}
-else
-{
-	 $style = "display:none";
-}		}
+			if($isPosetd = 1)
+			{
+				echo "working";
+			 $style = "display:block";
+			}
+			else
+			{
+				 $style = "display:none";
+			}	
+		}
 	}
 
 	?>
@@ -465,6 +458,9 @@ function toggle_colorbox(td) {
 											</div><br><br>
 											<div id="form_booking" style="<?php echo $style; ?>">
 								<form action="add_booking.php" name="add_bookings" method="post">
+								<input type="hidden" value="add_bookings" name="form-name" />
+								<input type="hidden" name="start_date" id="start" value="" />
+								<input type="hidden" name="end_date" id="end" value="" />
 								<div class="search-table">
 								<table class="table table-striped table-bordered"  id="sample_1">
 								<thead>
