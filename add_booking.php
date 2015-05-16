@@ -3,7 +3,10 @@
 	// print_r($_POST);
 	
 	include 'headers/session.php';
-	include 'headers/connect_to_mysql.php';	
+	include 'headers/connect_to_mysql.php';
+	
+	$rooms_selected = array();
+	
 	$room_no = "";
 	$bed_no = "";
 	$start_date = "";
@@ -15,31 +18,24 @@
 	$total_discount = "";
 	$total_price = "";
 	$formAction = "";
-<<<<<<< HEAD
 	$specification = "";
 	$Daterange = "";
 	$startDate = "";
 	$endDate = "";
 	$form_name = "";
 	$value = "";
+	$style = "display:block";
 	
 	
-=======
-
->>>>>>> origin/master
+	
 
 	// if($_POST['Daterange'])
 	// {
 		// $query_date = "";
 		
 		
-<<<<<<< HEAD
 	// }
 
-=======
-	}
-	
->>>>>>> origin/master
 	if(isset($_GET['booking_id']))
 	{
 			$booking_id = $_GET['booking_id'];
@@ -72,6 +68,11 @@
 			$comment = $_POST['comment'];
 			$total_discount = $_POST['total_discount'];
 			$total_price = $_POST['total_price'];
+			
+			$checkBoxPost = $_POST['cb'];
+			
+			echo "checkboxPost: {$checkBoxPost}" ;
+			
 			$query = "UPDATE `booking` SET `emp_id`=[`$emp_id`],`room_no`=[`$room_no`],`bed_no`=[`$bed_no`],
 					`start_date`=[`$start_date`],`end_date`=[`$end_date`],`customer_name`=[`$customer_name`],
 					`phone_no`=[`$phone_no`],`email`=[`$email`],`comment`=[`$comment`],`total_discount`=[`$total_discount`]
@@ -84,9 +85,12 @@ else
 {
 	if(isset($_POST))
 	{
+		
+		print_r($_POST);
 		if(isset($_POST['form-name'])){$form_name = $_POST['form-name'];}
 		
-		if($form_name == "add_booking")
+		if($form_name=="add_bookings")
+		
 		{
 			$room_no = $_POST['room_no'];
 			$bed_no = $_POST['bed_no'];
@@ -98,29 +102,49 @@ else
 			$comment = $_POST['comment'];
 			$total_discount = $_POST['total_discount'];
 			$total_price = $_POST['total_price'];		
+			
+			$checkBoxPost = $_POST['cb'];
+			
+			for($j=0; $j<count($checkBoxPost); $j++)
+			{
+					print_r ("my array will go here". $myarray[0]['room_id']);
+
+			}
 			$query_inserting = "INSERT INTO `booking`(`emp_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`) VALUES ('$emp_id','$room_no','$bed_no','$startDate','$endDate','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price')";
 			mysqli_query($con,$query_inserting)
 			or die('error while inserting booking');
+
 			//header("Location: booking_view.php?insert=true");
+			
+			echo "hello world.";
+			
+			print_r($rooms_selected);
+			
+			for($k=0; $k<count($rooms_selected); $k++)
+			{
+
+			}
+			
+								echo "my array will go here". $myarray[0]['room_id'];
+			$data = unserialize($dataString);
+			
 		}
 		elseif($form_name=="dateRange")
 		{
 			$startDate = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['start_date'])));
 			$endDate = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['end_date'])));
-			 echo "Start Date:  " . $startDate ;
-			 echo "End Date: " . $endDate ;
 			$query_range = "SELECT *,group_concat( room_specification.m_id ) AS m_id,
 						group_concat( specification.feature ) AS specification
 						FROM (room_specification LEFT JOIN specification ON 
 						room_specification.m_id = specification.m_id)
 						LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
                                                 where rooms.room_no not in (SELECT room_no FROM `booking`
-                                                WHERE (`start_date` BETWEEN '$startDate' and '$endDate') and (`end_date` BETWEEN '$startDate' and '$endDate'))
+                                                WHERE (`start_date` BETWEEN '$startDate' and '$endDate') OR (`end_date` BETWEEN '$startDate' and '$endDate'))
 						GROUP BY room_specification.room_id "
 						or die('error');
 			$result_range = mysqli_query($con,$query_range);
-		
-}
+			$isPosetd  = 1;
+	}
 		// SELECT *,group_concat( room_specification.m_id ) AS m_id,
 						// group_concat( specification.feature ) AS specification
 						// FROM (room_specification LEFT JOIN specification ON 
@@ -132,10 +156,16 @@ else
 		}
 		else
 		{
-			// echo "form name null";
-		}
+if($isPosetd = 1)
+{
+	echo "working";
+ $style = "display:block";
+}
+else
+{
+	 $style = "display:none";
+}		}
 	}
-
 
 	?>
 	
@@ -247,6 +277,63 @@ input[type="checkbox"]:checked + i + span,
 input[type="checkbox"]:checked + i:before { color: rgba(0, 128, 0, 0.5); }
 
 .form-horizontal,
+
+
+
+ input::-webkit-input-placeholder, button {
+ font-family: 'roboto', sans-serif;
+ -webkit-transition: all 0.3s ease-in-out;
+ transition: all 0.3s ease-in-out;
+}
+
+.voucher input {
+  width: 200px;
+  display: block !important;
+  border: none !important;
+  padding: 10px 0;
+  border-bottom: solid 1px #1abc9c !important;
+  -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #1abc9c 4%) ;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #1abc9c 4%);
+  background-position: -200px 0;
+  background-size: 200px 100% ;
+  background-repeat: no-repeat;
+  color: #0e6252;
+  box-shadow:none;
+}
+.voucher input:focus, input:valid {
+ box-shadow: none !important;
+ outline: none !important;
+ background-position: 0 0 !important;
+}
+.voucher input:focus::-webkit-input-placeholder,.voucher input:valid::-webkit-input-placeholder {
+ color: #1abc9c !important;
+ font-size: 11px;
+ -webkit-transform: translateY(-20px) !important;
+ transform: translateY(-20px) !important;
+ visibility: visible !important;
+}
+
+.voucher button {
+  border: none;
+  background: #1abc9c;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 6px;
+  width: 200px;
+  color: white;
+  margin-left: 25px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.voucher button:hover {
+  -webkit-transform: translateY(-3px);
+  -ms-transform: translateY(-3px);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
 </style>
 	   <style>
 	   .search-table { overflow-x: scroll;   overflow-y: hidden; }
@@ -269,7 +356,7 @@ function toggle_colorbox(td) {
     div = td.getElementsByTagName('div')[0];
     cb = td.getElementsByTagName('input')[0];
 
-    if (cb.checked == false) {
+    if (cb[].checked == false) {
         div.style.visibility = "visible";
         div.style.height = "15px";
 		td.className = "Colorbox ColorboxSelected";
@@ -297,7 +384,6 @@ function toggle_colorbox(td) {
 	{
 		$('#dateRange')[0].submit();
 	}
-
 	</script>
 	</head>
 	<!-- END HEAD -->
@@ -377,7 +463,8 @@ function toggle_colorbox(td) {
 									 <input type="hidden" name="end_date" id="end" value="" />
 								</form>
 											</div><br><br>
-								<form action="add_booking.php" name="add_booking" method="post">
+											<div id="form_booking" style="<?php echo $style; ?>">
+								<form action="add_booking.php" name="add_bookings" method="post">
 								<div class="search-table">
 								<table class="table table-striped table-bordered"  id="sample_1">
 								<thead>
@@ -391,9 +478,15 @@ function toggle_colorbox(td) {
 								<tbody>
 								
 								<?php 
+								if($_POST){
 								$count = 0;
 									while($row_booking = mysqli_fetch_assoc($result_range))
 								{
+									$rooms_selected[] = $row_booking;
+									
+									$data = $row_booking;
+									$dataString = serialize($data);
+									
 									$room_no = $row_booking['room_no'];
 									$bed_no = $row_booking['bed_no'];
 									$specification = $row_booking['specification'];
@@ -426,7 +519,7 @@ function toggle_colorbox(td) {
 										 $value1 .= "<span class='myicon-wifi'></span>";
 											
 									   }
-									      	if($value == "Shower")
+									      	if($value == "English Toilet")
 									   {
 										 $value1 .= "<span class='myicon-shower'></span>";
 												
@@ -437,8 +530,8 @@ function toggle_colorbox(td) {
 								"	<tr class='odd gradeX'>
 								<td style =' min-width: 120px;' style='width:1% !important'>
 								<div class='checked12'>
-								<label for='check1-$count'>
-								<input name='cb' type='checkbox' id='check1-$count' class='checkboxes' value='checkone'/>
+								<label for='checkbox{$count}'>
+								<input name='cb[]' type='checkbox' id='checkbox{$count}' class='checkboxes' value='{$dataString}'/>
 								<i></i></label>
 								</div>
 								</td>
@@ -451,6 +544,7 @@ function toggle_colorbox(td) {
 									";
 									   
 									   }
+								}
 								
 								
 								?>
@@ -466,7 +560,7 @@ function toggle_colorbox(td) {
 								</tfoot>
 							</table>
 						</div>
-					 <div style="margin-top:10px;" action="#" class="form-horizontal">
+					 <div style="margin-top:10px;" class="form-horizontal">
 							   
 							   <div class="control-group">
 								  <label class="control-label">Total Rooms</label>
@@ -478,17 +572,17 @@ function toggle_colorbox(td) {
 							   <div class="control-group">
 								  <label class="control-label">Total Bed</label>
 								  <div class="controls">
-									 <input name="bed_no" readonly="readonly" name="bed_no" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
+									 <input name="bed_no" readonly="readonly" name="bed_no" placeholder="Total Bed" value="5" type="text" id="txt1" class="span2 " />
 
 								  </div>
 							   </div>
 							   </div>
 						
-							</div>
-						</div>
+							
+						
 						<!-- END EXAMPLE TABLE widget-->
-					</div>
-				</div>
+
+			
 				<!-- Begin price table-->
 					   <div class="row-fluid">
 					<div class="span12">
@@ -502,7 +596,7 @@ function toggle_colorbox(td) {
 								</span>
 							</div>
 							<div class="widget-body">
-					 <div action="#" class="form-horizontal">
+					 <div class="form-horizontal">
 							<div class="control-group">
 								  <label class="control-label">Customer Name</label>
 								  <div class="controls">
@@ -534,26 +628,35 @@ function toggle_colorbox(td) {
 						</div>
 							<button onClick="voucher();" type="button" class="btn-primary">Voucher</button> 
 							<div id="voucher" style="display:none">
-							<div class="control-group">
-								  <label class="control-label">No Of Bed</label>
-								  <div class="controls">
-									<span id="first_number"></span> *
-									 <input placeholder="" type="text" id="txt3" onkeyup="sum();" class="span3 " /><br><br>
-							  <input  name="total_price" placeholder="Sub total" id="txt4" type="text" class="span3 " />
-								  </div>
-							   </div>
-							   <div class="control-group">
-								  <label class="control-label">Discount</label>
-								  <div class="controls">
-									 = <input placeholder="" type="text" id="txt5" onkeyup="minus();" class="span3 " /><br><br>
-									 <input name="total_discount" placeholder="Grand total" id="txt6" type="text" class="span3 " />
-								  </div>
-							   </div>
-							
-			<button onclick="javascript:window.print();" class="btn btn-success btn-large hidden-print">Print <i class="icon-print icon-big"></i></button>
+			<div class="control-group">
+						<label class="control-label">No Of Bed</label>
+					<div class="controls">
+					<div class="voucher">
+						<input placeholder="5" type="text" id="txt3" onkeyup="sum();" class="span3"  required/><br />
+					   </div>
+					<input  name="total_price" placeholder="Sub total" id="txt4" type="text" class="span6 " readonly="readonly" />
+					<input type="hidden" id="first_number"/> 
+				    	</div>
+					</div>
+					<div class="control-group">
+					  <label class="control-label">Discount</label>
+					  <div class="controls">
+						<div class="voucher">						 
+						 <input placeholder="" type="text" id="txt5" onkeyup="minus();" class="span3" required /><br />
+						 </div>
+						 <input name="total_discount" placeholder="Grand total" value="100" id="txt6" type="text" class="span6" readonly="readonly" />
+					  </div>
+				   </div>
+				<div class="voucher">
+				<button type="submit">Submit</button>
+						
+			<button onclick="javascript:window.print();" class="hidden-print">Print <i class="icon-print icon-big"></i></button>
 								</div>	
 							</div>
 								</form>
+</div>						
+						</div>
+							</div>
 							</div>
 							</div>
 							</div>
@@ -649,11 +752,13 @@ function myFunction() {
 		</script>
 		<script>
 	  function sum() {
-				var txtFirstNumberValue = document.getElementById('first_number').innerHTML;
+				var txtFirstNumberValue = document.getElementById('first_number').value;
 				var txtSecondNumberValue = document.getElementById('txt3').value;
 				var result = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
 				if (!isNaN(result)) {
-					document.getElementById('txt4').value = result;
+					document.getElementById('txt4').value = result  ;
+
+					document.getElementById('txt5').placeholder = result  +  "  -  " ;
 				}
 				else
 				{
@@ -699,7 +804,8 @@ function myFunction() {
 			currVal = +currVal + +$td.html();
 			$sumColumn.html(currVal);
 			$('#txt1').val(currVal);
-			$('#first_number').html(currVal);
+			document.getElementById('txt3').placeholder = currVal + "  X  ";
+			$('#first_number').val(currVal);
 			   
 		});
 	});
