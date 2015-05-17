@@ -3,26 +3,26 @@
 	
 	if(isset($_GET['room_id']))
 	{
-	$room_id = $_GET['room_id'];
-	$query_delete = "DELETE FROM rooms WHERE room_id = $room_id"
-	or die('error while deleting rooms');
-	$result = mysqli_query($con,$query_delete);
-	header ('Location: view_rooms.php?delete=true');		
+		$room_id = $_GET['room_id'];
+		$query_delete = "DELETE FROM rooms WHERE room_id = $room_id"
+		or die('error while deleting rooms');
+		$result = mysqli_query($con,$query_delete);
+		header ('Location: view_rooms.php?delete=true');		
 	}
 	if(isset($_GET['m_id']))
 	{
-	$m_id = $_GET['m_id'];
-	$query_delete = "DELETE FROM specification WHERE m_id = $m_id"
-	or die('error while deleting specification');
-	$result = mysqli_query($con,$query_delete);
-	header ('Location: specification.php?delete=true');		
+		$m_id = $_GET['m_id'];
+		$query_delete = "DELETE FROM specification WHERE m_id = $m_id"
+		or die('error while deleting specification');
+		$result = mysqli_query($con,$query_delete);
+		header ('Location: specification.php?delete=true');		
 	}
-	if(isset($_GET['id']))
+	if(isset($_GET['room_id_all']))
 	{
-	$id = $_GET['id'];
-	$query_delete = "DELETE FROM room_specification WHERE id = $id"
-	or die('error while deleting room specification');
-	$result = mysqli_query($con,$query_delete);
-	header ('Location: room_spec.php?delete=true');		
+		$room_id = $_GET['room_id_all'];	
+		$query_delete = "DELETE FROM `room_specification` WHERE room_id = '$room_id'"
+		or die('error while deleting room specification');
+		$result = mysqli_query($con,$query_delete);
+		header ('Location: room_spec.php?delete=true');		
 	}
 	?>

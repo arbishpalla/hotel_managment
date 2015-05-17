@@ -148,6 +148,7 @@ include 'headers/menu-top-navigation.php';
 								{
 								$count++;
 								$id = $row['id'];
+								$room_id = $row['room_id'];
 								$room_no = $row['room_no'];
 								$specification = $row['specification'];
 								$values = explode(',', $row['specification']);
@@ -192,7 +193,7 @@ include 'headers/menu-top-navigation.php';
 								<td style='width:22% !important'><a href='#'>{$room_no}</a></td>
 								<td style='width:22% !important'><a href='#'>{$value1}</a></td>
 								  <td style='width:6% !important;text-align:center;'>
-									 <a href='delete.php?id=$id'><button style='width:79% !important;' type='button'  class='btn btn-danger'>
+									 <a href='delete.php?room_id_all=$room_id'><button style='width:79% !important;' type='button'  class='btn btn-danger'>
 								  Delete <i class='icon-trash'></i></button> </a>
 									  <td style='display:none'><a class='' href='javascript:;'>Edit</a></td>
 								 <td style='display:none'><a class='' href='javascript:;'>Delete</a></td>

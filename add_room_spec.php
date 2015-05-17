@@ -153,8 +153,9 @@ include 'headers/menu-top-navigation.php';
 									while($row = mysqli_fetch_array($result_feature))
 									{
 									$room_id = $row['room_id'];
+									$room_no = $row['room_no'];
 									echo"
-										<option value='$room_id'>$room_id</option>
+										<option value='$room_id'>$room_no</option>
 										";
 									}		
 										
