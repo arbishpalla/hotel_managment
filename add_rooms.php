@@ -2,21 +2,19 @@
 	include 'headers/connect_to_mysql.php';
 	$room_no = "";
 	$room_type = "";
-	$specification = "";
 	$formAction = "";
 	
 	if(isset($_GET['room_id']))
 {
 		$room_id = $_GET['room_id'];
 		$formAction = "?room_id=$room_id";
-		$query = "SELECT * FROM rooms where room_id = $room_id ";
+		$query = "SELECT * FROM rooms where room_id = '$room_id' ";
 		$result = mysqli_query($con,$query);	
 		$row = mysqli_fetch_array($result)
 		or die ('error1');
 		$room_no = $row['room_no'];
 		$bed_no = $row['bed_no'];
 		$room_type = $row['room_type'];
-		$specification = $row['specification'];
 		
 		
 	if($_POST)
@@ -25,8 +23,7 @@
 		$room_no = $_POST['room_no'];
 		$bed_no = $_POST['bed_no'];
 		$room_type = $_POST['room_type'];
-		$specification = $_POST['specification'];
-		$query = "UPDATE `rooms` SET `room_no`='$room_no',`bed_no`='$bed_no',`room_type`='$room_type',`specification`='$specification' WHERE `room_id` = '$room_id'";
+		$query = "UPDATE `rooms` SET `room_no`='$room_no',`bed_no`='$bed_no',`room_type`='$room_type' WHERE `room_id` = '$room_id'";
 		$result = mysqli_query($con,$query);
 		header("Location: view_rooms.php?update=true");
 	}
@@ -38,9 +35,8 @@ else
 		$room_no = $_POST['room_no'];
 		$bed_no = $_POST['bed_no'];
 		$room_type = $_POST['room_type'];
-		$specification = $_POST['specification'];
-		$query_inserting = "INSERT INTO `rooms`(`room_no`, `bed_no`, `room_type`, `specification`) 
-							VALUES ('$room_no','$bed_no','$room_type','$specification')";
+		$query_inserting = "INSERT INTO `rooms`(`room_no`, `bed_no`, `room_type`) 
+							VALUES ('$room_no','$bed_no','$room_type')";
 		mysqli_query($con,$query_inserting)
 		or die('error while inserting Rooms');
 		header("Location: view_rooms.php?insert=true");	
@@ -150,7 +146,7 @@ include 'headers/menu-top-navigation.php';
                                  <input placeholder="Enter Bed No" name="bed_no" value="<?php echo $bed_no; ?>" type="number" class="span6 " />
                               </div>
                            </div>
-						     <div class="control-group">
+<!--						     <div class="control-group">
                               <label class="control-label">Features</label>
                               <div class="controls">
                                  <?php
@@ -159,7 +155,8 @@ include 'headers/menu-top-navigation.php';
 								 <br /><br />
                                  <input placeholder="Select Specification" name="specification" id="attribute" readonly="readonly" value="<?php echo $specification ?>" type="text" class="span6 " />
 								 </div>
-                           </div>
+								 
+                           </div>-->
 						   <div class="form-actions clearfix">
 						<button type="submit" class="btn btn-primary blue button-next">Submit</button>
 						</div>
