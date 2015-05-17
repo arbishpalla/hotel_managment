@@ -158,7 +158,7 @@ else
 				mysqli_query($con,$query_inserting)
 				or die('error while inserting booking');
 			
-			//header("Location: booking_view.php?insert=true");
+			header("Location: booking_view.php?insert=true");
 			
 			
 			}
