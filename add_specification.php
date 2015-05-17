@@ -3,7 +3,8 @@
 	include 'headers/connect_to_mysql.php';
 	$feature = "";
 	$formAction = "";	
-	if(isset($_GET['m_id']))
+	$file = "";
+if(isset($_GET['m_id']))
 {
 		$m_id = $_GET['m_id'];
 		$formAction = "?m_id=$m_id";
@@ -12,14 +13,13 @@
 		$row = mysqli_fetch_array($result)
 		or die ('error1');
 		$feature = $row['feature'];
-
-		
-		
+		$file = $row['file'];
 	if($_POST)
 	{
+		include 'headers/feature_image.php';
 		$m_id=  $_GET['m_id'];
 		$feature = $_POST['feature'];
-		$query = "UPDATE specification SET `feature`='$feature' WHERE `m_id` = '$m_id'"
+		$query = "UPDATE specification SET `feature`='$feature',`file`='$file' WHERE `m_id` = '$m_id'"
 		or die('error while updating rooms specification');
 		$result = mysqli_query($con,$query);
 		header ("Location: specification.php?update=true");
@@ -29,12 +29,14 @@ else
 {
 	if($_POST)
 	{
+		include 'headers/feature_image.php';
 		$feature = $_POST['feature'];
-		$query_inserting = "INSERT INTO `specification`(`feature`) 
-							VALUES ('$feature')";
+		$query_inserting = "INSERT INTO `specification`(`feature`,`file`) 
+							VALUES ('$feature','$file')";
 		mysqli_query($con,$query_inserting)
 		or die('error while inserting Rooms feature');
-		header ("Location: specification.php?insert=true");	
+		//header ("Location: specification.php?insert=true");	
+		
 	}	
 }
 
@@ -89,8 +91,8 @@ include 'headers/menu-top-navigation.php';
 
                    <!-- END THEME CUSTOMIZER-->
                   <!-- BEGIN PAGE TITLE & BREADCRUMB-->     
-                  <h3 class="page-title">
                      Rooms Features
+                  <h3 class="page-title">
                      <small>Add your rooms Features </small>
                   </h3>
                    <ul class="breadcrumb">
@@ -122,23 +124,32 @@ include 'headers/menu-top-navigation.php';
                      </div>
                      <div class="widget-body form">
                         <!-- BEGIN FORM-->
-                        <form action="add_specification.php<?php echo $formAction; ?>" method="post" class="form-horizontal">
+                        <form action="add_specification.php<?php echo $formAction; ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
 
 						<div class="control-group">
-                              <label class="control-label">Features</label>
+							  <label class="control-label">Features</label>
                               <div class="controls">
-                                 <select name="feature" class="span6 chosen" data-placeholder="Select Room Features" tabindex="1">
-                                    <option value=""><?php echo $feature; ?></option>
-                                    <option value="A/C">A/C</option>
-                                    <option value="English Toilet">English Toilet</option>
-                                    <option value="TV">TV</option>
-                                    <option value="Kettle">Kettle</option>
-									<option value="Wifi">Wifi</option>
-									<option value="Heater">Heater</option>
-                                 </select>
-                              </div>
+                                 <input type="text" class="span4" name="feature" value="<?php echo $feature;?>" placeholder="Add your feature" required />
+								 </div>
                            </div>
-						   <span class="myicon-tv"></span>
+                           <div class="control-group">
+                            <label class="control-label">Feature Image</label>
+                            <div class="controls">
+                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                        <img src="<?php if($file == null) {echo "http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+file";}
+                                        else{echo "img/image/{$file}" ;}?>" alt="" />
+                                    </div>
+                                    <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                    <div>
+                               <span class="btn btn-file"><span class="fileupload-new">Select file</span>
+                               <span class="fileupload-exists">Change</span>
+                               <input type="file" name="file" class="default" /></span>
+                                        <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                    </div>
+                                </div>
+                                    </div>
+                                </div>
                            </div>
 						   <div class="form-actions clearfix">
 						<button style="margin-left: 13.5%;" type="submit" class="btn btn-primary blue button-next">Submit</button>

@@ -1,9 +1,12 @@
 <?php
 	 include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';
-	$m_id = "";
-	$room_no = "";
-	$query = "SELECT  * FROM `room_specification`"
+	$room_id = "";
+	$specification = "";
+	$id = "";
+	$query = "SELECT id,room_id,group_concat( specification.feature ) AS specification 
+FROM `room_specification` Left join specification on (room_specification.m_id = specification.m_id)
+GROUP BY room_specification.room_id"
 	or die('error while fetching rooms Features');
 	$result_rooms = mysqli_query($con,$query);
 ?>
@@ -120,15 +123,51 @@ include 'headers/menu-top-navigation.php';
 								{
 								$count++;
 								$id = $row['id'];
-								$room_no = $row['room_no'];
-								$m_id = $row['m_id'];
+								$room_id = $row['room_id'];
+								$specification = $row['specification'];
+								$values = explode(',', $row['specification']);
+									   $value1 ='';
+									   foreach ($values as $value) {
+										
+										if($value == "TV")									
+										{
+										 $value1 .= "<span class='myicon-tv'></span>";
+									
+										}
+									   	if($value == "A/C")
+									   {
+										 $value1 .= "<span class='myicon-snoflaek'></span>";
+											
+									   }
+									      	if($value == "Heater")
+									   {
+										 $value1 .= "<span class='myicon-heat'></span>";
+												
+									   }
+									      	if($value == "Kettle")
+									   {
+										 $value1 .= "<span class='myicon-kettle'></span>";
+										
+									   }
+									      	if($value == "Wifi")
+									   {
+										 $value1 .= "<span class='myicon-wifi'></span>";
+											
+									   }
+									      	if($value == "English Toilet")
+									   {
+										 $value1 .= "<span class='myicon-shower'></span>";
+												
+									   }	
+									   }	   
+
 					echo"
 								<tr class=''> 
 								<td style='width:1% !important'><a href='#'>{$count}</a></td>
-								<td style='width:22% !important'><a href='#'>{$room_no}</a></td>
-								<td style='width:22% !important'><a href='#'>{$m_id}</a></td>
+								<td style='width:22% !important'><a href='#'>{$room_id}</a></td>
+								<td style='width:22% !important'><a href='#'>{$value1}</a></td>
 								  <td style='width:6% !important;text-align:center;'>
-								<a href='add_room_spec.php?id=$id&m_id=$m_id'><button style='width:79% !important; margin-bottom: 2px;' type='button' class='btn btn-success'> Update <i class='icon-edit'></i></button> </a>																					 							 	 
+								<a href='add_room_spec.php?id=$id'><button style='width:79% !important; margin-bottom: 2px;' type='button' class='btn btn-success'> Update <i class='icon-edit'></i></button> </a>																					 							 	 
 								 <a href='delete.php?id=$id'><button style='width:79% !important;' type='button'  class='btn btn-danger'>
 								  Delete <i class='icon-trash'></i></button> </a>
 									  <td style='display:none'><a class='' href='javascript:;'>Edit</a></td>

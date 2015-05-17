@@ -1,6 +1,6 @@
 	<?php
 	
-	print_r($_POST);
+	// print_r($_POST);
 	
 	include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';
@@ -24,7 +24,8 @@
 	$endDate = "";
 	$form_name = "";
 	$value = "";
-	$style = "display:block";
+	$room_id = "";
+	$style = "display:none";
 	
 	
 	
@@ -71,7 +72,7 @@
 			
 			$checkBoxPost = $_POST['cb'];
 			
-			echo "checkboxPost: {$checkBoxPost}" ;
+			// echo "checkboxPost: {$checkBoxPost}" ;
 			
 			$query = "UPDATE `booking` SET `emp_id`=[`$emp_id`],`room_no`=[`$room_no`],`bed_no`=[`$bed_no`],
 					`start_date`=[`$start_date`],`end_date`=[`$end_date`],`customer_name`=[`$customer_name`],
@@ -91,7 +92,9 @@ else
 		if($form_name=="add_bookings")
 		
 		{
+			
 			$room_no = $_POST['room_no'];
+			$room_id = $_POST['room_id'];
 			$bed_no = $_POST['bed_no'];
 			$customer_name = $_POST['customer_name'];
 			$phone_no = $_POST['phone_no'];
@@ -107,14 +110,14 @@ else
 			for($j=0; $j<count($checkBoxPost); $j++)
 			{
 				$checkbox_post_array = unserialize($checkBoxPost[$j]);
-				print_r($checkbox_post_array);
+				// print_r($checkbox_post_array);
 				
-				$room_no = $checkbox_post_array['room_id'];
+				$room_id = $checkbox_post_array['room_id'];
 				
-				$query_inserting = "INSERT INTO `booking`(`emp_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`) VALUES ('$emp_id','$room_no','$bed_no','$startDate','$endDate','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price')";
+				$query_inserting = "INSERT INTO `booking`(`emp_id`, `room_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`) VALUES ('$emp_id','$room_id','$room_no','$bed_no','$start_date','$end_date','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price')";
 				mysqli_query($con,$query_inserting)
 				or die('error while inserting booking');
-
+			
 			//header("Location: booking_view.php?insert=true");
 			
 			
@@ -134,8 +137,17 @@ else
                                                 WHERE (`start_date` BETWEEN '$startDate' and '$endDate') OR (`end_date` BETWEEN '$startDate' and '$endDate'))
 						GROUP BY room_specification.room_id "
 						or die('error');
-			$result_range = mysqli_query($con,$query_range);
-			$isPosetd  = 1;
+						$result_range = mysqli_query($con,$query_range);
+						$isPosetd  = 1;
+			echo $startDate;
+			if($isPosetd = 1)
+			{
+			 $style = "display:block !important";
+			}
+			else
+			{
+				 $style = "display:none";
+			}
 	}
 		// SELECT *,group_concat( room_specification.m_id ) AS m_id,
 						// group_concat( specification.feature ) AS specification
@@ -148,15 +160,7 @@ else
 		}
 		else
 		{
-			if($isPosetd = 1)
-			{
-				echo "working";
-			 $style = "display:block";
-			}
-			else
-			{
-				 $style = "display:none";
-			}	
+		
 		}
 	}
 
@@ -314,9 +318,8 @@ input[type="checkbox"]:checked + i:before { color: rgba(0, 128, 0, 0.5); }
   cursor: pointer;
   border-radius: 3px;
   padding: 6px;
-  width: 200px;
+  width: 100px;
   color: white;
-  margin-left: 25px;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2) !important;
 }
 
@@ -349,7 +352,7 @@ function toggle_colorbox(td) {
     div = td.getElementsByTagName('div')[0];
     cb = td.getElementsByTagName('input')[0];
 
-    if (cb[].checked == false) {
+    if (cb.checked == false) {
         div.style.visibility = "visible";
         div.style.height = "15px";
 		td.className = "Colorbox ColorboxSelected";
@@ -452,15 +455,15 @@ function toggle_colorbox(td) {
 												<button  type="submit" onclick="myfunction()" data-dismiss="modal" class="btn btn-primary" > Confirm </button>
 											</div>
 								</div>
-									 <input type="hidden" name="start_date" id="start" value="" />
-									 <input type="hidden" name="end_date" id="end" value="" />
+									 <input type="text" name="start_date" id="start" value="" />
+									 <input type="text" name="end_date" id="end" value="" />
 								</form>
 											</div><br><br>
 											<div id="form_booking" style="<?php echo $style; ?>">
-								<form action="add_booking.php" name="add_bookings" method="post">
+								<form action="add_booking.php" name="add_bookings" style="<?php echo $style; ?>" id="booking_form" method="post">
 								<input type="hidden" value="add_bookings" name="form-name" />
-								<input type="hidden" name="start_date" id="start" value="" />
-								<input type="hidden" name="end_date" id="end" value="" />
+								<input type="hidden" name="start_date"  value="<?php echo $startDate; ?>" />
+								<input type="hidden" name="end_date" value="<?php echo $endDate; ?>" />
 								<div class="search-table">
 								<table class="table table-striped table-bordered"  id="sample_1">
 								<thead>
@@ -568,7 +571,7 @@ function toggle_colorbox(td) {
 							   <div class="control-group">
 								  <label class="control-label">Total Bed</label>
 								  <div class="controls">
-									 <input name="bed_no" readonly="readonly" name="bed_no" placeholder="Total Bed" value="5" type="text" id="txt1" class="span2 " />
+									 <input readonly="readonly" name="bed_no" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
 
 								  </div>
 							   </div>
@@ -622,8 +625,11 @@ function toggle_colorbox(td) {
 								<textarea name="comment" placeholder="Add Your Coment" class="span6" rows="3"></textarea>
 							</div>
 						</div>
-							<button onClick="voucher();" type="button" class="btn-primary">Voucher</button> 
+						<div class="controls">
+							<button style="margin-bottom:10px;" onClick="voucher();" type="button" class="btn-primary">Voucher</button> 
+							</div>
 							<div id="voucher" style="display:none">
+				<div style="border-top: 1px solid #e5e5e5;margin-top: 20px;border-top: 1px solid #e5e5e5;margin-bottom:20px;padding: 19px 0px 20px;">
 			<div class="control-group">
 						<label class="control-label">No Of Bed</label>
 					<div class="controls">
@@ -643,12 +649,15 @@ function toggle_colorbox(td) {
 						 <input name="total_discount" placeholder="Grand total" value="100" id="txt6" type="text" class="span6" readonly="readonly" />
 					  </div>
 				   </div>
+				<div class="controls">
 				<div class="voucher">
-				<button type="submit">Submit</button>
-						
-			<button onclick="javascript:window.print();" class="hidden-print">Print <i class="icon-print icon-big"></i></button>
-								</div>	
-							</div>
+				<button type="submit">Submit</button>		
+			   <button onclick="javascript:window.print();" class="hidden-print">Print <i class="icon-print icon-big"></i></button>
+</div>						
+						</div>	
+							</div
+					</div>
+					</div>
 								</form>
 </div>						
 						</div>
@@ -789,11 +798,11 @@ function myFunction() {
 	
 		</script>
 	<script type="text/javascript">
-	$('[name="cb"]').change(function () {
+	$('[name="cb[]"]').change(function () {
 		$('.totalColumn td:nth-child(3)').html("0");
 		 $('#txt1').val("0");
 		 $('#first_number').html("0");
-		$('[name="cb"]:checked').closest('tr').find('td:nth-child(3)').each(function () {
+		$('[name="cb[]"]:checked').closest('tr').find('td:nth-child(3)').each(function () {
 			var $td = $(this);
 			var $sumColumn = $('#sample_1 tr.totalColumn td:eq(' + $td.index() + ')');
 			var currVal = $sumColumn.html() || 0;

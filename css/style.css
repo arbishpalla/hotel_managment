@@ -3498,8 +3498,9 @@ ul.amounts li {
 .myicon-tv{ 
   background-image: url('../img/tv.png');
   background-repeat: no-repeat;
-  background-position: 8px 4px;
-  padding: 7px 18px;
+  background-position: 8px 4px;	
+  padding: 9px 21px;
+  margin-left: -8px;
 }
 .myicon-heat{ 
   background-image: url('../img/heat.png');

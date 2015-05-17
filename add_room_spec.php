@@ -1,7 +1,7 @@
 <?php 
 	include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';
-	$room_no = "";
+	$room_id = "";
 	$m_id=  "";
 	$feature = "";
 	$formAction = "";	
@@ -143,17 +143,17 @@ include 'headers/menu-top-navigation.php';
 						<div class="control-group">
                               <label class="control-label">Rooms</label>
                               <div class="controls">
-                                 <select name="room_no" class="span6 chosen" data-placeholder="Select Room Specification" tabindex="1">
-									<option value='<?php echo"$room_no";?>'><?php echo"$room_no";?></option>                                 
+                                 <select name="room_no" class="span6 chosen" data-placeholder="Select Room " tabindex="1">
+									<option value='<?php echo"$room_id";?>'><?php echo"$room_id";?></option>                                 
 								 <?php
 									$query_feature = "SELECT * FROM rooms";
 									$result_feature = mysqli_query($con,$query_feature)
 									or die('error while fetching Rooms');
 									while($row = mysqli_fetch_array($result_feature))
 									{
-									$room_no = $row['room_no'];
+									$room_id = $row['room_id'];
 									echo"
-										<option value='$room_no'>$room_no</option>
+										<option value='$room_id'>$room_id</option>
 										";
 									}		
 										
