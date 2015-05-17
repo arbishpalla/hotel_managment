@@ -1,3 +1,21 @@
+<?php
+	 include 'headers/session.php';
+	include 'headers/connect_to_mysql.php';
+	$room_id = "";
+	$start_date = "";
+	$end_date = "";
+	$customer_name = "";
+	$emp_name= "";
+	$room_id ="";
+	$booking_id = "";
+	$query = "SELECT `booking_id`,`customer_name`,`start_date`,`end_date`,`name` as emp_name,
+ 			  group_concat( booking.room_id ) AS booking_roomId
+			  FROM `booking` left join login on (login.emp_id = booking.emp_id)"
+	or die('error while fetching rooms Features');
+	$result_rooms = mysqli_query($con,$query);
+?>
+
+
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -87,22 +105,38 @@ include 'headers/menu-top-navigation.php';
                                     <th>Booking Number</th>
                                     <th class="hidden-phone">Employee Name</th>
                                     <th class="hidden-phone">Customer Name</th>
-                                    <th class="hidden-phone">Room #</th>
+                                    <th class="hidden-phone">Room Id</th>
 									<th class="hidden-phone">Start Date</th>
 								    <th class="hidden-phone">End Date</th>
 									<th class="hidden-phone">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="odd gradeX">
-                                    <td>1</td>
-                                    <td class="hidden-phone">admin</td>
-                                    <td class="hidden-phone">example</td>
-                                    <td class="hidden-phone">2</td>
-                                    <td class="hidden-phone">12/5/2015</td>
-									<td class="hidden-phone">15/5\/2015</td>
-                                    <td class="hidden-phone" ><a href="add_booking.php"><button type="button" class="btn-success">Update</button></a></td>
+							<?php
+							$count = 0;
+							while($row = mysqli_fetch_array($result_rooms))
+								{
+								$count++;
+								$booking_id = $row['booking_id'];
+								$room_id = $row['booking_roomId'];
+								$start_date = $row['start_date'];
+								$end_date = $row['end_date'];
+								$customer_name = $row['customer_name'];
+								$emp_name = $row['emp_name'];
+								$count++;
+								echo"
+                                <tr class='odd gradeX'>
+                                    <td>{$count}</td>
+                                    <td class='hidden-phone'>{$emp_name}</td>
+                                    <td class='hidden-phone'>{$customer_name}</td>
+                                    <td class='hidden-phone'>{$room_id}</td>
+                                    <td class='hidden-phone'>{$start_date}</td>
+									<td class='hidden-phone'>{$end_date}</td>
+                                    <td class='hidden-phone' ><a href='add_booking.php?room_id=$room_id'><button type='button' class='btn-success'>Update</button></a></td>
 									</tr>
+									";
+								}
+								?>
                                 </tbody>
                         </table>
                         </div>

@@ -2,14 +2,18 @@
 	include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';
 	
-	$start_date_post = "2015-05-01";
-	$end_date_post = "2015-05-28";
-	
+	$start_date = "";
+	$end_date = "";
+	$start_date_post = "";
+	$end_date_post = "";
 	$dateRangeArray = array();
 	
 	if($_POST)
 	{
-		
+		$start_date_post = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['starting'])));
+		$end_date_post = date('Y-m-d ', strtotime(str_replace('-', '/', $_POST['ending'])));
+	
+		//print_r($_POST);
 	}
 			
 	
@@ -56,7 +60,12 @@
 	   	
 		function myFunction()
 		{
-			$('#dateRange').submit();
+			
+				var dateFrom = document.getElementById('from').value;
+				var dateto = document.getElementById('to').value;
+				document.getElementById('start').value = dateFrom;
+				document.getElementById('end').value = dateto;
+				$('#dateRange').submit();
 		}
 		
 	   </script>
@@ -102,8 +111,12 @@ include 'headers/menu-top-navigation.php';
                      <div class="controls">
                 <div class="input-prepend"> <span class="add-on"><i class="icon-calendar"></i></span>
                          <input type="text" class=" m-ctrl-medium date-range" />
-                       </div>
-              </div>
+						 <input type="hidden" name="starting" id="start" value="" />
+						 <input type="hidden" name="ending" id="end" value="" />
+						 </div>
+
+					   </div>
+
                    </form>
             <div class="search-table">
                      <table class="table table-striped table-bordered" id="sample_1">
@@ -145,8 +158,9 @@ include 'headers/menu-top-navigation.php';
                 <tbody>
                 
                 
-                		<?php
-							
+					<?php
+						if($_POST){
+								
 							$query_totalRooms = "SELECT * from `rooms`";
 							$result_totalRooms = mysqli_query($con,$query_totalRooms);
 							while($row = mysqli_fetch_assoc($result_totalRooms))
@@ -158,7 +172,7 @@ include 'headers/menu-top-navigation.php';
 								$room_no = $row['room_no'];
 								$bed_number = $row['bed_no'];
 								$room_type = $row['room_type'];
-								$specification = $row['specification'];
+
 								
 								
 								echo "<tr class='odd gradeX'>
@@ -171,14 +185,21 @@ include 'headers/menu-top-navigation.php';
 								$bookingsArray = array();
 								$freeDates = array();
 								
-								$start_date_post = "2015-05-01";
-								$end_date_post = "2015-05-28";
-								$query = "SELECT * FROM `booking` WHERE `start_date` > '{$start_date_post}' AND `end_date` < '{$end_date_post}' AND `room_no` = '{$room_no}'";
+								 //$start_date_post = "2015-05-01";
+								 //$end_date_post = "2015-05-28";
+								
+								$start_date_post = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['starting'])));
+								$end_date_post = date('Y-m-d ', strtotime(str_replace('-', '/', $_POST['ending'])));
+						
+								//echo $start_date_post;
+								//echo $end_date_post;
+								
+								$query = "SELECT * FROM `booking` WHERE `start_date` > '{$start_date_post}' AND `end_date` < '{$end_date_post}' AND `room_id` = '{$room_id}'";
 								$result = mysqli_query($con,$query);
 								$counter = 0;
 								$date = "";
 								$totalCount = mysqli_num_rows($result);
-								
+								$customerName = "";
 								
 								/* if  booking available that is count is greateer than 0 */
 								
@@ -187,7 +208,9 @@ include 'headers/menu-top-navigation.php';
 								
 									while($row = mysqli_fetch_assoc($result))
 									{
-										$bookingsArray[] = $row;	
+										$bookingsArray[] = $row;
+										$customerName = $row['customer_name'];
+										$comment = $row['comment'];
 									}
 									
 									//echo json_encode($bookingsArray) . "<br/>";
@@ -332,7 +355,7 @@ include 'headers/menu-top-navigation.php';
 										else
 										{
 											//echo "Date not match found: {$freeDates[$j]} <br/>";
-											//echo "<td style ='width: 1%;' class='hidden-phone'><a href='#' class='btn popovers btn-danger' data-trigger='hover' data-placement='bottom' data-content='Your booking person name will go here' data-original-title='Booked'>X</a></td>";
+											//echo "<td style ='width: 1%;' class='hidden-phone'><a href='#' class='btn popovers btn-danger' data-trigger='hover' data-placement='bottom' data-content='Booked By {$customerName}' data-original-title='Booked'>X</a></td>";
 											$availableBoolean = false;
 										}
 									}
@@ -343,7 +366,7 @@ include 'headers/menu-top-navigation.php';
 									}
 									else
 									{
-										echo "<td style ='width: 1%;' class='hidden-phone'><a href='#' class='btn popovers btn-danger' data-trigger='hover' data-placement='bottom' data-content='Your booking person name will go here' data-original-title='Booked'>X</a></td>";
+										echo "<td style ='width: 1%;' class='hidden-phone'><a href='#' class='btn popovers btn-danger' data-trigger='hover' data-placement='bottom' data-content='{$comment}' data-original-title='Booked By {$customerName}'>X</a></td>";
 									}
 								}
 								
@@ -351,8 +374,8 @@ include 'headers/menu-top-navigation.php';
 								
 								
 							} // ending while
-							
-						?>
+						}
+					?>
                 		
                         
                        </tbody>
@@ -418,29 +441,10 @@ include 'headers/menu-top-navigation.php';
          App.init();
       });
    </script>
+   
+	<script>
+
+</script>
 </body>
        <!-- END BODY -->
-</html><!--<tr>
-                                  <th class="hidden-phone">Id</th>
-								  <td class="hidden-phone">1</td>
-								  <td class="hidden-phone">2</td>
-								  <td class="hidden-phone">3</td>
-								</tr>
-								<tr>
-								  <th class="hidden-phone">Room Type</th>
-								  <td class="hidden-phone">single</td>
-								  <td class="hidden-phone">double</td>
-								  <td class="hidden-phone">Triple</td>
-								</tr>
-								<tr>
-								  <th class="hidden-phone">Room #</th>
-								  <td class="hidden-phone">120</td>
-								  <td class="hidden-phone">121</td>
-								  <td class="hidden-phone">122</td>
-								</tr>
-                                <tr class="odd gradeX">
-                                  <th class="hidden-phone">Date From (12/5/2015)</th>
-                                  <td class="hidden-phone"><a href="#" class="btn popovers" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Booked">Booked</a></td>
-								  <td class="hidden-phone"><a href="#" class="btn popovers" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Booked">Booked</a></td>
-								  <td class="hidden-phone"><a href="#" class="btn popovers" data-trigger="hover" data-placement="bottom" data-content="Your booking person name will go here" data-original-title="Booked">Booked</a></td>								 
-							    </tr>-->
+</html>

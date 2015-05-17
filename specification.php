@@ -91,10 +91,10 @@ include 'headers/menu-top-navigation.php';
                             </span>
                         </div>
 <div class="widget-body">
-			<div class="btn-group">
+<!--			<div class="btn-group">
                <a href="add_specification.php"><button type="button" class="btn btn-primary"> Add New <i class="icon-plus"></i> </button></a>
                               </div>
-
+-->
                             <div class="portlet-body">
                                 
                                 <div id="width" class="space15"></div>
@@ -123,7 +123,6 @@ include 'headers/menu-top-navigation.php';
 								<td style='width:1% !important'><a href='#'>{$count}</a></td>
 								<td style='width:42% !important'><a href='#'>{$feature}</a></td>
 								  <td style='width:6% !important;text-align:center;'>
-								<a href='add_specification.php?m_id=$m_id'><button style='width:79% !important; margin-bottom: 2px;' type='button' class='btn btn-success'> Update <i class='icon-edit'></i></button> </a>																					 							 	 
 								 <a href='delete.php?m_id=$m_id'><button style='width:79% !important;' type='button'  class='btn btn-danger'>
 								  Delete <i class='icon-trash'></i></button> </a>
 									  <td style='display:none'><a class='' href='javascript:;'>Edit</a></td>

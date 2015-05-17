@@ -25,11 +25,51 @@
 	$form_name = "";
 	$value = "";
 	$room_id = "";
-	$style = "display:none";
-	
-	
-	
+	$booking_id = "";
+	$room_id = "";
+	if($_GET['room_id'])
+	{
+		$room_id = $_GET['room_id'];
+		 $values = explode(',', $room_id);
+		 foreach($values as $roomID )
+		 {
+	$style = "display:block";		
+	$query_select = "SELECT *,room_id as rooms_roomId from booking where room_id = $roomID";
+	$result_select = mysqli_query($con,$query_select);
+									
+		while($row = mysqli_fetch_array($result_select))
+	{
+		$rooms_roomId = $row['rooms_roomId'];
+		$customer_name = $row['customer_name'];
+		$start_date = $row['start_date'];
+		$end_date = $row['end_date'];
+		echo "rooms_roomId-->".$rooms_roomId;
+		echo "customer_name".$customer_name;
+		
+	   $query_range = "SELECT *,rooms.room_id as booking_roomID,group_concat( room_specification.m_id ) AS m_id,
+						 group_concat( specification.feature ) AS specification
+						 FROM (room_specification LEFT JOIN specification ON 
+						 room_specification.m_id = specification.m_id)
+						 LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
+                                                 where rooms.room_id not in (SELECT room_id FROM `booking`
+                                                 ) OR rooms.room_id in (SELECT room_id FROM `booking`
+                                                 WHERE (`start_date` BETWEEN '$start_date' and '$end_date') OR (`end_date` BETWEEN '$start_date' and '$end_date'))
+						 GROUP BY room_specification.room_id "
+                                                
+			 or die('error');
+			 $result_range = mysqli_query($con,$query_range);
 
+
+		}		 
+
+	}
+
+	}
+	else
+	{
+	$style = "display:none";
+	}
+	
 	// if($_POST['Daterange'])
 	// {
 		// $query_date = "";
@@ -37,7 +77,7 @@
 		
 	// }
 
-	if(isset($_GET['booking_id']))
+	if(isset($_GET['']))
 	{
 			$booking_id = $_GET['booking_id'];
 			$formAction = "?booking_id=$booking_id";
@@ -133,7 +173,7 @@ else
 						FROM (room_specification LEFT JOIN specification ON 
 						room_specification.m_id = specification.m_id)
 						LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
-                                                where rooms.room_no not in (SELECT room_no FROM `booking`
+                                                where rooms.room_id not in (SELECT room_id FROM `booking`
                                                 WHERE (`start_date` BETWEEN '$startDate' and '$endDate') OR (`end_date` BETWEEN '$startDate' and '$endDate'))
 						GROUP BY room_specification.room_id "
 						or die('error');
@@ -455,8 +495,8 @@ function toggle_colorbox(td) {
 												<button  type="submit" onclick="myfunction()" data-dismiss="modal" class="btn btn-primary" > Confirm </button>
 											</div>
 								</div>
-									 <input type="text" name="start_date" id="start" value="" />
-									 <input type="text" name="end_date" id="end" value="" />
+									 <input type="hidden" name="start_date" id="start" value="" />
+									 <input type="hidden" name="end_date" id="end" value="" />
 								</form>
 											</div><br><br>
 											<div id="form_booking" style="<?php echo $style; ?>">
@@ -486,6 +526,7 @@ function toggle_colorbox(td) {
 									$data = $row_booking;
 									$dataString = serialize($data);
 									
+					
 									$room_no = $row_booking['room_no'];
 									$bed_no = $row_booking['bed_no'];
 									$specification = $row_booking['specification'];
@@ -646,7 +687,7 @@ function toggle_colorbox(td) {
 						<div class="voucher">						 
 						 <input placeholder="" type="text" id="txt5" onkeyup="minus();" class="span3" required /><br />
 						 </div>
-						 <input name="total_discount" placeholder="Grand total" value="100" id="txt6" type="text" class="span6" readonly="readonly" />
+						 <input name="total_discount" placeholder="Grand total" id="txt6" type="text" class="span6" readonly="readonly" />
 					  </div>
 				   </div>
 				<div class="controls">

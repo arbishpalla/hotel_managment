@@ -13,6 +13,7 @@
      		$result = mysqli_query($con,$query);	
 			$row = mysqli_fetch_array($result);
 			$feature = $row['feature'];
+			$room_id = row['room_id'];
 	}
 
 	if(isset($_GET['id']))
@@ -31,9 +32,9 @@
 	if($_POST)
 	{
 		$id=  $_GET['id'];
-		$room_no = $_POST['room_no'];
+		$room_id = $_POST['room_id'];
 		$m_id = $_POST['m_id']; 
-		$query = "UPDATE room_specification SET `room_no`='$room_no',m_id = '$m_id' WHERE `id` = '$id'"
+		$query = "UPDATE room_specification SET `room_id`='$room_id',m_id = '$m_id' WHERE `id` = '$id'"
 		or die('error while updating rooms specification');
 		$result = mysqli_query($con,$query);
 		header ("Location: room_spec.php?update=true");
@@ -43,10 +44,10 @@ else
 {
 	if($_POST)
 	{
-		$room_no = $_POST['room_no'];
+		$room_id = $_POST['room_id'];
 		$m_id = $_POST['m_id']; 
-		$query_inserting = "INSERT INTO `room_specification` (`room_no`,`m_id`) 
-							VALUES ('$room_no','$m_id')";
+		$query_inserting = "INSERT INTO `room_specification` (`room_id`,`m_id`) 
+							VALUES ('$room_id','$m_id')";
 		mysqli_query($con,$query_inserting)
 		or die('error while inserting Rooms specification');
 		header ("Location: room_spec.php?insert=true");	
@@ -143,7 +144,7 @@ include 'headers/menu-top-navigation.php';
 						<div class="control-group">
                               <label class="control-label">Rooms</label>
                               <div class="controls">
-                                 <select name="room_no" class="span6 chosen" data-placeholder="Select Room " tabindex="1">
+                                 <select name="room_id" class="span6 chosen" data-placeholder="Select Room " tabindex="1">
 									<option value='<?php echo"$room_id";?>'><?php echo"$room_id";?></option>                                 
 								 <?php
 									$query_feature = "SELECT * FROM rooms";
