@@ -95,14 +95,14 @@ include 'headers/menu-top-navigation.php';
       echo"
 	    <div class='alert alert-success'>
                 <button class='close' data-dismiss='alert'>×</button>
-                <strong>Success!</strong> The Room has been updated.
+                <strong>Success!</strong> The Rooom Specification has been updated.
             </div>";
 		}
 		else if(isset($_GET['delete']) == 'true'){
       echo"
 	    <div class='alert alert-success'>
                 <button class='close' data-dismiss='alert'>×</button>
-                <strong>Success!</strong> The Room has been Deleted.
+                <strong>Success!</strong> The Rooom Specification has been Deleted.
             </div>";
 		}
 ?>
@@ -121,10 +121,10 @@ include 'headers/menu-top-navigation.php';
                             </span>
                         </div>
 <div class="widget-body">
-<!--			<div class="btn-group">
+	<div class="btn-group">
                <a href="add_room_spec.php"><button type="button" class="btn btn-primary"> Add New <i class="icon-plus"></i> </button></a>
                               </div>
--->
+
                             <div class="portlet-body">
                                 
                                 <div id="width" class="space15"></div>

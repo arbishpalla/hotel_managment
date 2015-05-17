@@ -141,6 +141,7 @@ include 'headers/menu-top-navigation.php';
 							while($row = mysqli_fetch_array($result_rooms))
 								{
 								$count++;
+								$room_id = $row['room_id'];
 								$booking_id = $row['booking_id'];
 								$room_id = $row['booking_roomId'];
 								$start_date = $row['start_date'];

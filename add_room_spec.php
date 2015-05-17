@@ -13,7 +13,7 @@
      		$result = mysqli_query($con,$query);	
 			$row = mysqli_fetch_array($result);
 			$feature = $row['feature'];
-			$room_id = row['room_id'];
+			$room_id = $row['room_id'];
 	}
 
 	if(isset($_GET['id']))

@@ -1,7 +1,7 @@
 <?php
 	 include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';	
-	$query = "SELECT  * FROM (`rooms` left join room_specification on room_specification.room_id = rooms.room_id)
+	$query = "SELECT  *,rooms.room_id as roomId FROM (`rooms` left join room_specification on room_specification.room_id = rooms.room_id)
 left join specification on room_specification.m_id = specification.m_id"
 	or die('error while fetching rooms detail');
 	$result_rooms = mysqli_query($con,$query);
@@ -145,7 +145,7 @@ include 'headers/menu-top-navigation.php';
 							while($row = mysqli_fetch_array($result_rooms))
 								{
 								$count++;
-								$room_id = $row['room_id'];	
+								$room_id = $row['roomId'];	
 								$room_no = $row['room_no'];
 								$bed_no = $row['bed_no'];
 								$room_type = $row['room_type'];

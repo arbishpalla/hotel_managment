@@ -127,7 +127,7 @@ include 'headers/menu-top-navigation.php';
                                     <tr>
 								 <th style="6% !important;">Id</th>
 									<th>Specification</th> 
-									 <th>Action</th>
+									 
                                         <div class="widths">
                                         <th style="display:none">Edit</th>
                                         <th style="display:none">Delete</th>
@@ -146,9 +146,6 @@ include 'headers/menu-top-navigation.php';
 								<tr class=''> 
 								<td style='width:1% !important'><a href='#'>{$count}</a></td>
 								<td style='width:42% !important'><a href='#'>{$feature}</a></td>
-								  <td style='width:6% !important;text-align:center;'>
-								 <a href='delete.php?m_id=$m_id'><button style='width:79% !important;' type='button'  class='btn btn-danger'>
-								  Delete <i class='icon-trash'></i></button> </a>
 									  <td style='display:none'><a class='' href='javascript:;'>Edit</a></td>
 								 <td style='display:none'><a class='' href='javascript:;'>Delete</a></td>
 								  </tr>
