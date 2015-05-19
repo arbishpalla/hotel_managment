@@ -194,7 +194,7 @@ include 'headers/menu-top-navigation.php';
 								//echo $start_date_post;
 								//echo $end_date_post;
 								
-								$query = "SELECT * FROM `booking` WHERE `start_date` > '{$start_date_post}' AND `end_date` < '{$end_date_post}' AND `room_id` = '{$room_id}'";
+								$query = "select * from booking where (('{$start_date_post}' between start_date and end_date OR '{$end_date_post}' between start_date and end_date) or (`start_date` > '{$start_date_post}' AND `end_date` < '{$end_date_post}'))  and room_id = '{$room_id}'";
 								$result = mysqli_query($con,$query);
 								$counter = 0;
 								$date = "";
