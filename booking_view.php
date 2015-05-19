@@ -8,8 +8,9 @@
 	$emp_name= "";
 	$room_id ="";
 	$booking_id = "";
-	$query = "SELECT `booking_id`,`customer_name`,`start_date`,`end_date`,`name` as emp_name,
- 			  group_concat( booking.room_id ) AS booking_roomId
+	$time_stamp = "";
+	
+	$query = "SELECT `time_stamp`,`booking_id`,`customer_name`,`start_date`,`end_date`,`name` as emp_name,room_id
 			  FROM `booking` left join login on (login.emp_id = booking.emp_id)"
 	or die('error while fetching rooms Features');
 	$result_rooms = mysqli_query($con,$query);
@@ -114,15 +115,6 @@ include 'headers/menu-top-navigation.php';
                             </span>
                         </div>
                         <div class="widget-body">
-						<form action="#" class="">
-						<div class="control-group">
-                                    <label class="control-label">Date Ranges</label>
-                                    <div class="controls">
-                                        <div class="input-prepend">
-                                            <span class="add-on"><i class="icon-calendar"></i></span><input type="text" class=" m-ctrl-medium date-range" />
-                                        </div>
-                                    </div>
-							</form>
 						<table class="table table-striped table-bordered" id="sample_1">
                             <thead>
                                 <tr>
@@ -132,7 +124,7 @@ include 'headers/menu-top-navigation.php';
                                     <th class="hidden-phone">Room Id</th>
 									<th class="hidden-phone">Start Date</th>
 								    <th class="hidden-phone">End Date</th>
-									<th class="hidden-phone">Action</th>
+									<th class="hidden-phone">Time</th
                                 </tr>
                             </thead>
                             <tbody>
@@ -143,11 +135,12 @@ include 'headers/menu-top-navigation.php';
 								$count++;
 								$room_id = $row['room_id'];
 								$booking_id = $row['booking_id'];
-								$room_id = $row['booking_roomId'];
+								$room_id = $row['room_id'];
 								$start_date = $row['start_date'];
 								$end_date = $row['end_date'];
 								$customer_name = $row['customer_name'];
 								$emp_name = $row['emp_name'];
+								$time_stamp = $row['time_stamp'];
 								$count++;
 								echo"
                                 <tr class='odd gradeX'>
@@ -157,8 +150,8 @@ include 'headers/menu-top-navigation.php';
                                     <td class='hidden-phone'>{$room_id}</td>
                                     <td class='hidden-phone'>{$start_date}</td>
 									<td class='hidden-phone'>{$end_date}</td>
-                                    <td class='hidden-phone' ><a href='add_booking.php?room_id=$room_id'><button type='button' class='btn-success'>Update</button></a></td>
-									</tr>
+									<td class='hidden-phone'>{$time_stamp}</td>
+ 									</tr>
 									";
 								}
 								?>
@@ -181,12 +174,9 @@ include 'headers/menu-top-navigation.php';
    </div>
    <!-- END CONTAINER -->
    <!-- BEGIN FOOTER -->
-   <div id="footer">
-       2013 &copy; Admin Lab Dashboard.
-      <div class="span pull-right">
-         <span class="go-top"><i class="icon-arrow-up"></i></span>
-      </div>
-   </div>
+  <?php  
+	include 'headers/footer.php';
+	?>
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->
    <!-- Load javascripts at bottom, this will reduce page load time -->
