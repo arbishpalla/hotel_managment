@@ -160,7 +160,7 @@ include 'headers/menu-top-navigation.php';
 								  <td style='width:1%;text-align:center;'>
 								<a href='add_rooms.php?room_id=$room_id'><button style='width:79% !important; margin-bottom: 2px;' type='button' class='btn btn-success'> Update <i class='icon-edit'></i></button> </a>																					 							 	 
 								 <a href='delete.php?room_id=$room_id'><button style='width:79% !important;' type='button'  class='btn btn-danger'>
-								  Delete <i class='icon-trash'></i></button> </a>
+								  Delete <i class='icon-trash'></i></button> </a></td>
 									  <td style='display:none'><a class='' href='javascript:;'>Edit</a></td>
 								 <td style='display:none'><a class='' href='javascript:;'>Delete</a></td>
 								  </tr>
