@@ -1,4 +1,12 @@
 <?php
+	include 'headers/connect_to_mysql.php';
+	include 'headers/session.php';
+	$query = "SELECT * FROM login where emp_id = '$emp_id'"
+	or die('error while fetching user detail');
+	$result =  mysqli_query($con,$query);
+	$row = mysqli_fetch_array($result);
+	$name = $row['name'];
+	
 echo"
 <!-- BEGIN HEADER -->
    <div id='header' class='navbar navbar-inverse navbar-fixed-top'>
@@ -65,7 +73,7 @@ echo"
                            <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
                                <img style='height:28px;' src='img/avatar-mini.png' alt=''>
                                              
-                               <span class='username' >  " .strtoupper("avialdo")." </span>
+                               <span class='username' >  " .strtoupper($name)." </span>
                                <b class='caret'></b>
                            </a>
                            <ul class='dropdown-menu'>
@@ -95,12 +103,29 @@ echo"
 
          <!-- BEGIN SIDEBAR MENU -->
           <ul class='sidebar-menu'>
-		  			  <li><a class='' href='room_spec.php'><span class='icon-box'><i class='icon-user'></i></span>Room Specification</a></li>
-		              <li><a class='' href='specification.php'><span class='icon-box'><i class='icon-user'></i></span>Specification</a></li>					  
-					  <li><a class='' href='booking_view.php'><span class='icon-box'><i class='icon-user'></i></span>Booking view</a></li>
-    				  <li><a class='' href='add_booking.php'><span class='icon-box'><i class='icon-user'></i></span>Add Booking</a></li>	
-					  <li><a href='view_rooms.php'><span class='icon-box'><i class='icon-user'></i></span>View Rooms</a></li>
-                     
+					  <li><a class='' href='index.php'><span class='icon-box'><i class='icon-home'></i></span>Home</a></li>
+		     <li class='has-sub'>
+                  <a href='javascript:;' class=''>
+                      <span class='icon-box'> <i class='icon-book'></i></span> Booking
+                      <span class='arrow'></span>
+                  </a>
+                  <ul class='sub'>
+					  <li><a class='' href='booking_view.php'>Booking view</a></li>
+    				  <li><a class='' href='add_booking.php'>Add Booking</a></li>	
+                  </ul>
+              </li>			
+		     <li class='has-sub'>
+                  <a href='javascript:;' class=''>
+                      <span class='icon-box'> <i class='icon-file-alt'></i></span>Master Feature
+                      <span class='arrow'></span>
+                  </a>
+                  <ul class='sub'>
+			  <li><a class='' href='specification.php'>Feature</a></li>					  
+			  <li><a class='' href='room_spec.php'>Room Feature</a></li>
+                           </ul>
+              </li>			
+			  <li><a href='view_rooms.php'><span class='icon-box'><i class='icon-th-large'></i></span>View Rooms</a></li>
+			
 	</ul>
 	   <!-- END SIDEBAR MENU -->
       </div>

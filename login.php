@@ -100,7 +100,7 @@ Website: http://thevectorlab.net/
   <!-- END LOGIN -->
   <!-- BEGIN COPYRIGHT -->
   <div id="login-copyright">
-      2015 &copy; <a href="http://avialdo.com">Avialdo</a>.
+<a href="http://www.digitaleggheads.com/">2014-15 © Digital Eggheads.</a>
   </div>
   <!-- END COPYRIGHT -->
   <!-- BEGIN JAVASCRIPTS -->

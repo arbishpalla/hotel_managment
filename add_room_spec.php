@@ -4,40 +4,34 @@
 	$room_id = "";
 	$m_id=  "";
 	$feature = "";
-	$formAction = "";	
+	$room_no = "";
+	$formAction = "";
 
-	if(isset($_GET['m_id']))
+	if(isset($_GET['room_id']))
 	{
-			$m_id = $_GET['m_id'];	
-			$query = "SELECT * FROM specification where m_id = '$m_id' ";
+			$room_id = $_GET['room_id'];	
+			$formAction = "?room_id=$room_id"; 
+			$query = "SELECT * FROM (room_specification left join rooms on room_specification.room_id = rooms.room_id) 
+     				  left join specification on room_specification.m_id = specification.m_id
+					  where rooms.room_id = $room_id ";
      		$result = mysqli_query($con,$query);	
-			$row = mysqli_fetch_array($result);
-			$feature = $row['feature'];
-			$room_id = $row['room_id'];
-	}
+			
 
-	if(isset($_GET['id']))
-{
-		$id = $_GET['id'];
-		$formAction = "?id=$id";
-		$query = "SELECT * FROM room_specification where id = '$id' ";
-		$result = mysqli_query($con,$query);	
-		$row = mysqli_fetch_array($result)
-		or die ('error1');
-		$room_no = $row['room_no'];
-		$m_id = $row['m_id'];  
-
-		
 		
 	if($_POST)
 	{
-		$id=  $_GET['id'];
-		$room_id = $_POST['room_id'];
-		$m_id = $_POST['m_id']; 
-		$query = "UPDATE room_specification SET `room_id`='$room_id',m_id = '$m_id' WHERE `id` = '$id'"
-		or die('error while updating rooms specification');
-		$result = mysqli_query($con,$query);
-		header ("Location: room_spec.php?update=true");
+			$i = 0;
+			foreach ($_POST as $val) {
+			$room_id = $_POST['room_id'][$i];
+			$m_id = $_POST['m_id'][$i];
+			$query = "UPDATE room_specification SET `room_id`='$room_id',m_id = '$m_id' WHERE `room_id` = '$room_id'"
+			or die('error while updating rooms specification');
+			$result = mysqli_query($con,$query);
+			$i++;
+			echo $room_id;
+			echo $m_id;
+	} 
+		//header ("Location: room_spec.php?update=true");
 	}
 }	
 else 
@@ -164,11 +158,20 @@ include 'headers/menu-top-navigation.php';
                                  </select>
                               </div>
                            </div>                             
-							 <label class="control-label">Features</label>
-                              <div class="controls">
-                                 <select name="m_id" class="span6 chosen" data-placeholder="Select Room Specification" tabindex="1">
-									<option value='<?php echo"$m_id";?>'><?php echo"$feature";?></option>                                 
-								 <?php
+<?php
+						while($row = mysqli_fetch_array($result)){
+							$room_id = $row['room_id'];
+							$m_id = $row['m_id'];
+							$room_no = $row['room_no'];
+							$feature = $row['feature'];
+							$id = $row['id'];
+ echo"							
+							<label class='control-label'>Features</label>
+                              <div class='controls'>
+                                 <select name='m_id' class='span6 chosen' data-placeholder='Select Room Specification' tabindex='1'>
+									<option value='$m_id'>$feature</option>                                 							
+								 ";
+								 
 									$query_feature = "SELECT * FROM specification";
 									$result_feature = mysqli_query($con,$query_feature)
 									or die('error while fetching fetures');
@@ -179,14 +182,14 @@ include 'headers/menu-top-navigation.php';
 									echo"
 										<option value='$m_id'>$feature</option>
 										";
-									}		
-										
-									?>
-  
-                                 </select>
-                              </div>
-                           </div>
-						   
+										}		
+								echo"									
+								 </select>
+							  </div>
+						   </div>
+								";	
+	}	
+	?>
                            </div>
 						   <div class="form-actions clearfix">
 						<button style="margin-left: 13.5%;" type="submit" class="btn btn-primary blue button-next">Submit</button>

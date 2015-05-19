@@ -28,6 +28,12 @@
 	$booking_id = "";
 	$room_id = "";
 	
+	$query_bookingNO = "SELECT CASE WHEN MAX(booking_no) IS NULL THEN 1000 ELSE MAX(booking_no)+1 END AS booking_no  FROM `booking` "
+	or die('error while fetching booking No');
+	$result_booking = mysqli_query($con,$query_bookingNO);
+	$row_booking = mysqli_fetch_array($result_booking);
+	$booking_no =  $row_booking['booking_no'];
+	
 	// if($_GET['room_id'])
 	// {
 		// $room_id = $_GET['room_id'];
@@ -154,7 +160,7 @@ else
 				
 				$room_id = $checkbox_post_array['room_id'];
 				
-				$query_inserting = "INSERT INTO `booking`(`emp_id`, `room_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`) VALUES ('$emp_id','$room_id','$room_no','$bed_no','$start_date','$end_date','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price')";
+				$query_inserting = "INSERT INTO `booking`(`emp_id`,`booking_no`, `room_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`,`time_stamp`) VALUES ('$emp_id','$booking_no','$room_id','$room_no','$bed_no','$start_date','$end_date','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price',now())";
 				mysqli_query($con,$query_inserting)
 				or die('error while inserting booking');
 			
@@ -240,7 +246,7 @@ else
        <link rel="stylesheet" type="text/css" href="assets/bootstrap-timepicker/compiled/timepicker.css" />
 	   <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
 	   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<style class="cp-pen-styles">
+	   <style class="cp-pen-styles">
 
 
 .checked label {
@@ -374,6 +380,11 @@ input[type="checkbox"]:checked + i:before { color: rgba(0, 128, 0, 0.5); }
 	   .search-table { overflow-x: scroll;   overflow-y: hidden; }
 	   </style>
 	<script type="text/javascript">
+    $(window).load(function(){
+        $('#myModal3').modal('show');
+    });
+</script>
+	<script type="text/javascript">
 		function deleteConfirm(id)
 		{
 			var result = confirm("Want to delete?");
@@ -498,6 +509,7 @@ function toggle_colorbox(td) {
 									 <input type="hidden" name="end_date" id="end" value="" />
 								</form>
 											</div><br><br>
+		
 											<div id="form_booking" style="<?php echo $style; ?>">
 								<form action="add_booking.php" name="add_bookings" style="<?php echo $style; ?>" id="booking_form" method="post">
 								<input type="hidden" value="add_bookings" name="form-name" />
@@ -654,9 +666,9 @@ function toggle_colorbox(td) {
 								  </div>
 							   </div>
 							   <div class="control-group">
-								  <label class="control-label">Employee Id</label>
+								  <label class="control-label">Employee name</label>
 								  <div class="controls">
-									 <input placeholder="Employee Id"  value="<?php echo $emp_id; ?>" readonly="readonly" type="text" class="span6 " />
+									 <input placeholder="Employee Id"  value="<?php echo $name; ?>" readonly="readonly" type="text" class="span6 " />
 								  </div>
 							   </div>
 						   <div class="control-group">
@@ -753,6 +765,7 @@ function toggle_colorbox(td) {
 	
 	
 	   <script src="js/table-editable.js"></script>
+
 <script>
 function voucher() 
 {

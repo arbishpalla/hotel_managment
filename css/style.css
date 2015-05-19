@@ -3499,21 +3499,21 @@ ul.amounts li {
   background-image: url('../img/tv.png');
   background-repeat: no-repeat;
   background-position: 8px 4px;	
-  padding: 9px 21px;
+  padding: 9px 27px;
   margin-left: -8px;
 }
 .myicon-heat{ 
   background-image: url('../img/heat.png');
   background-repeat: no-repeat;
   background-position: 0px -1px;
-  padding: 4px 20px;
+  padding: 4px 22px;
   background-size: 26px 26px;
 }
 .myicon-wifi{ 
   background-image: url('../img/wifi.png');
   background-repeat: no-repeat;
   background-position: 2px 2px;
-  padding: 7px 21px;
+  padding: 7px 22px;
 }
 .myicon-snoflaek{ 
   background-image: url('../img/snoflaek.png');
@@ -3526,13 +3526,13 @@ ul.amounts li {
   background-image: url('../img/kettle.png');
   background-repeat: no-repeat;
   background-position: 0px 4px;
-  padding: 7px 14px;
+  padding: 7px 22px;
 }
 .myicon-shower { 
   background-image: url('../img/shower.png');
   background-repeat: no-repeat;
   background-position: 0px -2px;
-  padding: 7px 14px;
+  padding: 7px 22px;
 }
 
 /* icon class end here*/

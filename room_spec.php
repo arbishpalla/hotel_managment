@@ -192,9 +192,11 @@ include 'headers/menu-top-navigation.php';
 								<td style='width:1% !important'><a href='#'>{$count}</a></td>
 								<td style='width:22% !important'><a href='#'>{$room_no}</a></td>
 								<td style='width:22% !important'><a href='#'>{$value1}</a></td>
-								  <td style='width:6% !important;text-align:center;'>
-									 <a href='delete.php?room_id_all=$room_id'><button style='width:79% !important;' type='button'  class='btn btn-danger'>
-								  Delete <i class='icon-trash'></i></button> </a>
+								  <td style='width:12% !important;text-align:center;'>
+				<a href='add_room_spec.php?room_id=$room_id'><button style='width:36% !important;' type='button'  class='btn btn-success'> 
+								   Update <i class='icon-edit'></i></button> </a>								
+								<a href='delete.php?room_id_all=$room_id'><button style='width:36% !important;' type='button'  class='btn btn-danger'>
+								  Delete <i class='icon-trash'></i></button> </a></td>
 									  <td style='display:none'><a class='' href='javascript:;'>Edit</a></td>
 								 <td style='display:none'><a class='' href='javascript:;'>Delete</a></td>
 								  </tr>
