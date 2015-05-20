@@ -15,6 +15,8 @@
 	}
 	else
 	{
+		$start_date_post = date("Y-m-d");
+		$end_date_post = date('Y-m-d',strtotime("+14 day", strtotime($start_date_post)));
 	}
 			
 	
@@ -200,6 +202,8 @@ include 'headers/menu-top-navigation.php';
 								}
 								else
 								{
+									$start_date_post = date("Y-m-d");
+									$end_date_post = date('Y-m-d',strtotime("+14 day", strtotime($start_date_post)));
 								}
 						
 								//echo $start_date_post;
