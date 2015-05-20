@@ -1,4 +1,5 @@
 <?php 
+	session_start();
 	include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';
 	$room_id = "";
@@ -14,7 +15,8 @@
 			$query = "SELECT * FROM (room_specification left join rooms on room_specification.room_id = rooms.room_id) 
      				  left join specification on room_specification.m_id = specification.m_id
 					  where rooms.room_id = $room_id ";
-     		$result = mysqli_query($con,$query);	
+     		$result = mysqli_query($con,$query)
+			or die ('error');	
 			
 
 		
@@ -144,10 +146,10 @@ include 'headers/menu-top-navigation.php';
 									$query_feature = "SELECT * FROM rooms";
 									$result_feature = mysqli_query($con,$query_feature)
 									or die('error while fetching Rooms');
-									while($row = mysqli_fetch_array($result_feature))
+									while($row_rooms = mysqli_fetch_array($result_feature))
 									{
-									$room_id = $row['room_id'];
-									$room_no = $row['room_no'];
+									$room_id = $row_rooms['room_id'];
+									$room_no = $row_rooms['room_no'];
 									echo"
 										<option value='$room_id'>$room_no</option>
 										";
@@ -165,6 +167,7 @@ include 'headers/menu-top-navigation.php';
 							$room_no = $row['room_no'];
 							$feature = $row['feature'];
 							$id = $row['id'];
+							echo $room_id;
  echo"							
 							<label class='control-label'>Features</label>
                               <div class='controls'>
@@ -186,10 +189,11 @@ include 'headers/menu-top-navigation.php';
 								echo"									
 								 </select>
 							  </div>
-						   </div>
+						  
 								";	
 	}	
 	?>
+	</div>
                            </div>
 						   <div class="form-actions clearfix">
 						<button style="margin-left: 13.5%;" type="submit" class="btn btn-primary blue button-next">Submit</button>

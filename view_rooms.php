@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	 include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';	
 	$query = "SELECT  *,rooms.room_id as roomId FROM (`rooms` left join room_specification on room_specification.room_id = rooms.room_id)
