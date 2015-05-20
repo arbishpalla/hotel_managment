@@ -12,8 +12,9 @@
 	{
 		$start_date_post = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['starting'])));
 		$end_date_post = date('Y-m-d ', strtotime(str_replace('-', '/', $_POST['ending'])));
-	
-		//print_r($_POST);
+	}
+	else
+	{
 	}
 			
 	
@@ -159,7 +160,7 @@ include 'headers/menu-top-navigation.php';
                 
                 
 					<?php
-						if($_POST){
+						
 								
 							$query_totalRooms = "SELECT * from `rooms`";
 							$result_totalRooms = mysqli_query($con,$query_totalRooms);
@@ -188,8 +189,18 @@ include 'headers/menu-top-navigation.php';
 								 //$start_date_post = "2015-05-01";
 								 //$end_date_post = "2015-05-28";
 								
-								$start_date_post = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['starting'])));
-								$end_date_post = date('Y-m-d ', strtotime(str_replace('-', '/', $_POST['ending'])));
+								//$start_date_post = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['starting'])));
+								//$end_date_post = date('Y-m-d ', strtotime(str_replace('-', '/', $_POST['ending'])));
+								
+								
+								if($_POST)
+								{
+									$start_date_post = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['starting'])));
+									$end_date_post = date('Y-m-d ', strtotime(str_replace('-', '/', $_POST['ending'])));
+								}
+								else
+								{
+								}
 						
 								//echo $start_date_post;
 								//echo $end_date_post;
@@ -306,9 +317,8 @@ include 'headers/menu-top-navigation.php';
 											
 									}
 									
-									//echo "FreeDates: ";
+									
 									json_encode($freeDates);
-									//echo "<br/> DatesRangeArray: ";
 									json_encode($dateRangeArray);
 							}
 							
@@ -374,7 +384,7 @@ include 'headers/menu-top-navigation.php';
 								
 								
 							} // ending while
-						}
+						
 					?>
                 		
                         
