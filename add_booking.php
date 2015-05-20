@@ -1,5 +1,5 @@
 	<?php
-	
+	session_start();
 	// print_r($_POST);
 	
 	include 'headers/session.php';
@@ -27,6 +27,8 @@
 	$room_id = "";
 	$booking_id = "";
 	$room_id = "";
+	$bookin_no = "";
+	$booking_no_get = "";
 	
 	$query_bookingNO = "SELECT CASE WHEN MAX(booking_no) IS NULL THEN 1000 ELSE MAX(booking_no)+1 END AS booking_no  FROM `booking` "
 	or die('error while fetching booking No');
@@ -34,48 +36,7 @@
 	$row_booking = mysqli_fetch_array($result_booking);
 	$booking_no =  $row_booking['booking_no'];
 	
-	// if($_GET['room_id'])
-	// {
-		// $room_id = $_GET['room_id'];
-		 // $values = explode(',', $room_id);
-		 // foreach($values as $roomID )
-		 // {
-	// $style = "display:block";		
-	// $query_select = "SELECT *,room_id as rooms_roomId from booking where room_id = $roomID";
-	// $result_select = mysqli_query($con,$query_select);
-									
-		// while($row = mysqli_fetch_array($result_select))
-	// {
-		// $rooms_roomId = $row['rooms_roomId'];
-		// $customer_name = $row['customer_name'];
-		// $start_date = $row['start_date'];
-		// $end_date = $row['end_date'];
-
-		
-	   // $query_range = "SELECT *,rooms.room_id as booking_roomID,group_concat( room_specification.m_id ) AS m_id,
-						 // group_concat( specification.feature ) AS specification
-						 // FROM (room_specification LEFT JOIN specification ON 
-						 // room_specification.m_id = specification.m_id)
-						 // LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
-                                                 // where rooms.room_id not in (SELECT room_id FROM `booking`
-                                                 // ) OR rooms.room_id in (SELECT room_id FROM `booking`
-                                                 // WHERE (`start_date` BETWEEN '$start_date' and '$end_date') OR (`end_date` BETWEEN '$start_date' and '$end_date'))
-						 // GROUP BY room_specification.room_id "
-                                                
-			 // or die('error');
-			 // $result_range = mysqli_query($con,$query_range);
-
-
-		// }		 
-
-	// }
-
-	// }
-	// else
-	// {
-	// $style = "display:none";
-	// }
-	$style = "display:none";
+		$style = "display:block";
 	// if($_POST['Daterange'])
 	// {
 		// $query_date = "";
@@ -83,13 +44,48 @@
 		
 	// }
 
-	if(isset($_GET['']))
+	if(isset($_GET['booking_no']))
 	{
-			$booking_id = $_GET['booking_id'];
+			$style = "display:block !important";
+			$booking_no_get = $_GET['booking_no'];
+		
+	 $query_select = "SELECT *,room_id as rooms_roomId from booking where booking_no = $booking_no_get";
+	 $result_select = mysqli_query($con,$query_select);
+									
+		 while($row = mysqli_fetch_array($result_select))
+	{
+		 $start_date = $row['start_date'];
+		 $end_date = $row['end_date'];
+
+		
+	    $query_range = "SELECT *,rooms.room_id as booking_roomID,group_concat( room_specification.m_id ) AS m_id,
+						  group_concat( specification.feature ) AS specification
+						  FROM (room_specification LEFT JOIN specification ON 
+						  room_specification.m_id = specification.m_id)
+						  LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
+                                                  where rooms.room_id not in (SELECT room_id FROM `booking`
+                                                  ) OR rooms.room_id in (SELECT room_id FROM `booking`
+                                                  WHERE (`start_date` BETWEEN '$start_date' and '$end_date') OR (`end_date` BETWEEN '$start_date' and '$end_date'))
+						  GROUP BY room_specification.room_id "
+                                                
+			  or die('error');
+			  $result_range = mysqli_query($con,$query_range);
+
+
+		 }		 
+
+	 }
+
+	
+	if(isset($_GET['booking_no']))
+	{
+			$style = "display:block !important";
+			$booking_no_get = $_GET['booking_no'];
+			
 			$formAction = "?booking_id=$booking_id";
-			$query = "SELECT * FROM `booking` WHERE `booking_id` = `$booking_id`";
-			$result = mysqli_query($con,$query);	
-			$row = mysqli_fetch_array($result)
+			$query_select = "SELECT * FROM `booking` WHERE `booking_no` = '$booking_no_get'";
+			$result_select = mysqli_query($con,$query_select);	
+			$row = mysqli_fetch_array($result_select)
 			or die ('error1');
 			$emp_id = $row['emp_id'];
 			$room_no = $row['room_no'];
@@ -116,16 +112,22 @@
 			$total_discount = $_POST['total_discount'];
 			$total_price = $_POST['total_price'];
 			
-			$checkBoxPost = $_POST['cb'];
+	$checkBoxPost = $_POST['cb'];
 			
-			// echo "checkboxPost: {$checkBoxPost}" ;
-			
+			for($j=0; $j<count($checkBoxPost); $j++)
+			{
+				$checkbox_post_array = unserialize($checkBoxPost[$j]);
+				// print_r($checkbox_post_array);
+				
+				$room_id = $checkbox_post_array['room_id'];
+				
 			$query = "UPDATE `booking` SET `emp_id`=[`$emp_id`],`room_no`=[`$room_no`],`bed_no`=[`$bed_no`],
 					`start_date`=[`$start_date`],`end_date`=[`$end_date`],`customer_name`=[`$customer_name`],
 					`phone_no`=[`$phone_no`],`email`=[`$email`],`comment`=[`$comment`],`total_discount`=[`$total_discount`]
 					,`total_price`=[`$total_price`] WHERE `booking_id`= `$booking_id`";
 			$result = mysqli_query($con,$query);
 			header("Location: view_booking.php?update=true");
+			}
 		}
 	}	
 else 
@@ -616,14 +618,14 @@ function toggle_colorbox(td) {
 							   <div class="control-group">
 								  <label class="control-label">Total Rooms</label>
 								  <div class="controls">
-									 <input name="room_no" readonly="readonly" placeholder="Total Rooms" id="room" type="text" class="span2 "  />
+									 <input name="room_no" value="<?php echo $room_no ?>" readonly="readonly" placeholder="Total Rooms" id="room" type="text" class="span2 "  />
 								  </div>
 							   </div>
 							   
 							   <div class="control-group">
 								  <label class="control-label">Total Bed</label>
 								  <div class="controls">
-									 <input readonly="readonly" name="bed_no" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
+									 <input readonly="readonly" name="bed_no" value="<?php echo $bed_no ?>" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
 
 								  </div>
 							   </div>
@@ -651,18 +653,18 @@ function toggle_colorbox(td) {
 							<div class="control-group">
 								  <label class="control-label">Customer Name</label>
 								  <div class="controls">
-									 <input name="customer_name" placeholder="Add Customer Name " type="text" class="span6 "  />
+									 <input name="customer_name" placeholder="Add Customer Name " value="<?php echo $customer_name ?>" type="text" class="span6 "  />
 								  </div>
 							   </div>
 							   <div class="control-group">
 								  <label class="control-label">Contact</label>
 								  <div class="controls">
-									 <input name="phone_no" placeholder="Add Phone #" type="text" class="span6 " />
+									 <input name="phone_no" placeholder="Add Phone #" value="<?php echo $phone_no ?>" type="text" class="span6 " />
 								  </div>
 							   </div><div class="control-group">
 								  <label class="control-label">Email</label>
 								  <div class="controls">
-									 <input name="email" placeholder="Add Email" type="text" class="span6 "  />
+									 <input name="email" placeholder="Add Email" value="<?php echo $email ?>" type="text" class="span6 "  />
 								  </div>
 							   </div>
 							   <div class="control-group">
@@ -674,13 +676,13 @@ function toggle_colorbox(td) {
 						   <div class="control-group">
 							<label class="control-label">Comment</label>
 							<div class="controls">
-								<textarea name="comment" placeholder="Add Your Coment" class="span6" rows="3"></textarea>
+								<textarea name="comment" placeholder="Add Your Coment" value="<?php echo $comment; ?>" class="span6" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="controls">
 							<button style="margin-bottom:10px;" onClick="voucher();" type="button" class="btn-primary">Voucher</button> 
 							</div>
-							<div id="voucher" style="display:none">
+							<div id="voucher" style="display:block">
 				<div style="border-top: 1px solid #e5e5e5;margin-top: 20px;border-top: 1px solid #e5e5e5;margin-bottom:20px;padding: 19px 0px 20px;">
 			<div class="control-group">
 						<label class="control-label">No Of Bed</label>
@@ -688,7 +690,7 @@ function toggle_colorbox(td) {
 					<div class="voucher">
 						<input placeholder="5" type="text" id="txt3" onkeyup="sum();" class="span3"  required/><br />
 					   </div>
-					<input  name="total_price" placeholder="Sub total" id="txt4" type="text" class="span6 " readonly="readonly" />
+					<input  name="total_price" placeholder="Sub total" value="<?php echo $total_price ?>" id="txt4" type="text" class="span6 " readonly="readonly" />
 					<input type="hidden" id="first_number"/> 
 				    	</div>
 					</div>
@@ -698,7 +700,7 @@ function toggle_colorbox(td) {
 						<div class="voucher">						 
 						 <input placeholder="" type="text" id="txt5" onkeyup="minus();" class="span3" required /><br />
 						 </div>
-						 <input name="total_discount" placeholder="Grand total" id="txt6" type="text" class="span6" readonly="readonly" />
+						 <input name="total_discount" placeholder="Grand total" value="<?php echo $total_discount ?>" id="txt6" type="text" class="span6" readonly="readonly" />
 					  </div>
 				   </div>
 				<div class="controls">

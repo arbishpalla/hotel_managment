@@ -1,5 +1,7 @@
 <?php
-	 include 'headers/session.php';
+	session_start();
+
+	include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';
 	$room_id = "";
 	$start_date = "";
@@ -9,9 +11,12 @@
 	$room_id ="";
 	$booking_id = "";
 	$time_stamp = "";
+	$booking_no = "";
 	
-	$query = "SELECT `time_stamp`,`booking_id`,`customer_name`,`start_date`,`end_date`,`name` as emp_name,room_id
-			  FROM `booking` left join login on (login.emp_id = booking.emp_id)"
+	$query = "SELECT `booking_no`,`time_stamp`,`booking_id`,`customer_name`,`start_date`,`end_date`,`name` as emp_name,
+				group_concat(room_id) as room_id
+			  FROM `booking` left join login on (login.emp_id = booking.emp_id)
+			  group by booking_no"
 	or die('error while fetching rooms Features');
 	$result_rooms = mysqli_query($con,$query);
 ?>
@@ -124,7 +129,8 @@ include 'headers/menu-top-navigation.php';
                                     <th class="hidden-phone">Room Id</th>
 									<th class="hidden-phone">Start Date</th>
 								    <th class="hidden-phone">End Date</th>
-									<th class="hidden-phone">Time</th
+									<th class="hidden-phone">Time</th>
+									<th class="hidden-phone">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -135,22 +141,26 @@ include 'headers/menu-top-navigation.php';
 								$count++;
 								$room_id = $row['room_id'];
 								$booking_id = $row['booking_id'];
-								$room_id = $row['room_id'];
 								$start_date = $row['start_date'];
 								$end_date = $row['end_date'];
 								$customer_name = $row['customer_name'];
 								$emp_name = $row['emp_name'];
 								$time_stamp = $row['time_stamp'];
+								$booking_no = $row['booking_no'];
 								$count++;
 								echo"
                                 <tr class='odd gradeX'>
-                                    <td>{$count}</td>
+                                    <td>{$booking_no}</td>
                                     <td class='hidden-phone'>{$emp_name}</td>
                                     <td class='hidden-phone'>{$customer_name}</td>
                                     <td class='hidden-phone'>{$room_id}</td>
                                     <td class='hidden-phone'>{$start_date}</td>
 									<td class='hidden-phone'>{$end_date}</td>
 									<td class='hidden-phone'>{$time_stamp}</td>
+									<td class='hidden-phone' style='text-align:center;'>
+				                     <a href='add_booking.php?booking_no=$booking_no'><button style='width:62% !important;' type='button'  class='btn btn-success'> 
+								   Update <i class='icon-edit'></i></button> </a></td>								
+	
  									</tr>
 									";
 								}

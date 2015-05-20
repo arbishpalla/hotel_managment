@@ -116,15 +116,16 @@ echo"
               </li>			
 		     <li class='has-sub'>
                   <a href='javascript:;' class=''>
-                      <span class='icon-box'> <i class='icon-file-alt'></i></span>Master Feature
+                      <span class='icon-box'> <i class='icon-th-large'></i></span>Rooms
                       <span class='arrow'></span>
                   </a>
                   <ul class='sub'>
+			  <li><a href='view_rooms.php'>View Rooms</a></li>
 			  <li><a class='' href='specification.php'>Feature</a></li>					  
 			  <li><a class='' href='room_spec.php'>Room Feature</a></li>
                            </ul>
               </li>			
-			  <li><a href='view_rooms.php'><span class='icon-box'><i class='icon-th-large'></i></span>View Rooms</a></li>
+			  
 			
 	</ul>
 	   <!-- END SIDEBAR MENU -->
