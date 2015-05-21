@@ -8,10 +8,20 @@
 	$room_no = "";
 	$formAction = "";
 	$id = "";
+	$roomNo = "";
 
+		
 	if(isset($_GET['room_id']))
 	{
 			$room_id = $_GET['room_id'];
+			$query_room = "SELECT room_no FROM rooms where room_id = '$room_id' ";
+			$result_room = mysqli_query($con,$query_room);
+			$row= mysqli_fetch_array($result_room);
+			$roomNo = $row['room_no'];
+		
+		
+		
+
 			$formAction = "?room_id=$room_id"; 
 			$query_main = "SELECT * FROM (room_specification left join rooms on room_specification.room_id = rooms.room_id) 
      				  left join specification on room_specification.m_id = specification.m_id
@@ -71,9 +81,22 @@ else
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
    <script>
-   if(<?php echo $redirect;?> == 1){
-			window.location.href = '<?php echo $url; ?>';
-   }
+<?php
+
+if(isset($_GET['room_id']))
+{
+if($_POST)
+{   
+	$url = "room_spec.php?update=true";
+	echo 'window.location.href = "'. $url.'"';
+  }
+}
+elseif($_POST)
+{
+	$url = "room_spec.php?insert=true";
+	echo 'window.location.href = "'. $url.'"';	
+}
+?>
 	</script>
 <body class="fixed-top">
 <?php
@@ -129,7 +152,7 @@ include 'headers/menu-top-navigation.php';
                               <label class="control-label">Rooms</label>
                               <div class="controls">
                                  <select name="room_id" class="span6 chosen" data-placeholder="Select Room " tabindex="1">
-									<option value='<?php echo"$room_id";?>'><?php echo"$room_id";?></option>                                 
+									<option value='<?php echo"$room_id";?>'><?php echo"$roomNo";?></option>                                 
 								 <?php
 									$query_feature = "SELECT * FROM rooms";
 									$result_feature = mysqli_query($con,$query_feature)
@@ -155,26 +178,13 @@ if(isset($_GET['room_id'])){
 	if($_POST)
 	{		
 			foreach ($_POST['id'] as $iD_array) {
-				// echo "ID is".$iD_array."<br />";
-				// echo "FIELD 1 is ".$_POST['m_id'][$iD_array]."<br />";
-				$m_id = $_POST['m_id'][$iD_array];
-				
+				$m_id = $_POST['m_id'][$iD_array];				
 				$query_update = "UPDATE room_specification set m_id = '$m_id' where id = '$iD_array'"
 				or die('error while updating rooms specification');
                  mysql_query($query_update);			
-				
-				$url = "index.php";
-				$redirect = 1;
-				
-				// $url = "room_spec.php?update=true";
-				// $redirect = 1;
-	
-			// $query = "UPDATE room_specification SET `room_id`='$room_id',m_id = '$m_id' WHERE `id` = '$id'"
-			// or die('error while updating rooms specification');
-			// $result = mysqli_query($con,$query);
-			// $i++;
-
 			}
+
+
 	} 
 			
 

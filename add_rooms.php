@@ -1,4 +1,5 @@
 <?php 
+	session_start();
 	include 'headers/connect_to_mysql.php';
 	$room_no = "";
 	$room_type = "";

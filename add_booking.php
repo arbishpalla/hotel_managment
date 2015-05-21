@@ -26,9 +26,40 @@
 	$value = "";
 	$room_id = "";
 	$booking_id = "";
-	$room_id = "";
 	$bookin_no = "";
 	$booking_no_get = "";
+	$emp_id_booking ="";
+	$room_id_booking ="";
+	
+	$avaialableRooms = array();
+	$bookedRooms = array();
+	$checked = "";
+	
+	
+	
+		if(isset($_GET['booking_no']))
+		{
+			$booking_no_get = $_GET['booking_no'];
+			$query_detail = "SELECT * FROM booking where booking_no = '$booking_no_get'"
+			or die ('error while fetching data from booking');
+			$result_detail = mysqli_query($con,$query_detail);
+			while($row = mysqli_fetch_assoc($result_detail))
+		   { 	
+			$room_id_booking = $row['room_id'];
+			$bookedRooms[] = $room_id_booking;
+			$emp_id_booking = $row['emp_id'];
+			$room_no_booking = $row['room_no'];
+			$bed_no_booking = $row['bed_no'];
+			$customer_name = $row['customer_name'];
+			$phone_no = $row['phone_no'];
+			$email = $row['email'];
+			$comment = $row['comment'];
+			$total_discount = $row['total_discount'];
+			$total_price = $row['total_price'];
+			echo "booking room id".$room_id_booking;
+			}
+		}
+	
 	
 	$query_bookingNO = "SELECT CASE WHEN MAX(booking_no) IS NULL THEN 1000 ELSE MAX(booking_no)+1 END AS booking_no  FROM `booking` "
 	or die('error while fetching booking No');
@@ -36,7 +67,7 @@
 	$row_booking = mysqli_fetch_array($result_booking);
 	$booking_no =  $row_booking['booking_no'];
 	
-		$style = "display:block";
+
 	// if($_POST['Daterange'])
 	// {
 		// $query_date = "";
@@ -46,59 +77,34 @@
 
 	if(isset($_GET['booking_no']))
 	{
-			$style = "display:block !important";
+			$style = "display:block";
 			$booking_no_get = $_GET['booking_no'];
 		
 	 $query_select = "SELECT *,room_id as rooms_roomId from booking where booking_no = $booking_no_get";
 	 $result_select = mysqli_query($con,$query_select);
 									
-		 while($row = mysqli_fetch_array($result_select))
-	{
-		 $start_date = $row['start_date'];
-		 $end_date = $row['end_date'];
 
+		 while($row = mysqli_fetch_array($result_select))
+		{
+			 $start_date = $row['start_date'];
+			 $end_date = $row['end_date'];
+		}
 		
-	    $query_range = "SELECT *,rooms.room_id as booking_roomID,group_concat( room_specification.m_id ) AS m_id,
+	    $query_range = "SELECT booking.comment as comment,booking.total_price as total_price,booking.total_discount as total_discount,booking.customer_name as customer_name,
+                		booking.email as email, booking.phone_no as phone_no,rooms.room_no as room_no,rooms.bed_no as bed_no,rooms.room_id as booking_roomID,group_concat( room_specification.m_id ) AS m_id,
 						  group_concat( specification.feature ) AS specification
 						  FROM (room_specification LEFT JOIN specification ON 
 						  room_specification.m_id = specification.m_id)
 						  LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
-                                                  where rooms.room_id not in (SELECT room_id FROM `booking`
-                                                  ) OR rooms.room_id in (SELECT room_id FROM `booking`
-                                                  WHERE (`start_date` BETWEEN '$start_date' and '$end_date') OR (`end_date` BETWEEN '$start_date' and '$end_date'))
-						  GROUP BY room_specification.room_id "
-                                                
+                                                  LEFT JOIN booking on rooms.room_id = booking.room_id
+                                                  where rooms.room_id in (SELECT room_id FROM `booking`WHERE (`start_date` BETWEEN '$start_date' and '$end_date') OR (`end_date` BETWEEN '$start_date' and '$end_date')) AND booking.booking_no = $booking_no_get
+                                                  OR rooms.room_id not in (SELECT room_id FROM `booking`
+                                                  WHERE (`start_date` BETWEEN '$start_date' and '$end_date') OR (`end_date` BETWEEN '$start_date' and '$end_date'))						 
+                                                  GROUP BY room_specification.room_id "                                           
 			  or die('error');
 			  $result_range = mysqli_query($con,$query_range);
-
-
-		 }		 
-
-	 }
-
-	
-	if(isset($_GET['booking_no']))
-	{
-			$style = "display:block !important";
-			$booking_no_get = $_GET['booking_no'];
+		
 			
-			$formAction = "?booking_id=$booking_id";
-			$query_select = "SELECT * FROM `booking` WHERE `booking_no` = '$booking_no_get'";
-			$result_select = mysqli_query($con,$query_select);	
-			$row = mysqli_fetch_array($result_select)
-			or die ('error1');
-			$emp_id = $row['emp_id'];
-			$room_no = $row['room_no'];
-			$bed_no = $row['bed_no'];
-			$start_date = $row['start_date'];
-			$end_date = $row['end_date'];
-			$customer_name = $row['customer_name'];
-			$phone_no = $row['phone_no'];
-			$email = $row['email'];
-			$comment = $row['comment'];
-			$total_discount = $row['total_discount'];
-			$total_price = $row['total_price'];
-			$feature = $row['feature'];
 		if($_POST)
 		{
 
@@ -111,17 +117,17 @@
 			$comment = $_POST['comment'];
 			$total_discount = $_POST['total_discount'];
 			$total_price = $_POST['total_price'];
-			
-	$checkBoxPost = $_POST['cb'];
+			$emp_id_booking = $_POST['emp_id'];
+			$checkBoxPost = $_POST['cb'];
 			
 			for($j=0; $j<count($checkBoxPost); $j++)
 			{
-				$checkbox_post_array = unserialize($checkBoxPost[$j]);
+				$checkbox_post_array =($checkBoxPost[$j]);
 				// print_r($checkbox_post_array);
 				
 				$room_id = $checkbox_post_array['room_id'];
 				
-			$query = "UPDATE `booking` SET `emp_id`=[`$emp_id`],`room_no`=[`$room_no`],`bed_no`=[`$bed_no`],
+			$query = "UPDATE `booking` SET `emp_id`=[`$emp_id_booking`],`room_no`=[`$room_no`],`bed_no`=[`$bed_no`],
 					`start_date`=[`$start_date`],`end_date`=[`$end_date`],`customer_name`=[`$customer_name`],
 					`phone_no`=[`$phone_no`],`email`=[`$email`],`comment`=[`$comment`],`total_discount`=[`$total_discount`]
 					,`total_price`=[`$total_price`] WHERE `booking_id`= `$booking_id`";
@@ -132,6 +138,7 @@
 	}	
 else 
 {
+				$style = "display:none";
 	if(isset($_POST))
 	{
 		
@@ -529,9 +536,101 @@ function toggle_colorbox(td) {
 								</thead>
 								<tbody>
 								
-								<?php 
-								if($_POST){
-								$count = 0;
+								<?php
+								
+								if(isset($_GET['booking_no']))
+								{	
+									$count = 0;
+									while($row_booking = mysqli_fetch_assoc($result_range))
+									{
+										$rooms_selected[] = $row_booking;
+										
+										$data = $row_booking;
+										$dataString = serialize($data);
+										
+						
+										$room_no = $row_booking['room_no'];
+										$room_id = $row_booking['booking_roomID'];
+										//$avaialableRooms[] = $room_id;
+										$bed_no = $row_booking['bed_no'];
+										echo "room_id-->{$room_id}";
+										$specification = $row_booking['specification'];
+										$values = explode(',', $row_booking['specification']);
+										$value1 ='';
+										
+										   foreach ($values as $value) 
+										   {
+											
+												if($value == "TV")									
+												{
+												 $value1 .= "<span class='myicon-tv'></span>";
+											
+												}
+												if($value == "A/C")
+											   {
+												 $value1 .= "<span class='myicon-snoflaek'></span>";
+													
+											   }
+													if($value == "Heater")
+											   {
+												 $value1 .= "<span class='myicon-heat'></span>";
+														
+											   }
+													if($value == "Kettle")
+											   {
+												 $value1 .= "<span class='myicon-kettle'></span>";
+												
+											   }
+													if($value == "Wifi")
+											   {
+												 $value1 .= "<span class='myicon-wifi'></span>";
+													
+											   }
+													if($value == "English Toilet")
+											   {
+												 $value1 .= "<span class='myicon-shower'></span>";
+														
+											   }	
+										   }
+										   
+											$count++;
+									
+									
+										
+											for($j=0; $j<count($bookedRooms); $j++)
+											{
+												if($room_id == $bookedRooms[$j])
+												{
+													$checked = "checked";
+													break;
+												}
+												else
+												{
+													$checked = "";
+												}
+											}
+											
+											echo
+														"<tr class='odd gradeX'>
+																<td style =' min-width: 120px;' style='width:1% !important'>
+																<div class='checked12'>
+																<label for='checkbox{$count}'>
+																<input {$checked} name='cb[]' type='checkbox' id='checkbox{$count}' class='checkboxes' value='{$dataString}'/>
+																<i></i></label>
+																</div>
+																</td>
+																<td style =' min-width: 120px;'  class='hidden-phone'>$room_no</a></td>
+																<td style =' min-width: 120px;' class='sum'>$bed_no</td>
+																<td class='center hidden-phone'>$value1
+																</td>
+											</tr>";
+								
+										   
+									}
+								}
+								elseif($_POST)
+								{
+										$count = 0;
 									while($row_booking = mysqli_fetch_assoc($result_range))
 								{
 									$rooms_selected[] = $row_booking;
@@ -577,28 +676,28 @@ function toggle_colorbox(td) {
 										 $value1 .= "<span class='myicon-shower'></span>";
 												
 									   }	
-									   }	   
-									   	$count++;				   
+									   }   
+									   	$count++;
+
+								
+								
 								echo
-								"	<tr class='odd gradeX'>
-								<td style =' min-width: 120px;' style='width:1% !important'>
-								<div class='checked12'>
-								<label for='checkbox{$count}'>
-								<input name='cb[]' type='checkbox' id='checkbox{$count}' class='checkboxes' value='{$dataString}'/>
-								<i></i></label>
-								</div>
-								</td>
-								<td style =' min-width: 120px;'  class='hidden-phone'>$room_no</a></td>
-								<td style =' min-width: 120px;' class='sum'>$bed_no</td>
-								<td class='center hidden-phone'>$value1
-								</td>
-									   </tr>							
-									    									
-									";
-									   
+												"<tr class='odd gradeX'>
+														<td style =' min-width: 120px;' style='width:1% !important'>
+														<div class='checked12'>
+														<label for='checkbox{$count}'>
+														<input name='cb[]' type='checkbox' id='checkbox{$count}' class='checkboxes' value='{$dataString}'/>
+														<i></i></label>
+														</div>
+														</td>
+														<td style =' min-width: 120px;'  class='hidden-phone'>$room_no</a></td>
+														<td style =' min-width: 120px;' class='sum'>$bed_no</td>
+														<td class='center hidden-phone'>$value1
+														</td>
+												</tr>";
+								   
 									   }
 								}
-								
 								
 								?>
 									
@@ -618,14 +717,14 @@ function toggle_colorbox(td) {
 							   <div class="control-group">
 								  <label class="control-label">Total Rooms</label>
 								  <div class="controls">
-									 <input name="room_no" value="<?php echo $room_no ?>" readonly="readonly" placeholder="Total Rooms" id="room" type="text" class="span2 "  />
+									 <input name="room_no" value="<?php echo $room_no_booking ?>" readonly="readonly" placeholder="Total Rooms" id="room" type="text" class="span2 "  />
 								  </div>
 							   </div>
 							   
 							   <div class="control-group">
 								  <label class="control-label">Total Bed</label>
 								  <div class="controls">
-									 <input readonly="readonly" name="bed_no" value="<?php echo $bed_no ?>" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
+									 <input readonly="readonly" name="bed_no" value="<?php echo $bed_no_booking ?>" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
 
 								  </div>
 							   </div>
@@ -676,7 +775,7 @@ function toggle_colorbox(td) {
 						   <div class="control-group">
 							<label class="control-label">Comment</label>
 							<div class="controls">
-								<textarea name="comment" placeholder="Add Your Coment" value="<?php echo $comment; ?>" class="span6" rows="3"></textarea>
+								<textarea name="comment" placeholder="Add Your Coment" class="span6" rows="3"><?php echo $comment; ?></textarea>
 							</div>
 						</div>
 						<div class="controls">
@@ -688,7 +787,7 @@ function toggle_colorbox(td) {
 						<label class="control-label">No Of Bed</label>
 					<div class="controls">
 					<div class="voucher">
-						<input placeholder="5" type="text" id="txt3" onkeyup="sum();" class="span3"  required/><br />
+						<input placeholder="" type="text" id="txt3" onkeyup="sum();" class="span3"  required/><br />
 					   </div>
 					<input  name="total_price" placeholder="Sub total" value="<?php echo $total_price ?>" id="txt4" type="text" class="span6 " readonly="readonly" />
 					<input type="hidden" id="first_number"/> 
