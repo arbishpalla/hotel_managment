@@ -1,4 +1,4 @@
-<?phpphp
+<?php
 $host="localhost"; // Host name 
 $username="root"; // Mysql username 
 $password=""; // Mysql password 
@@ -30,7 +30,7 @@ $count=mysql_num_rows($result);
 
 </tr>
 
-<?phpphp
+<?php
 while($rows=mysql_fetch_array($result)){
 	$name = $rows['name'];
 	$age = $rows['age'];
@@ -59,7 +59,7 @@ while($rows=mysql_fetch_array($result)){
 </form>
 </table>
 
-<?phpphp
+<?php
 
 // Check if button name "Submit" is active, do this 
 if($Submit){
