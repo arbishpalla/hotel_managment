@@ -30,191 +30,191 @@
 	$booking_no_get = "";
 	$emp_id_booking ="";
 	$room_id_booking ="";
-	
+	$iD_array = "";
 	$avaialableRooms = array();
 	$bookedRooms = array();
 	$checked = "";
 	
 	
 	
-		if(isset($_GET['booking_no']))
-		{
-			$booking_no_get = $_GET['booking_no'];
-			$query_detail = "SELECT * FROM booking where booking_no = '$booking_no_get'"
-			or die ('error while fetching data from booking');
-			$result_detail = mysqli_query($con,$query_detail);
-			while($row = mysqli_fetch_assoc($result_detail))
-		   { 	
-			$room_id_booking = $row['room_id'];
-			$bookedRooms[] = $room_id_booking;
-			$emp_id_booking = $row['emp_id'];
-			$room_no_booking = $row['room_no'];
-			$bed_no_booking = $row['bed_no'];
-			$customer_name = $row['customer_name'];
-			$phone_no = $row['phone_no'];
-			$email = $row['email'];
-			$comment = $row['comment'];
-			$total_discount = $row['total_discount'];
-			$total_price = $row['total_price'];
-			echo "booking room id".$room_id_booking;
-			}
-		}
 	
-	
-	$query_bookingNO = "SELECT CASE WHEN MAX(booking_no) IS NULL THEN 1000 ELSE MAX(booking_no)+1 END AS booking_no  FROM `booking` "
-	or die('error while fetching booking No');
-	$result_booking = mysqli_query($con,$query_bookingNO);
-	$row_booking = mysqli_fetch_array($result_booking);
-	$booking_no =  $row_booking['booking_no'];
-	
-
-	// if($_POST['Daterange'])
-	// {
-		// $query_date = "";
-		
-		
-	// }
-
-	if(isset($_GET['booking_no']))
-	{
-			$style = "display:block";
-			$booking_no_get = $_GET['booking_no'];
-		
-	 $query_select = "SELECT *,room_id as rooms_roomId from booking where booking_no = $booking_no_get";
-	 $result_select = mysqli_query($con,$query_select);
-									
-
-		 while($row = mysqli_fetch_array($result_select))
+if(isset($_GET['booking_no']))
 		{
-			 $start_date = $row['start_date'];
-			 $end_date = $row['end_date'];
-		}
-		
-	    $query_range = "SELECT booking.comment as comment,booking.total_price as total_price,booking.total_discount as total_discount,booking.customer_name as customer_name,
-                		booking.email as email, booking.phone_no as phone_no,rooms.room_no as room_no,rooms.bed_no as bed_no,rooms.room_id as booking_roomID,group_concat( room_specification.m_id ) AS m_id,
-						  group_concat( specification.feature ) AS specification
-						  FROM (room_specification LEFT JOIN specification ON 
-						  room_specification.m_id = specification.m_id)
-						  LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
-                                                  LEFT JOIN booking on rooms.room_id = booking.room_id
-                                                  where rooms.room_id in (SELECT room_id FROM `booking`WHERE (`start_date` BETWEEN '$start_date' and '$end_date') OR (`end_date` BETWEEN '$start_date' and '$end_date')) AND booking.booking_no = $booking_no_get
-                                                  OR rooms.room_id not in (SELECT room_id FROM `booking`
-                                                  WHERE (`start_date` BETWEEN '$start_date' and '$end_date') OR (`end_date` BETWEEN '$start_date' and '$end_date'))						 
-                                                  GROUP BY room_specification.room_id "                                           
-			  or die('error');
-			  $result_range = mysqli_query($con,$query_range);
-		
-			
-		if($_POST)
-		{
+				
+				$booking_no_get = $_GET['booking_no'];
+				$style = "display:block";
+				$formAction = "?booking_no={$booking_no_get}";
+				$query_select = "SELECT *,room_id as rooms_roomId from booking where booking_no = $booking_no_get";
+				$result_select = mysqli_query($con,$query_select);
+				while($row = mysqli_fetch_array($result_select))
+				{
+				$start_date = $row['start_date'];
+				$end_date = $row['end_date'];
+				}
+				$query_range = "SELECT room_id as booking_roomID,group_concat( room_specification.m_id ) AS m_id,
+				group_concat( specification.feature ) AS specification
+				FROM (room_specification LEFT JOIN specification ON 
+				room_specification.m_id = specification.m_id)
+				LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
+				LEFT JOIN booking on rooms.room_id = booking.room_id
+				where rooms.room_id in (SELECT room_id FROM `booking`WHERE (`start_date` BETWEEN '$start_date' and '$end_date') OR (`end_date` BETWEEN '$start_date' and '$end_date')) AND booking.booking_no = $booking_no_get
+				OR rooms.room_id not in (SELECT room_id FROM `booking`
+				WHERE (`start_date` BETWEEN '$start_date' and '$end_date') OR (`end_date` BETWEEN '$start_date' and '$end_date'))						 
+				GROUP BY room_specification.room_id "                                           
+				or die('error');
+				$result_range = mysqli_query($con,$query_range);
 
-			$booking_id=  $_GET['booking_id'];
-			$room_no = $_POST['room_no'];
-			$end_date = $_POST['end_date'];
-			$customer_name = $_POST['customer_name'];
-			$phone_no = $_POST['phone_no'];
-			$email = $_POST['email'];
-			$comment = $_POST['comment'];
-			$total_discount = $_POST['total_discount'];
-			$total_price = $_POST['total_price'];
-			$emp_id_booking = $_POST['emp_id'];
-			$checkBoxPost = $_POST['cb'];
+				$query_detail = "SELECT * FROM booking where booking_no = '$booking_no_get'"
+				or die ('error while fetching data from booking');
+				$result_detail = mysqli_query($con,$query_detail);
+				while($row = mysqli_fetch_assoc($result_detail))
+				{ 	
+					$room_id = $row['booking_roomID'];
+					$bookedRooms[] = $room_id;
+					$emp_id= $row['emp_id'];
+					$room_no = $row['room_no'];
+					echo "room_no-->".$room_no;
+					$bed_no = $row['bed_no'];
+					echo "bed_no-->".$bed_no;
+					$customer_name = $row['customer_name'];
+					$phone_no = $row['phone_no'];
+					$startDate = $row['start_date'];
+					$endDate = $row['end_date'];
+					$email = $row['email'];
+					$comment = $row['comment'];
+					$total_discount = $row['total_discount'];
+					$total_price = $row['total_price'];
+					$booking_id  = $row['booking_id'];		
+				}
+
+		if(isset($_POST))
+		  {	
+		   if(isset($_POST['form-name'])){$form_name = $_POST['form-name'];}
+		   if($form_name=="add_bookings")
+			 {
+				 
+					$query_delete  = "DELETE FROM booking where booking_no = '$booking_no_get'"
+					or die('error while deleting booking');
+					$result_delete = mysqli_query($con,$query_delete); 		
+				 
+					$room_no = $_POST['room_no'];
+					$room_id = $_POST['room_id'];
+					$bed_no = $_POST['bed_no'];
+					$customer_name = $_POST['customer_name'];
+					$phone_no = $_POST['phone_no'];
+					$email = $_POST['email'];
+					$start_date = $_POST['start_date'];
+					$end_date = $_POST['end_date'];
+					$comment = $_POST['comment'];
+					$total_discount = $_POST['total_discount'];
+					$total_price = $_POST['total_price'];		
+					$checkBoxPost = $_POST['cb'];
 			
-			for($j=0; $j<count($checkBoxPost); $j++)
-			{
-				$checkbox_post_array =($checkBoxPost[$j]);
-				// print_r($checkbox_post_array);
+		for($j=0; $j<count($checkBoxPost); $j++)
+				{
+					$checkbox_post_array = unserialize($checkBoxPost[$j]);
+					print_r($checkbox_post_array);				
+					$room_id = $checkbox_post_array['booking_roomID'];
 				
-				$room_id = $checkbox_post_array['room_id'];
-				
-			$query = "UPDATE `booking` SET `emp_id`=[`$emp_id_booking`],`room_no`=[`$room_no`],`bed_no`=[`$bed_no`],
-					`start_date`=[`$start_date`],`end_date`=[`$end_date`],`customer_name`=[`$customer_name`],
-					`phone_no`=[`$phone_no`],`email`=[`$email`],`comment`=[`$comment`],`total_discount`=[`$total_discount`]
-					,`total_price`=[`$total_price`] WHERE `booking_id`= `$booking_id`";
-			$result = mysqli_query($con,$query);
-			header("Location: view_booking.php?update=true");
-			}
-		}
-	}	
-else 
-{
-				$style = "display:none";
-	if(isset($_POST))
-	{
-		
-		if(isset($_POST['form-name'])){$form_name = $_POST['form-name'];}
-		
-		if($form_name=="add_bookings")
-		
-		{
+					$query_inserting = "INSERT INTO `booking`(`emp_id`,`booking_no`, `room_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`,`time_stamp`) VALUES ('$emp_id','$booking_no_get','$room_id','$room_no','$bed_no','$start_date','$end_date','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price',now())";
+					mysqli_query($con,$query_inserting)
+					or die('error while inserting booking');			
+					//header("Location: booking_view.php?update=true");
+				}
 			
-			$room_no = $_POST['room_no'];
-			$room_id = $_POST['room_id'];
-			$bed_no = $_POST['bed_no'];
-			$customer_name = $_POST['customer_name'];
-			$phone_no = $_POST['phone_no'];
-			$email = $_POST['email'];
-			$start_date = $_POST['start_date'];
-			$end_date = $_POST['end_date'];
-			$comment = $_POST['comment'];
-			$total_discount = $_POST['total_discount'];
-			$total_price = $_POST['total_price'];		
-			
-			$checkBoxPost = $_POST['cb'];
-			
-			for($j=0; $j<count($checkBoxPost); $j++)
-			{
-				$checkbox_post_array = unserialize($checkBoxPost[$j]);
-				// print_r($checkbox_post_array);
-				
-				$room_id = $checkbox_post_array['room_id'];
-				
-				$query_inserting = "INSERT INTO `booking`(`emp_id`,`booking_no`, `room_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`,`time_stamp`) VALUES ('$emp_id','$booking_no','$room_id','$room_no','$bed_no','$start_date','$end_date','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price',now())";
-				mysqli_query($con,$query_inserting)
-				or die('error while inserting booking');
-			
-			header("Location: booking_view.php?insert=true");
-			
-			
-			}
-			
-		}
+			 }		
 		elseif($form_name=="dateRange")
-		{
-			$startDate = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['start_date'])));
-			$endDate = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['end_date'])));
-			$query_range = "SELECT *,group_concat( room_specification.m_id ) AS m_id,
-						group_concat( specification.feature ) AS specification
-						FROM (room_specification LEFT JOIN specification ON 
-						room_specification.m_id = specification.m_id)
-						LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
-                                                where rooms.room_id not in (SELECT room_id FROM `booking`
-                                                WHERE (`start_date` BETWEEN '$startDate' and '$endDate') OR (`end_date` BETWEEN '$startDate' and '$endDate'))
-						GROUP BY room_specification.room_id "
-						or die('error');
-						$result_range = mysqli_query($con,$query_range);
-						$isPosetd  = 1;
-			if($isPosetd = 1)
-			{
-			 $style = "display:block !important";
+				{
+					$startDate = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['start_date'])));
+					$endDate = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['end_date'])));
+					$query_range = "SELECT *,group_concat( room_specification.m_id ) AS m_id,
+					group_concat( specification.feature ) AS specification
+					FROM (room_specification LEFT JOIN specification ON 
+					room_specification.m_id = specification.m_id)
+					LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
+					where rooms.room_id not in (SELECT room_id FROM `booking`
+					WHERE (`start_date` BETWEEN '$startDate' and '$endDate') OR (`end_date` BETWEEN '$startDate' and '$endDate'))
+					GROUP BY room_specification.room_id"
+					or die('error');
+					$result_range = mysqli_query($con,$query_range);
+					$isPosetd  = 1;
+					if($isPosetd = 1)
+					{
+					 $style = "display:block !important";
+					}
+					else
+					{
+						 $style = "display:none";
+					}
+				}
 			}
-			else
-			{
-				 $style = "display:none";
-			}
-	}
-		// SELECT *,group_concat( room_specification.m_id ) AS m_id,
-						// group_concat( specification.feature ) AS specification
-						// FROM (room_specification LEFT JOIN specification ON 
-						// room_specification.m_id = specification.m_id)
-						// LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
-                                                // where rooms.room_no not in (SELECT room_no FROM `booking` WHERE `start_date` >= '$startDate' OR `end_date` <= '$endDate' )
-						// GROUP BY room_specification.room_id
-		
 		}
-		else
+	else 
 		{
+	$style = "display:none";
+					$query_bookingNO = "SELECT CASE WHEN MAX(booking_no) IS NULL THEN 1000 ELSE MAX(booking_no)+1 END AS booking_no  FROM `booking` "
+					or die('error while fetching booking No');
+					$result_booking = mysqli_query($con,$query_bookingNO);
+					$row_booking = mysqli_fetch_array($result_booking);
+					$booking_no =  $row_booking['booking_no'];
+	 	
+	
+	if(isset($_POST))
+		 {
 		
+			if(isset($_POST['form-name'])){$form_name = $_POST['form-name'];}		
+	if($form_name=="add_bookings")		
+			{
+					$room_no = $_POST['room_no'];
+					$room_id = $_POST['room_id'];
+					$bed_no = $_POST['bed_no'];
+					$customer_name = $_POST['customer_name'];
+					$phone_no = $_POST['phone_no'];
+					$email = $_POST['email'];
+					$start_date = $_POST['start_date'];
+					$end_date = $_POST['end_date'];
+					$comment = $_POST['comment'];
+					$total_discount = $_POST['total_discount'];
+					$total_price = $_POST['total_price'];		
+					$checkBoxPost = $_POST['cb'];
+			
+  			 for($j=0; $j<count($checkBoxPost); $j++)
+			      {
+				 	$checkbox_post_array = unserialize($checkBoxPost[$j]);
+					// print_r($checkbox_post_array);	
+					$room_id = $checkbox_post_array['room_id'];
+					
+					$query_inserting = "INSERT INTO `booking`(`emp_id`,`booking_no`, `room_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`,`time_stamp`) VALUES ('$emp_id','$booking_no','$room_id','$room_no','$bed_no','$start_date','$end_date','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price',now())";
+					mysqli_query($con,$query_inserting)
+					or die('error while inserting booking');			
+					header("Location: booking_view.php?insert=true");
+				  } 
+			
+			}
+	elseif($form_name=="dateRange")
+			{
+					$startDate = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['start_date'])));
+					$endDate = date('Y-m-d', strtotime(str_replace('-', '/', $_POST['end_date'])));
+					$query_range = "SELECT *,room_no as roomNO,group_concat( room_specification.m_id ) AS m_id,
+							group_concat( specification.feature ) AS specification
+							FROM (room_specification LEFT JOIN specification ON 
+							room_specification.m_id = specification.m_id)
+							LEFT JOIN rooms ON rooms.room_id = room_specification.room_id
+													where rooms.room_id not in (SELECT room_id FROM `booking`
+													WHERE (`start_date` BETWEEN '$startDate' and '$endDate') OR (`end_date` BETWEEN '$startDate' and '$endDate'))
+							GROUP BY room_specification.room_id "
+					or die('error');
+					$result_range = mysqli_query($con,$query_range);
+					$isPosetd  = 1;
+					if($isPosetd = 1)
+					{
+					 $style = "display:block !important";
+					}
+					else
+					{
+						 $style = "display:none";
+					}
+			}
 		}
 	}
 
@@ -488,7 +488,7 @@ function toggle_colorbox(td) {
 									<a href="javascript:;" class="icon-remove"></a>
 								</span>
 							</div>
-							<form action="add_booking.php" name="dateRange" id="dateRange" method="post">
+							<form action="add_booking.php<?php echo $formAction; ?>" name="dateRange" id="dateRange" method="post">
 							<div class="widget-body">
 									  <a href="#myModal3" role="button" class="btn btn-success" data-toggle="modal">Select Date Range</a>
 									   <div id="myModal3" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
@@ -520,7 +520,7 @@ function toggle_colorbox(td) {
 											</div><br><br>
 		
 											<div id="form_booking" style="<?php echo $style; ?>">
-								<form action="add_booking.php" name="add_bookings" style="<?php echo $style; ?>" id="booking_form" method="post">
+								<form action="add_booking.php<?php echo $formAction; ?>" name="add_bookings" style="<?php echo $style; ?>" id="booking_form" method="post">
 								<input type="hidden" value="add_bookings" name="form-name" />
 								<input type="hidden" name="start_date"  value="<?php echo $startDate; ?>" />
 								<input type="hidden" name="end_date" value="<?php echo $endDate; ?>" />
@@ -549,11 +549,10 @@ function toggle_colorbox(td) {
 										$dataString = serialize($data);
 										
 						
-										$room_no = $row_booking['room_no'];
-										$room_id = $row_booking['booking_roomID'];
+										$roomNO = $row_booking['roomNO'];
+										 $room_id = $row_booking['booking_roomID'];
 										//$avaialableRooms[] = $room_id;
-										$bed_no = $row_booking['bed_no'];
-										echo "room_id-->{$room_id}";
+										$bedNO = $row_booking['bed_no'];
 										$specification = $row_booking['specification'];
 										$values = explode(',', $row_booking['specification']);
 										$value1 ='';
@@ -619,8 +618,8 @@ function toggle_colorbox(td) {
 																<i></i></label>
 																</div>
 																</td>
-																<td style =' min-width: 120px;'  class='hidden-phone'>$room_no</a></td>
-																<td style =' min-width: 120px;' class='sum'>$bed_no</td>
+																<td style =' min-width: 120px;'  class='hidden-phone'>$roomNO</a></td>
+																<td style =' min-width: 120px;' class='sum'>$bedNO</td>
 																<td class='center hidden-phone'>$value1
 																</td>
 											</tr>";
@@ -637,9 +636,8 @@ function toggle_colorbox(td) {
 									
 									$data = $row_booking;
 									$dataString = serialize($data);
-									
 					
-									$room_no = $row_booking['room_no'];
+									$room_no = $row_booking['roomNO'];
 									$bed_no = $row_booking['bed_no'];
 									$specification = $row_booking['specification'];
 									 $values = explode(',', $row_booking['specification']);
@@ -690,7 +688,7 @@ function toggle_colorbox(td) {
 														<i></i></label>
 														</div>
 														</td>
-														<td style =' min-width: 120px;'  class='hidden-phone'>$room_no</a></td>
+														<td style =' min-width: 120px;' class='hidden-phone'>$room_no</a></td>
 														<td style =' min-width: 120px;' class='sum'>$bed_no</td>
 														<td class='center hidden-phone'>$value1
 														</td>
@@ -717,14 +715,14 @@ function toggle_colorbox(td) {
 							   <div class="control-group">
 								  <label class="control-label">Total Rooms</label>
 								  <div class="controls">
-									 <input name="room_no" value="<?php echo $room_no_booking ?>" readonly="readonly" placeholder="Total Rooms" id="room" type="text" class="span2 "  />
+									 <input name="room_no" value="<?php echo $room_no ?>" readonly="readonly" placeholder="Total Rooms" id="room" type="text" class="span2 "  />
 								  </div>
 							   </div>
 							   
 							   <div class="control-group">
 								  <label class="control-label">Total Bed</label>
 								  <div class="controls">
-									 <input readonly="readonly" name="bed_no" value="<?php echo $bed_no_booking ?>" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
+									 <input readonly="readonly" name="bed_no" value="<?php echo $bed_no?>" placeholder="Total Bed" type="text" id="txt1" class="span2 " />
 
 								  </div>
 							   </div>
@@ -750,7 +748,8 @@ function toggle_colorbox(td) {
 							<div class="widget-body">
 					 <div class="form-horizontal">
 							<div class="control-group">
-								  <label class="control-label">Customer Name</label>
+<input type="hidden" name="bookin_id[]" />						
+						<label class="control-label">Customer Name</label>
 								  <div class="controls">
 									 <input name="customer_name" placeholder="Add Customer Name " value="<?php echo $customer_name ?>" type="text" class="span6 "  />
 								  </div>

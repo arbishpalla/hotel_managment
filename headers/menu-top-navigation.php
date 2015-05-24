@@ -116,11 +116,11 @@ echo"
               </li>			
 		     <li class='has-sub'>
                   <a href='javascript:;' class=''>
-                      <span class='icon-box'> <i class='icon-th-large'></i></span>Rooms
+                      <span class='icon-box'> <i class='icon-th-large'></i></span>Room
                       <span class='arrow'></span>
                   </a>
                   <ul class='sub'>
-			  <li><a href='view_rooms.php'>View Rooms</a></li>
+			  <li><a href='view_rooms.php'>Rooms</a></li>
 			  <li><a class='' href='specification.php'>Feature</a></li>					  
 			  <li><a class='' href='room_spec.php'>Room Feature</a></li>
                            </ul>
