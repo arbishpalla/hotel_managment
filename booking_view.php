@@ -118,8 +118,13 @@ include 'headers/menu-top-navigation.php';
                             <span class="tools">
                                 <a href="javascript:;" class="icon-chevron-down"></a>
                             </span>
-                        </div>
-                        <div class="widget-body">
+							</div>
+<div class="widget-body">
+			<div class="btn-group">
+               <a href="add_booking.php"><button type="button" style="margin-bottom:10px;" class="btn btn-primary"> Add New <i class="icon-plus"></i> </button></a>
+                              </div>
+                            <div class="portlet-body">
+                                
 						<table class="table table-striped table-bordered" id="sample_1">
                             <thead>
                                 <tr>

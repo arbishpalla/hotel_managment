@@ -3,7 +3,7 @@
 	 include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';	
 	$query = "SELECT  *,rooms.room_id as roomId FROM (`rooms` left join room_specification on room_specification.room_id = rooms.room_id)
-left join specification on room_specification.m_id = specification.m_id"
+left join specification on room_specification.m_id = specification.m_id order by rooms.room_no"
 	or die('error while fetching rooms detail');
 	$result_rooms = mysqli_query($con,$query);
 ?>
