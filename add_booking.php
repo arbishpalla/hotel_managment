@@ -44,14 +44,14 @@
 				$style = "display:block";
 				$formAction = "?booking_no={$booking_no_get}";
 				// query for date range before post start here
-				$query_select = "SELECT *,room_id as rooms_roomId from booking where booking_no = $booking_no_get";
+				$query_select = "SELECT * from booking where booking_no = $booking_no_get";
 				$result_select = mysqli_query($con,$query_select);
 				while($row = mysqli_fetch_array($result_select))
 				{
 				$start_date = $row['start_date'];
 				$end_date = $row['end_date'];
 				}
-				$query_range = "SELECT booking.room_id,rooms.bed_no as Bed_no,rooms.room_no as Room_no,group_concat( room_specification.m_id ) AS m_id,
+				$query_range = "SELECT rooms.room_id as room_id,rooms.bed_no as Bed_no,rooms.room_no as Room_no,group_concat( room_specification.m_id ) AS m_id,
 				group_concat( specification.feature ) AS specification
 				FROM (room_specification LEFT JOIN specification ON 
 				room_specification.m_id = specification.m_id)
@@ -92,7 +92,6 @@
 		   if(isset($_POST['form-name'])){$form_name = $_POST['form-name'];}
 		   if($form_name=="add_bookings")
 			 {
-				 
 				  $query_delete  = "DELETE FROM booking where booking_no = '$booking_no_get'"
 				  or die('error while deleting booking');
 			      $result_delete = mysqli_query($con,$query_delete);
@@ -114,12 +113,13 @@
 		for($j=0; $j<count($checkBoxPost); $j++)
 				{
 					$checkbox_post_array = unserialize($checkBoxPost[$j]);
-					print_r($checkbox_post_array);				
+					// print_r($checkbox_post_array);				
 					$room_id = $checkbox_post_array['room_id'];
 				
 					$query_inserting = "INSERT INTO `booking`(`emp_id`,`booking_no`, `room_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`,`time_stamp`) VALUES ('$emp_id','$booking_no_get','$room_id','$room_no','$bed_no','$start_date','$end_date','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price',now())";
 					mysqli_query($con,$query_inserting)
 					or die('error while inserting booking');			
+					// var_dump($query_inserting);
 					header("Location: booking_view.php?update=true");
 				}
 					// query for insert booking end here
@@ -183,7 +183,7 @@
 		for($j=0; $j<count($checkBoxPost); $j++)
 				{
 					$checkbox_post_array = unserialize($checkBoxPost[$j]);
-					print_r($checkbox_post_array);				
+					// print_r($checkbox_post_array);				
 					$room_id = $checkbox_post_array['room_id'];
 				
 					$query_inserting = "INSERT INTO `booking`(`emp_id`,`booking_no`, `room_id`, `room_no`, `bed_no`, `start_date`, `end_date`, `customer_name`, `phone_no`, `email`, `comment`, `total_discount`, `total_price`,`time_stamp`) VALUES ('$emp_id','$booking_no','$room_id','$room_no','$bed_no','$start_date','$end_date','$customer_name','$phone_no','$email','$comment','$total_discount','$total_price',now())";
@@ -548,7 +548,6 @@ function toggle_colorbox(td) {
 										$rooms_selected[] = $row_booking;
 										$data = $row_booking;
 										$dataString = serialize($data);
-										
 						
 										$Room_no = $row_booking['Room_no'];
 										$room_id = $row_booking['room_id'];
@@ -784,7 +783,7 @@ function toggle_colorbox(td) {
 						<label class="control-label">No Of Bed</label>
 					<div class="controls">
 					<div class="voucher">
-						<input placeholder="" type="text" id="txt3" onkeyup="sum();" class="span3"  required/><br />
+						<input placeholder="" type="text" id="txt3" onkeyup="sum();" class="span3"  /><br />
 					   </div>
 					<input  name="total_price" placeholder="Sub total" value="<?php echo $total_price ?>" id="txt4" type="text" class="span6 " readonly="readonly" />
 					<input type="hidden" id="first_number"/> 
@@ -794,7 +793,7 @@ function toggle_colorbox(td) {
 					  <label class="control-label">Discount</label>
 					  <div class="controls">
 						<div class="voucher">						 
-						 <input placeholder="" type="text" id="txt5" onkeyup="minus();" class="span3" required /><br />
+						 <input placeholder="" type="text" id="txt5" onkeyup="minus();" class="span3"  /><br />
 						 </div>
 						 <input name="total_discount" placeholder="Grand total" value="<?php echo $total_discount ?>" id="txt6" type="text" class="span6" readonly="readonly" />
 					  </div>
