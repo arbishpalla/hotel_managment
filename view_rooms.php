@@ -2,8 +2,9 @@
 	session_start();
 	 include 'headers/session.php';
 	include 'headers/connect_to_mysql.php';	
-	$query = "SELECT  *,rooms.room_id as roomId FROM (`rooms` left join room_specification on room_specification.room_id = rooms.room_id)
-left join specification on room_specification.m_id = specification.m_id order by rooms.room_no"
+	// $query = "SELECT  *,rooms.room_id as roomId FROM (`rooms` left join room_specification on room_specification.room_id = rooms.room_id)
+// left join specification on room_specification.m_id = specification.m_id order by rooms.room_no"
+	$query = "SELECT * FROM rooms"
 	or die('error while fetching rooms detail');
 	$result_rooms = mysqli_query($con,$query);
 ?>
@@ -132,7 +133,6 @@ include 'headers/menu-top-navigation.php';
                                     <th>Room #</th>
                                     <th>Bed #</th> 
                                     <th>Room Type</th>
-									<th>Specification</th> 
 									 <th>Action</th>
                                         <div class="widths">
                                         <th style="display:none">Edit</th>
@@ -146,21 +146,20 @@ include 'headers/menu-top-navigation.php';
 							while($row = mysqli_fetch_array($result_rooms))
 								{
 								$count++;
-								$room_id = $row['roomId'];	
+								$room_id = $row['room_id'];	
 								$room_no = $row['room_no'];
 								$bed_no = $row['bed_no'];
 								$room_type = $row['room_type'];
-								$feature = $row['feature'];
+								// $feature = $row['feature'];
 					echo"
 					<tr class=''> 
 								<td style='width:1% !important'><a href='#'>{$count}</a></td>
 								<td style='width:3% !important'><a href='#'>{$room_no}</a></td>
 								<td style='width:3% !important'><a href='#'>{$bed_no}</a></td>
 								<td style='width:3% !important'><a href='#'>{$room_type}</a></td>
-								<td style='width:3% !important'><a href='#'>{$feature}</a></td>
-								  <td style='width:1%;text-align:center;'>
-								<a href='add_rooms.php?room_id=$room_id'><button style='width:79% !important; margin-bottom: 2px;' type='button' class='btn btn-success'> Update <i class='icon-edit'></i></button> </a>																					 							 	 
-								 <a href='delete.php?room_id=$room_id'><button style='width:79% !important;' type='button'  class='btn btn-danger'>
+								  <td style='width:3%;text-align:center;'>
+								<a href='add_rooms.php?room_id=$room_id'><button style='width:91px !important; margin-bottom: 2px;' type='button' class='btn btn-success'> Update <i class='icon-edit'></i></button> </a>																					 							 	 
+								 <a href='delete.php?room_id=$room_id'><button style='width:91px !important;height='31px;' type='button'  class='btn btn-danger'>
 								  Delete <i class='icon-trash'></i></button> </a></td>
 									  <td style='display:none'><a class='' href='javascript:;'>Edit</a></td>
 								 <td style='display:none'><a class='' href='javascript:;'>Delete</a></td>

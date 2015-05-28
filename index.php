@@ -176,7 +176,7 @@ include 'headers/menu-top-navigation.php';
 								$room_no = $row['room_no'];
 								$bed_number = $row['bed_no'];
 								$room_type = $row['room_type'];
-
+								
 								
 								
 								echo "<tr class='odd gradeX'>
@@ -227,6 +227,7 @@ include 'headers/menu-top-navigation.php';
 										$bookingsArray[] = $row;
 										$customerName = $row['customer_name'];
 										$comment = $row['comment'];
+										$booking_no  = $row['booking_no'];
 									}
 									
 									//echo json_encode($bookingsArray) . "<br/>";
@@ -381,7 +382,7 @@ include 'headers/menu-top-navigation.php';
 									}
 									else
 									{
-										echo "<td style ='width: 1%;' class='hidden-phone'><a href='#' class='btn popovers btn-danger' data-trigger='hover' data-placement='bottom' data-content='{$comment}' data-original-title='Booked By {$customerName}'>X</a></td>";
+										echo "<td style ='width: 1%;' class='hidden-phone'><a href='#' class='btn popovers btn-danger' data-trigger='hover' data-placement='bottom' data-content='Booking no {$booking_no}' data-original-title='Booked By {$customerName}'>X</a></td>";
 									}
 								}
 								

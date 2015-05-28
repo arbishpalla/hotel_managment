@@ -9,7 +9,9 @@
 	$formAction = "";
 	$id = "";
 	$roomNo = "";
-
+	$row = "";
+	$error= "";
+	$display = "";
 		
 	if(isset($_GET['room_id']))
 	{
@@ -19,9 +21,6 @@
 			$row= mysqli_fetch_array($result_room);
 			$roomNo = $row['room_no'];
 		
-		
-		
-
 			$formAction = "?room_id=$room_id"; 
 			$query_main = "SELECT * FROM (room_specification left join rooms on room_specification.room_id = rooms.room_id) 
      				  left join specification on room_specification.m_id = specification.m_id
@@ -34,12 +33,29 @@ else
 	if($_POST)
 	{
 		$room_id = $_POST['room_id'];
-		$m_id = $_POST['m_id']; 
+		$m_id_insert = $_POST['m_id'];
+		$sql= "SELECT m_id from room_specification where room_id = $room_id";
+		$result_query = mysqli_query($con,$sql)
+		or die('error');
+		while($row = mysqli_fetch_array($result_query))
+		{
+			$m_id = $row['m_id'];
+			if($m_id_insert == $m_id)
+				{
+			$error = "The feature you have added is already inserted";					
+				}
+			else
+				{
+			$display = "display:none";
 		$query_inserting = "INSERT INTO `room_specification` (`room_id`,`m_id`) 
 							VALUES ('$room_id','$m_id')";
 		mysqli_query($con,$query_inserting)
 		or die('error while inserting Rooms specification');
-		header ("Location: room_spec.php?insert=true");	
+		header ("Location: room_spec.php?insert=true");    
+			}
+		}			
+
+		
 	}	
 }
 
@@ -94,7 +110,7 @@ if($_POST)
 elseif($_POST)
 {
 	$url = "room_spec.php?insert=true";
-	echo 'window.location.href = "'. $url.'"';	
+	//echo 'window.location.href = "'. $url.'"';	
 }
 ?>
 	</script>
@@ -132,6 +148,14 @@ include 'headers/menu-top-navigation.php';
             <!-- END PAGE HEADER-->
 
             <!-- BEGIN PAGE CONTENT-->
+			<?php
+			if($_POST){
+					echo "<div style='$display' class='alert alert-success'>
+                <button class='close' data-dismiss='alert'>×</button>
+                <strong>Error!</strong> {$error}.
+            </div>";
+			}
+			?>
             <div class="row-fluid">
                <div class="span12">
                   <!-- BEGIN SAMPLE FORM widget-->   

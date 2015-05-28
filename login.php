@@ -79,7 +79,7 @@ Website: http://thevectorlab.net/
           <div class="control-group">
               <div class="controls">
                   <div class="input-prepend">
-           <span class="add-on"><i class="icon-user"></i></span><input id="" type="text" name="name" placeholder="Emplaoyee Name" />                  </div>
+           <span class="add-on"><i class="icon-user"></i></span><input id="" type="text" name="name" placeholder="Employee Name" />                  </div>
               </div>
           </div>
           <div class="control-group">
