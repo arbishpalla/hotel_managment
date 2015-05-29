@@ -12,6 +12,7 @@
 	$row = "";
 	$error= "";
 	$display = "";
+	$mc = "";
 		
 	if(isset($_GET['room_id']))
 	{
@@ -34,26 +35,27 @@ else
 	{
 		$room_id = $_POST['room_id'];
 		$m_id_insert = $_POST['m_id'];
-		$sql= "SELECT m_id from room_specification where room_id = $room_id";
+		$sql= "SELECT m_id from room_specification where m_id = '$m_id_insert' AND room_id = '$room_id'";
 		$result_query = mysqli_query($con,$sql)
-		or die('error');
-		while($row = mysqli_fetch_array($result_query))
+				or die('error');
+		$mc = mysqli_num_rows($result_query);
+		if($mc == 0 )
 		{
-			$m_id = $row['m_id'];
-			if($m_id_insert == $m_id)
-				{
-			$error = "The feature you have added is already inserted";					
-				}
+		$display = "display:none";
+		$query_inserting = "INSERT INTO `room_specification` (`room_id`,`m_id`) 
+								VALUES ('$room_id','$m_id_insert')";
+		$result =  mysqli_query($con,$query_inserting)
+		or die('error while inserting Rooms specification');
+		// header ("Location: room_spec.php?insert=true");    
+
+			}
+		
 			else
 				{
-			$display = "display:none";
-		$query_inserting = "INSERT INTO `room_specification` (`room_id`,`m_id`) 
-							VALUES ('$room_id','$m_id')";
-		mysqli_query($con,$query_inserting)
-		or die('error while inserting Rooms specification');
-		header ("Location: room_spec.php?insert=true");    
-			}
-		}			
+			$error = "The feature you have added is already inserted";					
+
+		}
+					
 
 		
 	}	
@@ -110,7 +112,7 @@ if($_POST)
 elseif($_POST)
 {
 	$url = "room_spec.php?insert=true";
-	//echo 'window.location.href = "'. $url.'"';	
+	echo 'window.location.href = "'. $url.'"';	
 }
 ?>
 	</script>

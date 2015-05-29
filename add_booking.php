@@ -801,7 +801,7 @@ function toggle_colorbox(td) {
 				<div class="controls">
 				<div class="voucher">
 				<button type="submit">Submit</button>		
-			   <button onclick="javascript:window.print();" class="hidden-print">Print <i class="icon-print icon-big"></i></button>
+			   <a href="print_booking.php?booking_no=<?php echo $booking_no_get;?>"> <button type="button" class="hidden-print">Print <i class="icon-print icon-big"></i></button></a>
 </div>						
 						</div>	
 							</div>
